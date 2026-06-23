@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Rocket, Target, ShieldCheck, Sparkles, Award, BadgeCheck, Star, ArrowRight, CheckCircle2, Code2, Zap, Trophy, Brain, Cloud, Database, Lock, Layers } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
@@ -8,22 +8,16 @@ import ParticleField from '../components/effects/ParticleField';
 import TiltCard from '../components/effects/TiltCard';
 import MagneticButton from '../components/effects/MagneticButton';
 import { STATS, TESTIMONIALS, BRAND } from '../mock/mockData';
-import { getTracks, getBadges } from '../services/api';
+import { getTracks, getBadges, getLeaderboard } from '../services/api';
 import BrandReveal from '../components/sections/BrandReveal';
-
-// Homepage Section imports
-import About from './About';
-import Marketplace from './Marketplace';
-import HallOfFame from './HallOfFame';
-import FAQ from './FAQ';
-import Contact from './Contact';
 
 const ZELVORA_VIDEO = 'https://customer-assets.emergentagent.com/job_smart-automate-33/artifacts/etdvhqua_gemini_generated_video_69583f48.mp4';
 const trackIcons = { aiml: Brain, fullstack: Layers, data: Database, cyber: Lock, cloud: Cloud, genai: Sparkles };
 
-const Landing = () => {
-  const location = useLocation();
+const PODIUM_COLORS = ['#FFD700', '#C0C0C0', '#CD7F32'];
+const getPodiumColor = (rankIndex) => PODIUM_COLORS[rankIndex] || PODIUM_COLORS[2];
 
+const Landing = () => {
   const tracksQuery = useQuery({
     queryKey: ['tracks'],
     queryFn: () => getTracks().then((r) => r.data),
@@ -34,37 +28,20 @@ const Landing = () => {
     queryFn: () => getBadges().then((r) => r.data),
     retry: 1,
   });
+  const leadersQuery = useQuery({
+    queryKey: ['leaderboard'],
+    queryFn: () => getLeaderboard().then((r) => r.data),
+    retry: 1,
+  });
 
   const tracks = tracksQuery.data || [];
   const badges = badgesQuery.data || [];
-
-  // Scroll to section when URL hash changes or is present on load
-  useEffect(() => {
-    if (location.hash) {
-      const id = location.hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
-      }
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location.pathname, location.hash, location.key]);
-
-  const handleScrollTo = (id, e) => {
-    e?.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const leaders = leadersQuery.data || [];
 
   return (
     <main className="relative overflow-hidden">
-      {/* HERO SECTION */}
-      <section id="home" className="relative min-h-[100vh] flex items-center pt-28 pb-20">
+      {/* HERO */}
+      <section className="relative min-h-[100vh] flex items-center pt-28 pb-20">
         <AuroraBackground />
         <div className="absolute inset-0"><ParticleField density={70} /></div>
         <div className="relative max-w-7xl mx-auto px-6 w-full">
@@ -95,11 +72,11 @@ const Landing = () => {
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
                 className="mt-9 flex flex-wrap items-center gap-3"
               >
-                <MagneticButton onClick={(e) => handleScrollTo('projects', e)} className="zv-btn-primary inline-flex items-center gap-2">
+                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
                   <Rocket size={18} /> Explore Projects
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
-                  <Trophy size={18} className="text-cyan-300" /> Verify Certificate
+                  <Target size={18} /> Verify Certificate
                 </MagneticButton>
               </motion.div>
               <motion.div
@@ -188,9 +165,6 @@ const Landing = () => {
       {/* BRAND REVEAL */}
       <BrandReveal />
 
-      {/* ABOUT SECTION */}
-      <About isSection={true} />
-
       {/* HOW IT WORKS */}
       <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
@@ -247,11 +221,8 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* PROJECTS SECTION */}
-      <Marketplace isSection={true} />
-
       {/* CREDENTIAL ECOSYSTEM */}
-      <section className="relative py-24 border-t border-white/5">
+      <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Credential Ecosystem" title={<>Badges that <span className="zv-gradient-text-cool">recruiters trust</span>.</>} sub="Every badge has a unique credential ID, QR code, public verification page, and one-click LinkedIn share." />
           <div className="mt-14 grid md:grid-cols-5 gap-5">
@@ -275,11 +246,67 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* HALL OF FAME SECTION */}
-      <HallOfFame isSection={true} />
+      {/* LEADERBOARD PREVIEW */}
+      <section className="relative py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <Heading eyebrow="Hall of Fame" title={<>The builders <span className="zv-gradient-text">leading the way</span>.</>} sub="Monthly champions, top contributors, and capstone winners." />
+          
+          {leaders.length === 0 ? (
+            <div className="mt-14 text-center py-16 zv-glass-strong rounded-3xl p-6 max-w-xl mx-auto border border-cyan-500/20 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/5 to-transparent opacity-60" />
+              <div className="relative z-10">
+                <div className="text-4xl mb-3">🏆</div>
+                <h2 className="font-display text-xl font-bold text-white">Top 10 Achievers Coming Soon</h2>
+                <p className="text-white/65 mt-2 text-xs leading-relaxed max-w-md mx-auto">
+                  Verified members who make outstanding contributions to ZiLabs will be featured here.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="mt-14 grid lg:grid-cols-3 gap-6">
+              {leaders.slice(0, 3).map((l, i) => {
+                const podiumColor = getPodiumColor(i);
+                return (
+                  <motion.div key={l.rank} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}
+                    className="zv-card p-6 relative overflow-hidden">
+                    <div className="absolute -right-6 -top-6 text-7xl font-display font-bold opacity-10">#{l.rank}</div>
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <img src={l.avatar} alt={l.name} className="w-16 h-16 rounded-full ring-2" style={{ boxShadow: `0 0 24px ${podiumColor}66`, borderColor: podiumColor }} />
+                        <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full grid place-items-center text-[11px] font-bold" style={{ background: podiumColor, color: '#0a0d14' }}>#{l.rank}</div>
+                      </div>
+                      <div>
+                        <div className="font-display font-semibold">{l.name}</div>
+                        <div className="text-xs text-white/55">{l.track} · {l.country}</div>
+                      </div>
+                    </div>
+                    <div className="mt-5 flex items-center justify-between text-sm">
+                      <div>
+                        <div className="text-[10px] uppercase tracking-widest text-white/40">XP</div>
+                        <div className="font-display font-bold zv-gradient-text-cool">{l.xp.toLocaleString()}</div>
+                      </div>
+                      <div>
+                        <div className="text-[10px] uppercase tracking-widest text-white/40">Projects</div>
+                        <div className="font-display font-bold">{l.projects}</div>
+                      </div>
+                      <Link to="/hall-of-fame" className="text-xs text-cyan-300 hover:underline">View profile →</Link>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+
+          {leaders.length > 0 && (
+            <div className="mt-8 text-center">
+              <Link to="/hall-of-fame" className="zv-btn-ghost inline-flex items-center gap-2"><Trophy size={16} /> See full leaderboard</Link>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* TESTIMONIALS */}
-      <section className="relative py-24 border-t border-white/5">
+      <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Wall of love" title={<>Stories from <span className="zv-gradient-text-cool">our builders</span>.</>} sub="Real outcomes from students who shipped real work." />
           <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -295,14 +322,8 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* FAQ SECTION */}
-      <FAQ isSection={true} />
-
-      {/* CONTACT SECTION */}
-      <Contact isSection={true} />
-
-      {/* BOTTOM CTA */}
-      <section className="relative py-24 border-t border-white/5">
+      {/* CTA */}
+      <section className="relative py-24">
         <div className="max-w-5xl mx-auto px-6">
           <div className="relative overflow-hidden rounded-3xl zv-glass-strong p-10 md:p-14 text-center">
             <div className="absolute inset-0 opacity-60"><AuroraBackground withGrid={false} /></div>
@@ -311,11 +332,11 @@ const Landing = () => {
               <h3 className="font-display text-4xl md:text-5xl font-bold leading-tight">Build. Learn. <span className="zv-gradient-text">Showcase. Grow.</span></h3>
               <p className="text-white/65 mt-4 max-w-2xl mx-auto">Join 12,000+ students building real projects that move careers forward.</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <MagneticButton onClick={(e) => handleScrollTo('projects', e)} className="zv-btn-primary inline-flex items-center gap-2">
+                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
                   <Rocket size={18} /> Explore Projects
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
-                  <Trophy size={18} className="text-cyan-300" /> Verify Certificate
+                  <Target size={18} /> Verify Certificate
                 </MagneticButton>
               </div>
             </div>

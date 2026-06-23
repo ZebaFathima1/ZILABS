@@ -30,20 +30,16 @@ const Footer = () => {
             </div>
           </div>
           {[
-            { title: 'Platform', items: [['Projects','/#projects'], ['Hall of Fame','/#halloffame'], ['Verify Credential','/verify']] },
-            { title: 'Tracks', items: [['AI & ML','/#projects'], ['Full Stack','/#projects'], ['Generative AI','/#projects'], ['Cyber Security','/#projects']] },
-            { title: 'Company', items: [['About','/#about'], ['FAQ','/#faq'], ['Contact','/#contact']] }
+            { title: 'Platform', items: [['Projects','/marketplace'], ['Hall of Fame','/hall-of-fame'], ['Verify Credential','/verify']] },
+            { title: 'Tracks', items: [['AI & ML','/marketplace'], ['Full Stack','/marketplace'], ['Generative AI','/marketplace'], ['Cyber Security','/marketplace']] },
+            { title: 'Company', items: [['About','/about'], ['FAQ','/faq'], ['Contact','/contact']] }
           ].map(col => (
             <div key={col.title}>
               <div className="font-display font-semibold text-white/90 text-sm tracking-wide">{col.title}</div>
               <ul className="mt-3 space-y-2">
                 {col.items.map(([label, href]) => (
                   <li key={label}>
-                    {href.startsWith('/#') ? (
-                      <a href={href} className="text-sm text-white/55 hover:text-cyan-300 transition">{label}</a>
-                    ) : (
-                      <Link to={href} className="text-sm text-white/55 hover:text-cyan-300 transition">{label}</Link>
-                    )}
+                    <Link to={href} className="text-sm text-white/55 hover:text-cyan-300 transition">{label}</Link>
                   </li>
                 ))}
               </ul>

@@ -163,16 +163,22 @@ async def get_status_checks():
 @api_router.get("/projects")
 async def get_projects():
     projects = await db.projects.find({}, {"_id": 0}).to_list(100)
+    if not projects:
+        return SEED_PROJECTS
     return projects
 
 @api_router.get("/tracks")
 async def get_tracks():
     tracks = await db.tracks.find({}, {"_id": 0}).to_list(20)
+    if not tracks:
+        return SEED_TRACKS
     return tracks
 
 @api_router.get("/badges")
 async def get_badges():
     badges = await db.badges.find({}, {"_id": 0}).to_list(20)
+    if not badges:
+        return SEED_BADGES
     return badges
 
 # ─────────────────────── Leaderboard ───────────────────────
@@ -190,7 +196,7 @@ async def get_leaderboard():
 async def get_contact_info():
     info = await db.contact_info.find_one({"id": "main"}, {"_id": 0, "id": 0})
     if not info:
-        raise HTTPException(status_code=404, detail="Contact info not found")
+        return ContactInfoOut(**SEED_CONTACT_INFO)
     return ContactInfoOut(**info)
 
 
