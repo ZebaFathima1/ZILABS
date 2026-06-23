@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
+import { Mail, Send, MessageSquare } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import { BRAND, CONTACT } from '../mock/mockData';
+import { submitContact, getApiErrorMessage } from '../services/api';
 
 const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError('');
+    setLoading(true);
+    try {
+      await submitContact(form);
+      setSubmitted(true);
+    } catch (err) {
+      setError(getApiErrorMessage(err, 'Failed to send message. Please try again.'));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const infoItems = [
@@ -88,7 +100,7 @@ const Contact = () => {
                   <Field label="Your Name" name="name" value={form.name} onChange={handleChange} placeholder="John Doe" required />
                   <Field label="Email Address" name="email" type="email" value={form.email} onChange={handleChange} placeholder="you@example.com" required />
                 </div>
-                <Field label="Subject" name="subject" value={form.subject} onChange={handleChange} placeholder="Program inquiry, partnership, support..." required />
+                <Field label="Subject" name="subject" value={form.subject} onChange={handleChange} placeholder="Track inquiry, partnership, support..." required />
                 <div>
                   <label className="text-xs uppercase tracking-widest text-white/45 font-mono">Message</label>
                   <textarea
@@ -101,8 +113,9 @@ const Contact = () => {
                     className="mt-1.5 w-full rounded-xl bg-white/[0.04] border border-white/10 px-4 py-3 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-cyan-400/50 transition resize-none"
                   />
                 </div>
-                <button type="submit" className="zv-btn-primary inline-flex items-center gap-2">
-                  <Send size={16} /> Send Message
+                {error && <p className="text-xs text-rose-400 bg-rose-400/10 border border-rose-400/20 rounded-lg px-3 py-2">{error}</p>}
+                <button type="submit" disabled={loading} className="zv-btn-primary inline-flex items-center gap-2 disabled:opacity-70">
+                  <Send size={16} /> {loading ? 'Sending…' : 'Send Message'}
                 </button>
               </form>
             )}

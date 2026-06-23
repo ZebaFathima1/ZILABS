@@ -1,12 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { Rocket, Target, ShieldCheck, Sparkles, Award, BadgeCheck, Star, ArrowRight, CheckCircle2, Code2, Zap, Trophy, Brain, Cloud, Database, Lock, Layers } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import ParticleField from '../components/effects/ParticleField';
 import TiltCard from '../components/effects/TiltCard';
 import MagneticButton from '../components/effects/MagneticButton';
-import { STATS, TRACKS, BADGES, LEADERS, TESTIMONIALS, BRAND } from '../mock/mockData';
+import { STATS, TESTIMONIALS, BRAND } from '../mock/mockData';
+import { getTracks, getBadges, getLeaderboard } from '../services/api';
 import BrandReveal from '../components/sections/BrandReveal';
 
 const ZELVORA_VIDEO = 'https://customer-assets.emergentagent.com/job_smart-automate-33/artifacts/etdvhqua_gemini_generated_video_69583f48.mp4';
@@ -17,6 +19,26 @@ const PODIUM_COLORS = ['#FFD700', '#C0C0C0', '#CD7F32'];
 const getPodiumColor = (rankIndex) => PODIUM_COLORS[rankIndex] || PODIUM_COLORS[2];
 
 const Landing = () => {
+  const tracksQuery = useQuery({
+    queryKey: ['tracks'],
+    queryFn: () => getTracks().then((r) => r.data),
+    retry: 1,
+  });
+  const badgesQuery = useQuery({
+    queryKey: ['badges'],
+    queryFn: () => getBadges().then((r) => r.data),
+    retry: 1,
+  });
+  const leadersQuery = useQuery({
+    queryKey: ['leaderboard'],
+    queryFn: () => getLeaderboard().then((r) => r.data),
+    retry: 1,
+  });
+
+  const tracks = tracksQuery.data || [];
+  const badges = badgesQuery.data || [];
+  const leaders = leadersQuery.data || [];
+
   return (
     <main className="relative overflow-hidden">
       {/* HERO */}
@@ -102,7 +124,7 @@ const Landing = () => {
                     </div>
                     <div className="mt-5 flex items-center justify-between">
                       <div className="flex -space-x-2">
-                        {LEADERS.slice(0,4).map(l => (
+                        {leaders.slice(0, 4).map(l => (
                           <img key={l.rank} src={l.avatar} alt="" className="w-7 h-7 rounded-full ring-2 ring-black" />
                         ))}
                         <div className="w-7 h-7 rounded-full bg-white/10 ring-2 ring-black grid place-items-center text-[10px] font-mono">+9k</div>
@@ -178,7 +200,7 @@ const Landing = () => {
         <div className="relative max-w-7xl mx-auto px-6">
           <Heading eyebrow="Tracks" title={<>Programs built with <span className="zv-gradient-text">industry</span>.</>} sub="Each track has a curated project roadmap, weekly mentor reviews and a capstone." />
           <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {TRACKS.map((t, i) => {
+            {tracks.map((t, i) => {
               const Icon = trackIcons[t.id] || Sparkles;
               return (
                 <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}>
@@ -208,7 +230,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Credential Ecosystem" title={<>Badges that <span className="zv-gradient-text-cool">recruiters trust</span>.</>} sub="Every badge has a unique credential ID, QR code, public verification page, and one-click LinkedIn share." />
           <div className="mt-14 grid md:grid-cols-5 gap-5">
-            {BADGES.map((b, i) => (
+            {badges.map((b, i) => (
               <motion.div key={b.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
                 className="zv-card p-6 text-center group">
                 <div className="relative w-20 h-20 mx-auto">
@@ -233,7 +255,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Hall of Fame" title={<>The builders <span className="zv-gradient-text">leading the way</span>.</>} sub="Monthly champions, top contributors, and capstone winners." />
           <div className="mt-14 grid lg:grid-cols-3 gap-6">
-            {LEADERS.slice(0,3).map((l, i) => {
+            {leaders.slice(0, 3).map((l, i) => {
               const podiumColor = getPodiumColor(i);
               return (
               <motion.div key={l.rank} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.08 }}

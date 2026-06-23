@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Rocket, Target, ShieldCheck, Users, Lightbulb, Globe, ArrowRight } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
-import { BRAND, STATS, TRACKS, CONTACT } from '../mock/mockData';
+import { BRAND, STATS, CONTACT } from '../mock/mockData';
 
 const VALUES = [
   { icon: Target, title: 'Real Projects', desc: 'Every program is built around shipping production-grade work — not toy exercises or slide decks.' },
