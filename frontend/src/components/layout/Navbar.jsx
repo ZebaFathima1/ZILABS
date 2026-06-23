@@ -8,7 +8,6 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
   { to: '/marketplace', label: 'Projects' },
-  { to: '/verify', label: 'Verify' },
   { to: '/hall-of-fame', label: 'Hall of Fame' },
   { to: '/faq', label: 'FAQ' },
   { to: '/contact', label: 'Contact' }
@@ -78,6 +77,7 @@ const Navbar = () => {
               {links.map(l => (
                 <NavLink key={l.to} to={l.to} className="px-3 py-2 rounded-lg text-sm text-white/80 hover:bg-white/5">{l.label}</NavLink>
               ))}
+              <Link to="/verify" className="zv-btn-primary text-center !py-2.5 mt-1">Verify Credential</Link>
             </motion.div>
           )}
         </AnimatePresence>
