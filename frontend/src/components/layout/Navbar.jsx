@@ -33,10 +33,10 @@ const Navbar = () => {
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
       <div className="mx-auto max-w-7xl px-5">
         <div className={`flex items-center justify-between rounded-2xl px-4 py-2 transition-all duration-300 ${scrolled ? 'zv-glass-strong' : 'zv-glass'}`}>
-          <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <img src={BRAND.logo} alt="Zelvora Technologies" className="h-9 w-auto object-contain" />
+          <Link to="/" className="flex items-center gap-3.5 group shrink-0">
+            <img src={BRAND.logo} alt="Zelvora Technologies" className="h-11 md:h-13 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             <div className="leading-tight hidden lg:block">
-              <div className="text-[10px] text-cyan-300 font-mono font-bold tracking-widest">INDUSTRY LABS</div>
+              <div className="text-xs md:text-sm text-cyan-300 font-mono font-bold tracking-[0.2em] uppercase">INDUSTRY LABS</div>
             </div>
           </Link>
 
