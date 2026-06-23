@@ -1,5 +1,4 @@
-from fastapi import FastAPI, APIRouter, HTTPException, Depends
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import FastAPI, APIRouter, HTTPException
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -9,10 +8,7 @@ from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import List, Optional
 import uuid
-from datetime import datetime, timezone, timedelta
-import bcrypt
-import jwt
-
+from datetime import datetime, timezone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -22,13 +18,8 @@ mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-SECRET_KEY = os.environ.get('JWT_SECRET', 'zelvora-industry-labs-secret-2026')
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_HOURS = 24 * 7  # 7 days
-
 app = FastAPI(title="Zelvora Industry Labs API")
 api_router = APIRouter(prefix="/api")
-bearer_scheme = HTTPBearer(auto_error=False)
 
 # ─────────────────────── Models ───────────────────────
 
@@ -41,67 +32,36 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
-class UserRegister(BaseModel):
-    name: str
-    email: EmailStr
-    password: str
-    role: str = 'student'
-
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-class UserOut(BaseModel):
-    id: str
-    name: str
-    email: str
-    role: str
-    avatar: Optional[str] = None
-    track: Optional[str] = None
-
-class TokenOut(BaseModel):
-    token: str
-    user: UserOut
-
 class ContactMessage(BaseModel):
     name: str
     email: EmailStr
     subject: str
     message: str
 
-class SubmissionStatusUpdate(BaseModel):
+class ContactMessageOut(BaseModel):
+    id: str
+    name: str
+    email: str
+    subject: str
+    message: str
+    status: str
+    createdAt: str
+
+class ContactInfoOut(BaseModel):
+    email: str
+    supportEmail: str
+    phone: str
+    phoneRaw: str
+    address: str
+    hours: str
+    website: str
+    responseNote: str
+
+class ContactMessageStatusUpdate(BaseModel):
     status: str
 
-# ─────────────────────── JWT Helpers ───────────────────────
-
-def create_token(user_id: str) -> str:
-    payload = {
-        "sub": user_id,
-        "exp": datetime.now(timezone.utc) + timedelta(hours=ACCESS_TOKEN_EXPIRE_HOURS)
-    }
-    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-
-async def get_current_user(creds: HTTPAuthorizationCredentials = Depends(bearer_scheme)):
-    if not creds:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-    try:
-        payload = jwt.decode(creds.credentials, SECRET_KEY, algorithms=[ALGORITHM])
-        user_id = payload.get("sub")
-        if not user_id:
-            raise HTTPException(status_code=401, detail="Invalid token")
-        user = await db.users.find_one({"id": user_id}, {"_id": 0, "password": 0})
-        if not user:
-            raise HTTPException(status_code=401, detail="User not found")
-        return user
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token expired")
-    except jwt.InvalidTokenError:
-        raise HTTPException(status_code=401, detail="Invalid token")
-
-async def require_admin(user=Depends(get_current_user)):
-    if user.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="Admin access required")
-    return user
+class SubmissionStatusUpdate(BaseModel):
+    status: str
 
 # ─────────────────────── DB Seeding ───────────────────────
 
@@ -134,18 +94,7 @@ SEED_BADGES = [
     {"id": "b5", "name": "Excellence Award", "tier": "diamond", "color": "#7C3AED", "desc": "Top 1% on track with mentor endorsement.", "criteria": "Top leaderboard + mentor review"},
 ]
 
-SEED_LEADERS = [
-    {"rank": 1, "name": "Aarav Mehta", "track": "AI & ML", "xp": 9820, "projects": 12, "country": "IN", "avatar": "https://i.pravatar.cc/120?img=15"},
-    {"rank": 2, "name": "Sofia Romero", "track": "Full Stack", "xp": 9410, "projects": 11, "country": "ES", "avatar": "https://i.pravatar.cc/120?img=47"},
-    {"rank": 3, "name": "Kenji Watanabe", "track": "Generative AI", "xp": 9180, "projects": 10, "country": "JP", "avatar": "https://i.pravatar.cc/120?img=33"},
-    {"rank": 4, "name": "Priya Sharma", "track": "Data Science", "xp": 8900, "projects": 10, "country": "IN", "avatar": "https://i.pravatar.cc/120?img=49"},
-    {"rank": 5, "name": "Liam O'Connor", "track": "Cloud", "xp": 8720, "projects": 9, "country": "IE", "avatar": "https://i.pravatar.cc/120?img=12"},
-    {"rank": 6, "name": "Nora Hassan", "track": "Cyber Security", "xp": 8540, "projects": 9, "country": "EG", "avatar": "https://i.pravatar.cc/120?img=45"},
-    {"rank": 7, "name": "Diego Alvarez", "track": "Full Stack", "xp": 8420, "projects": 9, "country": "MX", "avatar": "https://i.pravatar.cc/120?img=68"},
-    {"rank": 8, "name": "Mei Lin", "track": "AI & ML", "xp": 8210, "projects": 8, "country": "SG", "avatar": "https://i.pravatar.cc/120?img=20"},
-    {"rank": 9, "name": "Ahmed Khalil", "track": "Cloud", "xp": 7990, "projects": 8, "country": "AE", "avatar": "https://i.pravatar.cc/120?img=53"},
-    {"rank": 10, "name": "Hannah Becker", "track": "Data Science", "xp": 7820, "projects": 7, "country": "DE", "avatar": "https://i.pravatar.cc/120?img=44"},
-]
+SEED_LEADERS = []
 
 SEED_SUBMISSIONS = [
     {"id": "sub_1001", "student": "Aarav Mehta", "project": "Real-Time Fraud Detection", "track": "AI & ML", "submitted": "2026-07-04", "status": "Pending"},
@@ -155,6 +104,18 @@ SEED_SUBMISSIONS = [
     {"id": "sub_1005", "student": "Nora Hassan", "project": "Zero Trust Audit", "track": "Cyber Security", "submitted": "2026-07-02", "status": "Pending"},
 ]
 
+SEED_CONTACT_INFO = {
+    "id": "main",
+    "email": "info@zelvoratech.com",
+    "supportEmail": "info@zelvoratech.com",
+    "phone": "+91 9100040993",
+    "phoneRaw": "9100040993",
+    "address": "Hyderabad, Telangana, India",
+    "hours": "Mon – Sat, 9:00 AM – 6:00 PM IST",
+    "website": "https://zelvoratech.com",
+    "responseNote": "We typically respond within 24 hours on business days.",
+}
+
 
 async def seed_collection(collection, data, key="id"):
     if await db[collection].count_documents({}) == 0:
@@ -162,52 +123,14 @@ async def seed_collection(collection, data, key="id"):
         logger.info(f"Seeded {collection} with {len(data)} records")
 
 
-async def seed_demo_users():
-    demo_password_hash = bcrypt.hashpw(b"zelvora123", bcrypt.gensalt()).decode()
-    admin_password_hash = bcrypt.hashpw(b"admin123", bcrypt.gensalt()).decode()
+async def seed_contact_info():
+    existing = await db.contact_info.find_one({"id": "main"})
+    if not existing:
+        await db.contact_info.insert_one({**SEED_CONTACT_INFO})
+        logger.info("Seeded contact_info")
 
-    demo_student = {
-        "id": "stu_28471",
-        "name": "Aarav Mehta",
-        "email": "aarav@zelvoratech.com",
-        "password": demo_password_hash,
-        "role": "student",
-        "avatar": "https://i.pravatar.cc/120?img=15",
-        "track": "AI & ML",
-        "level": 7,
-        "xp": 9820,
-        "xpNext": 12000,
-        "streakDays": 23,
-        "attendance": 96,
-        "joinDate": "2025-04-12",
-        "badges": ["b1", "b2", "b3", "b4"],
-        "assignedProjects": [
-            {"id": "p1", "status": "In Review", "progress": 92, "due": "2026-07-12"},
-            {"id": "p7", "status": "In Progress", "progress": 64, "due": "2026-07-20"},
-            {"id": "p6", "status": "Submitted", "progress": 100, "due": "2026-06-28"},
-        ],
-        "achievements": [
-            {"id": "a1", "title": "First Place — June Hackathon", "date": "2026-06-22"},
-            {"id": "a2", "title": "Mentor Endorsement — Vision", "date": "2026-06-10"},
-            {"id": "a3", "title": "Top 1% — AI/ML Track", "date": "2026-05-30"},
-        ],
-        "createdAt": datetime.now(timezone.utc).isoformat(),
-    }
-    demo_admin = {
-        "id": "adm_001",
-        "name": "Admin Console",
-        "email": "admin@zelvoratech.com",
-        "password": admin_password_hash,
-        "role": "admin",
-        "avatar": "https://i.pravatar.cc/120?img=8",
-        "createdAt": datetime.now(timezone.utc).isoformat(),
-    }
 
-    for user in [demo_student, demo_admin]:
-        existing = await db.users.find_one({"email": user["email"]})
-        if not existing:
-            await db.users.insert_one(user)
-            logger.info(f"Created demo user: {user['email']}")
+
 
 
 # ─────────────────────── Existing Routes ───────────────────────
@@ -233,75 +156,7 @@ async def get_status_checks():
             check['timestamp'] = datetime.fromisoformat(check['timestamp'])
     return status_checks
 
-# ─────────────────────── Auth ───────────────────────
 
-@api_router.post("/auth/register", response_model=TokenOut)
-async def register(body: UserRegister):
-    existing = await db.users.find_one({"email": body.email})
-    if existing:
-        raise HTTPException(status_code=400, detail="Email already registered")
-
-    hashed = bcrypt.hashpw(body.password.encode(), bcrypt.gensalt()).decode()
-    user_id = str(uuid.uuid4())
-    avatar_idx = abs(hash(body.email)) % 70 + 1
-
-    user_doc = {
-        "id": user_id,
-        "name": body.name,
-        "email": body.email,
-        "password": hashed,
-        "role": body.role,
-        "avatar": f"https://i.pravatar.cc/120?img={avatar_idx}",
-        "track": "AI & ML",
-        "level": 1,
-        "xp": 0,
-        "xpNext": 2000,
-        "streakDays": 0,
-        "attendance": 100,
-        "joinDate": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-        "badges": [],
-        "assignedProjects": [],
-        "achievements": [],
-        "createdAt": datetime.now(timezone.utc).isoformat(),
-    }
-    await db.users.insert_one(user_doc)
-
-    token = create_token(user_id)
-    user_out = UserOut(
-        id=user_id,
-        name=user_doc["name"],
-        email=user_doc["email"],
-        role=user_doc["role"],
-        avatar=user_doc["avatar"],
-        track=user_doc["track"],
-    )
-    return TokenOut(token=token, user=user_out)
-
-
-@api_router.post("/auth/login", response_model=TokenOut)
-async def login(body: UserLogin):
-    user = await db.users.find_one({"email": body.email}, {"_id": 0})
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-
-    if not bcrypt.checkpw(body.password.encode(), user["password"].encode()):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-
-    token = create_token(user["id"])
-    user_out = UserOut(
-        id=user["id"],
-        name=user["name"],
-        email=user["email"],
-        role=user["role"],
-        avatar=user.get("avatar"),
-        track=user.get("track"),
-    )
-    return TokenOut(token=token, user=user_out)
-
-
-@api_router.get("/auth/me", response_model=UserOut)
-async def get_me(user=Depends(get_current_user)):
-    return UserOut(**user)
 
 # ─────────────────────── Projects & Tracks ───────────────────────
 
@@ -327,51 +182,31 @@ async def get_leaderboard():
     leaders = await db.leaderboard.find({}, {"_id": 0}).sort("xp", -1).to_list(50)
     return leaders
 
-# ─────────────────────── Student ───────────────────────
 
-@api_router.get("/student/me")
-async def get_student_me(user=Depends(get_current_user)):
-    student = await db.users.find_one({"id": user["id"]}, {"_id": 0, "password": 0})
-    if not student:
-        raise HTTPException(status_code=404, detail="Student not found")
-    return student
 
 # ─────────────────────── Contact ───────────────────────
 
-@api_router.post("/contact")
+@api_router.get("/contact/info", response_model=ContactInfoOut)
+async def get_contact_info():
+    info = await db.contact_info.find_one({"id": "main"}, {"_id": 0, "id": 0})
+    if not info:
+        raise HTTPException(status_code=404, detail="Contact info not found")
+    return ContactInfoOut(**info)
+
+
+@api_router.post("/contact", response_model=ContactMessageOut)
 async def submit_contact(body: ContactMessage):
-    doc = body.model_dump()
-    doc["id"] = str(uuid.uuid4())
-    doc["createdAt"] = datetime.now(timezone.utc).isoformat()
+    doc = {
+        **body.model_dump(),
+        "id": str(uuid.uuid4()),
+        "status": "New",
+        "createdAt": datetime.now(timezone.utc).isoformat(),
+    }
     await db.contact_messages.insert_one(doc)
-    return {"success": True, "message": "Message received. We'll be in touch soon."}
+    return ContactMessageOut(**doc)
 
-# ─────────────────────── Admin ───────────────────────
 
-@api_router.get("/admin/stats")
-async def get_admin_stats(user=Depends(require_admin)):
-    total_students = await db.users.count_documents({"role": "student"})
-    total_credentials = await db.credentials.count_documents({})
-    pending_reviews = await db.submissions.count_documents({"status": {"$in": ["Pending", "In Review"]}})
-    live_programs = await db.tracks.count_documents({})
-    return [
-        {"label": "Pending Reviews", "value": pending_reviews, "delta": "+8%"},
-        {"label": "Active Students", "value": total_students, "delta": "+12%"},
-        {"label": "Issued Credentials", "value": total_credentials, "delta": "+19%"},
-        {"label": "Live Programs", "value": live_programs, "delta": "+2"},
-    ]
 
-@api_router.get("/admin/submissions")
-async def get_admin_submissions(user=Depends(require_admin)):
-    subs = await db.submissions.find({}, {"_id": 0}).sort("submitted", -1).to_list(100)
-    return subs
-
-@api_router.patch("/admin/submissions/{sub_id}")
-async def update_submission_status(sub_id: str, body: SubmissionStatusUpdate, user=Depends(require_admin)):
-    result = await db.submissions.update_one({"id": sub_id}, {"$set": {"status": body.status}})
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Submission not found")
-    return {"success": True}
 
 # ─────────────────────── App setup ───────────────────────
 
@@ -399,7 +234,7 @@ async def startup_db_client():
     await seed_collection("badges", SEED_BADGES)
     await seed_collection("leaderboard", SEED_LEADERS)
     await seed_collection("submissions", SEED_SUBMISSIONS)
-    await seed_demo_users()
+    await seed_contact_info()
     logger.info("Database seeding complete")
 
 

@@ -6,7 +6,7 @@ import AuroraBackground from '../components/effects/AuroraBackground';
 import { FAQS, CONTACT } from '../mock/mockData';
 
 const FAQItem = ({ item, isOpen, onToggle }) => (
-  <div className="border-b border-white/5 last:border-0">
+  <div className="border-b border-white/5 last:border-0 font-sans">
     <button
       onClick={onToggle}
       className="w-full flex items-center justify-between gap-4 py-5 text-left group"
@@ -34,54 +34,66 @@ const FAQItem = ({ item, isOpen, onToggle }) => (
   </div>
 );
 
-const FAQ = () => {
+const FAQ = ({ isSection = false }) => {
   const [openIndex, setOpenIndex] = useState(0);
+
+  const content = (
+    <div className="relative max-w-3xl mx-auto px-6">
+      <div className="text-center">
+        <div className="text-[11px] uppercase tracking-[0.3em] text-cyan-300/80 font-mono">FAQ</div>
+        <h1 className="font-display text-4xl md:text-5xl font-bold mt-3">
+          Frequently Asked <span className="zv-gradient-text">Questions</span>
+        </h1>
+        <p className="text-white/60 mt-3">Everything you need to know about Zelvora Industry Labs.</p>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4 }}
+        className="mt-12 zv-glass-strong rounded-2xl px-6 md:px-8"
+      >
+        {FAQS.map((item, i) => (
+          <FAQItem
+            key={item.q}
+            item={item}
+            isOpen={openIndex === i}
+            onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+          />
+        ))}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.4, delay: 0.15 }}
+        className="mt-10 zv-card p-6 md:p-8 text-center"
+      >
+        <HelpCircle className="mx-auto text-cyan-300 mb-3" size={24} />
+        <h2 className="font-display text-xl font-semibold">Still have questions?</h2>
+        <p className="text-sm text-white/55 mt-2">
+          Our team is happy to help. Reach out via email.
+        </p>
+        <div className="mt-5 flex flex-wrap justify-center gap-3">
+          <a href={`mailto:${CONTACT.email}`} className="zv-btn-primary inline-flex items-center gap-2 text-sm">
+            <Mail size={16} /> {CONTACT.email}
+          </a>
+          <a href="#contact" className="zv-btn-ghost inline-flex items-center gap-2 text-sm">
+            Contact Us
+          </a>
+        </div>
+      </motion.div>
+    </div>
+  );
+
+  if (isSection) {
+    return (
+      <section id="faq" className="relative py-24 border-t border-white/5">
+        {content}
+      </section>
+    );
+  }
 
   return (
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden">
       <AuroraBackground />
-      <div className="relative max-w-3xl mx-auto px-6">
-        <div className="text-center">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-cyan-300/80 font-mono">FAQ</div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold mt-3">
-            Frequently Asked <span className="zv-gradient-text">Questions</span>
-          </h1>
-          <p className="text-white/60 mt-3">Everything you need to know about Zelvora Industry Labs.</p>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-          className="mt-12 zv-glass-strong rounded-2xl px-6 md:px-8"
-        >
-          {FAQS.map((item, i) => (
-            <FAQItem
-              key={item.q}
-              item={item}
-              isOpen={openIndex === i}
-              onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
-            />
-          ))}
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }}
-          className="mt-10 zv-card p-6 md:p-8 text-center"
-        >
-          <HelpCircle className="mx-auto text-cyan-300 mb-3" size={24} />
-          <h2 className="font-display text-xl font-semibold">Still have questions?</h2>
-          <p className="text-sm text-white/55 mt-2">
-            Our team is happy to help. Reach out via email.
-          </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <a href={`mailto:${CONTACT.email}`} className="zv-btn-primary inline-flex items-center gap-2 text-sm">
-              <Mail size={16} /> {CONTACT.email}
-            </a>
-            <Link to="/contact" className="zv-btn-ghost inline-flex items-center gap-2 text-sm">
-              Contact Us
-            </Link>
-          </div>
-        </motion.div>
-      </div>
+      {content}
     </main>
   );
 };

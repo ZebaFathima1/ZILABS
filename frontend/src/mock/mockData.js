@@ -14,6 +14,7 @@ export const CONTACT = {
   address: 'Hyderabad, Telangana, India',
   hours: 'Mon – Sat, 9:00 AM – 6:00 PM IST',
   website: 'https://zelvoratech.com',
+  responseNote: 'We typically respond within 24 hours on business days.',
 };
 
 export const FAQS = [
