@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Linkedin, Twitter, Youtube, Mail } from 'lucide-react';
+import { Linkedin, Instagram, Mail } from 'lucide-react';
 import { BRAND, CONTACT } from '../../mock/mockData';
 
 const Footer = () => {
@@ -19,10 +19,8 @@ const Footer = () => {
             </p>
             <div className="mt-5 flex items-center gap-2">
               {[
-                { Icon: Github, label: 'GitHub', href: '#' },
-                { Icon: Linkedin, label: 'LinkedIn', href: '#' },
-                { Icon: Twitter, label: 'Twitter', href: '#' },
-                { Icon: Youtube, label: 'YouTube', href: '#' },
+                { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/zelvora-technologies/?viewAsMember=true' },
+                { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/zelvora.technologies' },
                 { Icon: Mail, label: 'Email', href: `mailto:${CONTACT.email}` },
               ].map(({ Icon, label, href }) => (
                 <a key={label} href={href} aria-label={label} className="w-9 h-9 grid place-items-center rounded-lg bg-white/[0.04] border border-white/10 hover:border-cyan-400/50 hover:text-cyan-300 transition text-white/70">
