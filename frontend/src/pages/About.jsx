@@ -31,23 +31,46 @@ const About = () => {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
           className="mt-14 zv-glass-strong rounded-3xl p-8 md:p-12"
         >
-          <div className="grid lg:grid-cols-2 gap-10 items-center">
-            <div>
-              <h2 className="font-display text-2xl md:text-3xl font-bold">Who we are</h2>
-              <p className="mt-4 text-white/65 leading-relaxed">
-                {BRAND.name} is the learning arm of {BRAND.parent}, a technology company focused on building products and talent for the modern digital economy. We created Industry Labs because we saw a persistent gap: students graduate with degrees but lack the proof of work that hiring teams actually look for.
-              </p>
-              <p className="mt-4 text-white/65 leading-relaxed">
-                Our platform gives learners a structured path to ship real projects, receive mentor reviews, earn digital badges and certificates, and showcase achievements that can be verified by anyone — instantly.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              {STATS.map(s => (
-                <div key={s.label} className="zv-card p-5 text-center">
-                  <div className="text-2xl font-display font-bold zv-gradient-text-cool">{s.value}</div>
-                  <div className="text-[11px] uppercase tracking-widest text-white/55 mt-1">{s.label}</div>
+          <div className="grid lg:grid-cols-12 gap-10 items-stretch">
+            <div className="lg:col-span-7 flex flex-col justify-between">
+              <div>
+                <h2 className="font-display text-2xl md:text-3xl font-bold flex items-center gap-2">
+                  <span className="w-1.5 h-6 rounded-full bg-cyan-400" /> Who we are
+                </h2>
+                
+                {/* Zelvora Technologies */}
+                <div className="mt-6 border-l-2 border-cyan-400/20 pl-4 py-1">
+                  <h3 className="text-cyan-300 font-display text-lg font-semibold">
+                    Zelvora Technologies
+                  </h3>
+                  <p className="mt-2 text-white/70 text-sm leading-relaxed">
+                    Zelvora Technologies is a growing technology company focused on delivering modern digital solutions. We specialize in software development, web applications, and innovative IT services that help businesses succeed in a digital world.
+                  </p>
                 </div>
-              ))}
+
+                {/* Zelvora Industry Labs */}
+                <div className="mt-8 border-l-2 border-purple-500/20 pl-4 py-1">
+                  <h3 className="text-purple-300 font-display text-lg font-semibold">
+                    Zelvora Industry Labs
+                  </h3>
+                  <p className="mt-2 text-white/70 text-sm leading-relaxed">
+                    As the learning and project-based training arm of Zelvora Technologies, we created Industry Labs to bridge a persistent gap: while students graduate with degrees, they often lack the provable, hands-on experience that modern hiring teams demand.
+                  </p>
+                  <p className="mt-2 text-white/70 text-sm leading-relaxed">
+                    Our platform gives learners a structured path to ship real projects, receive mentor reviews, earn digital badges and certificates, and showcase achievements that can be verified by anyone — instantly.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <div className="grid grid-cols-2 gap-4">
+                {STATS.map(s => (
+                  <div key={s.label} className="zv-card p-5 text-center flex flex-col justify-center">
+                    <div className="text-2xl font-display font-bold zv-gradient-text-cool">{s.value}</div>
+                    <div className="text-[11px] uppercase tracking-widest text-white/55 mt-1">{s.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
