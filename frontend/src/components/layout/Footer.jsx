@@ -30,8 +30,7 @@ const Footer = () => {
             </div>
           </div>
           {[
-            { title: 'Platform', items: [['Projects','/marketplace'], ['Hall of Fame','/hall-of-fame'], ['Verify Credential','/verify']] },
-            { title: 'Tracks', items: [['AI & ML','/marketplace'], ['Full Stack','/marketplace'], ['Generative AI','/marketplace'], ['Cyber Security','/marketplace']] },
+            { title: 'Platform', items: [['Tracks','/marketplace'], ['Hall of Fame','/hall-of-fame'], ['Verify Credential','/verify']] },
             { title: 'Company', items: [['About','/about'], ['FAQ','/faq'], ['Contact','/contact']] }
           ].map(col => (
             <div key={col.title}>

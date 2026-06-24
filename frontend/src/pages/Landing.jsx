@@ -97,7 +97,7 @@ const Landing = () => {
                 className="mt-9 flex flex-wrap items-center gap-3"
               >
                 <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
-                  <Rocket size={18} /> Explore Projects
+                  <Rocket size={18} /> Explore Tracks
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
                   <Target size={18} /> Verify Certificate
@@ -224,23 +224,35 @@ const Landing = () => {
               const Icon = trackIcons[t.id] || Sparkles;
               return (
                 <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}>
-                  <TiltCard className="zv-card p-6 h-full">
-                    <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 24px ${t.color}33` }}>
-                        <Icon size={20} style={{ color: t.color }} />
+                  <Link to="/marketplace" className="block h-full group/card">
+                    <TiltCard className="zv-card p-6 h-full hover:border-cyan-400/50 transition-all duration-300">
+                      <div className="flex items-center justify-between">
+                        <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 24px ${t.color}33` }}>
+                          <Icon size={20} style={{ color: t.color }} />
+                        </div>
+                        <ArrowRight size={16} className="text-white/30 group-hover/card:text-cyan-300 group-hover/card:translate-x-0.5 transition-all duration-300" />
                       </div>
-                      <ArrowRight size={16} className="text-white/30" />
-                    </div>
-                    <div className="mt-5 font-display text-xl font-semibold">{t.name}</div>
-                    <div className="text-sm text-white/55 mt-2">{t.desc}</div>
-                    <div className="mt-5 flex items-center gap-4 text-xs text-white/55">
-                      <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} className="text-emerald-400" /> 12+ projects</span>
-                      <span className="inline-flex items-center gap-1.5"><Star size={12} className="text-amber-300" /> Capstone</span>
-                    </div>
-                  </TiltCard>
+                      <div className="mt-5 font-display text-xl font-semibold">{t.name}</div>
+                      <div className="text-sm text-white/55 mt-2">{t.desc}</div>
+                      <div className="mt-5 flex items-center gap-4 text-xs text-white/55">
+                        <span className="inline-flex items-center gap-1.5"><CheckCircle2 size={12} className="text-emerald-400" /> 12+ projects</span>
+                        <span className="inline-flex items-center gap-1.5"><Star size={12} className="text-amber-300" /> Capstone</span>
+                      </div>
+                    </TiltCard>
+                  </Link>
                 </motion.div>
               );
             })}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <Link to="/marketplace">
+              <MagneticButton>
+                <span className="zv-btn-primary flex items-center gap-2 text-sm font-medium">
+                  Explore Tracks <ArrowRight size={15} />
+                </span>
+              </MagneticButton>
+            </Link>
           </div>
         </div>
       </section>
@@ -323,7 +335,7 @@ const Landing = () => {
 
           {leaders.length > 0 && (
             <div className="mt-8 text-center">
-              <Link to="/hall-of-fame" className="zv-btn-ghost inline-flex items-center gap-2"><Trophy size={16} /> See full leaderboard</Link>
+              <Link to="/hall-of-fame" className="zv-btn-ghost inline-flex items-center gap-2"><Trophy size={16} /> See full Hall of Fame</Link>
             </div>
           )}
         </div>
@@ -357,7 +369,7 @@ const Landing = () => {
               <p className="text-white/65 mt-4 max-w-2xl mx-auto">Join 12,000+ students building real projects that move careers forward.</p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
-                  <Rocket size={18} /> Explore Projects
+                  <Rocket size={18} /> Explore Tracks
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
                   <Target size={18} /> Verify Certificate

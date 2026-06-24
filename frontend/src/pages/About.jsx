@@ -110,7 +110,7 @@ const About = () => {
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
-              <Rocket size={18} /> Explore Projects
+              <Rocket size={18} /> Explore Tracks
             </Link>
             <Link to="/contact" className="zv-btn-ghost inline-flex items-center gap-2">
               Get in Touch <ArrowRight size={16} />
