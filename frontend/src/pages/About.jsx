@@ -82,7 +82,7 @@ const About = () => {
           </div>
           <div className="mt-10 grid md:grid-cols-3 gap-5">
             {[
-              { step: '01', title: 'Pick a Track', desc: 'Choose from AI/ML, Full Stack, Data Science, Cyber Security, Cloud, or Generative AI.' },
+              { step: '01', title: 'Pick a Track', desc: 'Choose from Web Development, Python Development, Java Development, Full Stack Development, Data Analytics, Artificial Intelligence, UI/UX Design, Cyber Security, Digital Marketing, or Cloud & DevOps.' },
               { step: '02', title: 'Build & Ship', desc: 'Complete guided projects with weekly milestones and mentor code reviews.' },
               { step: '03', title: 'Earn & Verify', desc: 'Receive verifiable credentials with QR codes and public verification pages.' },
             ].map((s, i) => (

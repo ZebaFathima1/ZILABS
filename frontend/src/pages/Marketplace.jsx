@@ -2,13 +2,24 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Search, SlidersHorizontal, Clock, Layers, Star, ArrowUpRight, Brain, Database, Lock, Cloud, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, Clock, Layers, Star, ArrowUpRight, Brain, Database, Lock, Cloud, Sparkles, Globe, Terminal, Code2, BarChart3, Palette, Megaphone } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import TiltCard from '../components/effects/TiltCard';
 import { LoadingBlock, ErrorBlock } from '../components/common/ApiStatus';
 import { getProjects, getTracks, getApiErrorMessage } from '../services/api';
 
-const icons = { aiml: Brain, fullstack: Layers, data: Database, cyber: Lock, cloud: Cloud, genai: Sparkles };
+const icons = {
+  webdev: Globe,
+  python: Terminal,
+  java: Code2,
+  fullstack: Layers,
+  data: BarChart3,
+  ai: Brain,
+  uiux: Palette,
+  cyber: Lock,
+  marketing: Megaphone,
+  cloud: Cloud
+};
 
 const HEADER_MOTION = { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } };
 const CARD_MOTION = { initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 } };

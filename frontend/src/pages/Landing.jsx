@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Rocket, Target, ShieldCheck, Sparkles, Award, BadgeCheck, Star, ArrowRight, CheckCircle2, Code2, Zap, Trophy, Brain, Cloud, Database, Lock, Layers } from 'lucide-react';
+import { Rocket, Target, ShieldCheck, Sparkles, Award, BadgeCheck, Star, ArrowRight, CheckCircle2, Code2, Zap, Trophy, Brain, Cloud, Database, Lock, Layers, Globe, Terminal, BarChart3, Palette, Megaphone } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import ParticleField from '../components/effects/ParticleField';
 import TiltCard from '../components/effects/TiltCard';
@@ -12,7 +12,18 @@ import { getTracks, getBadges, getLeaderboard } from '../services/api';
 import BrandReveal from '../components/sections/BrandReveal';
 
 const ZELVORA_VIDEO = 'https://customer-assets.emergentagent.com/job_smart-automate-33/artifacts/etdvhqua_gemini_generated_video_69583f48.mp4';
-const trackIcons = { aiml: Brain, fullstack: Layers, data: Database, cyber: Lock, cloud: Cloud, genai: Sparkles };
+const trackIcons = {
+  webdev: Globe,
+  python: Terminal,
+  java: Code2,
+  fullstack: Layers,
+  data: BarChart3,
+  ai: Brain,
+  uiux: Palette,
+  cyber: Lock,
+  marketing: Megaphone,
+  cloud: Cloud
+};
 
 const PODIUM_COLORS = ['#FFD700', '#C0C0C0', '#CD7F32'];
 const getPodiumColor = (rankIndex) => PODIUM_COLORS[rankIndex] || PODIUM_COLORS[2];
@@ -111,7 +122,7 @@ const Landing = () => {
                       </div>
                       <div>
                         <div className="text-[11px] uppercase tracking-widest text-cyan-300/80 font-mono">Verified Credential</div>
-                        <div className="font-display text-lg">Industry Ready — AI &amp; ML</div>
+                        <div className="font-display text-lg">Industry Ready — Artificial Intelligence</div>
                       </div>
                       <BadgeCheck className="ml-auto text-emerald-400" />
                     </div>
@@ -171,7 +182,7 @@ const Landing = () => {
           <Heading eyebrow="How it works" title={<>Four steps. <span className="zv-gradient-text-cool">Real proof of work.</span></>} sub="Pick a track, build with mentors, get reviewed, earn credentials recruiters can verify." />
           <div className="mt-14 grid md:grid-cols-4 gap-5">
             {[
-              { icon: Code2, title: 'Pick a Track', desc: 'Choose from AI/ML, Full Stack, Data, Cyber, Cloud, GenAI.' },
+              { icon: Code2, title: 'Pick a Track', desc: 'Choose from Web, Python, Java, Full Stack, Data, AI, UI/UX, Cyber, Marketing, Cloud.' },
               { icon: Rocket, title: 'Build Projects', desc: 'Ship real, industry-aligned projects with weekly milestones.' },
               { icon: ShieldCheck, title: 'Get Reviewed', desc: 'Detailed mentor reviews, code feedback, and rubrics.' },
               { icon: BadgeCheck, title: 'Earn Credentials', desc: 'Verifiable badges and certificates with QR + URL.' }

@@ -66,24 +66,31 @@ class SubmissionStatusUpdate(BaseModel):
 # ─────────────────────── DB Seeding ───────────────────────
 
 SEED_TRACKS = [
-    {"id": "aiml", "name": "AI & ML", "color": "#00E5FF", "icon": "BrainCircuit", "desc": "Build production ML systems with real datasets."},
-    {"id": "fullstack", "name": "Full Stack", "color": "#7C3AED", "icon": "Layers", "desc": "Ship apps end-to-end with modern stacks."},
-    {"id": "data", "name": "Data Science", "color": "#00FFA3", "icon": "BarChart3", "desc": "Turn data into decisions and dashboards."},
-    {"id": "cyber", "name": "Cyber Security", "color": "#F472B6", "icon": "ShieldCheck", "desc": "Defensive and offensive security projects."},
-    {"id": "cloud", "name": "Cloud Computing", "color": "#FBBF24", "icon": "Cloud", "desc": "Deploy and scale on AWS, GCP, Azure."},
-    {"id": "genai", "name": "Generative AI", "color": "#A78BFA", "icon": "Sparkles", "desc": "Build with LLMs, RAG, agents and tools."},
+    {"id": "webdev", "name": "Web Development", "color": "#00E5FF", "icon": "Globe", "desc": "Build modern responsive websites and web applications."},
+    {"id": "python", "name": "Python Development", "color": "#3776AB", "icon": "Terminal", "desc": "Master Python programming for automation, scripting, and backend development."},
+    {"id": "java", "name": "Java Development", "color": "#F89820", "icon": "Code2", "desc": "Build scalable enterprise backend systems using Java and Spring Boot."},
+    {"id": "fullstack", "name": "Full Stack Development", "color": "#7C3AED", "icon": "Layers", "desc": "Ship full-stack applications end-to-end with modern frameworks."},
+    {"id": "data", "name": "Data Analytics", "color": "#00FFA3", "icon": "BarChart3", "desc": "Analyze data, perform statistical tests, and build interactive dashboards."},
+    {"id": "ai", "name": "Artificial Intelligence", "color": "#EC4899", "icon": "BrainCircuit", "desc": "Build production machine learning and AI models with real-world datasets."},
+    {"id": "uiux", "name": "UI/UX Design", "color": "#F472B6", "icon": "Palette", "desc": "Design premium, highly interactive user experiences and interfaces."},
+    {"id": "cyber", "name": "Cyber Security", "color": "#EF4444", "icon": "ShieldCheck", "desc": "Secure modern networks, perform pen testing, and conduct security audits."},
+    {"id": "marketing", "name": "Digital Marketing", "color": "#10B981", "icon": "Megaphone", "desc": "Drive growth and brand engagement through modern digital strategies."},
+    {"id": "cloud", "name": "Cloud & DevOps", "color": "#FBBF24", "icon": "Cloud", "desc": "Deploy and orchestrate highly available infrastructure and pipelines on cloud."},
 ]
 
 SEED_PROJECTS = [
-    {"id": "p1", "title": "Real-Time Fraud Detection", "track": "aiml", "difficulty": "Advanced", "duration": "6 weeks", "skills": ["Python", "XGBoost", "Kafka", "Streamlit"], "outcomes": ["Build ML pipeline", "Deploy to cloud", "Live dashboard"], "image": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p1", "title": "Real-Time Fraud Detection", "track": "ai", "difficulty": "Advanced", "duration": "6 weeks", "skills": ["Python", "XGBoost", "Kafka", "Streamlit"], "outcomes": ["Build ML pipeline", "Deploy to cloud", "Live dashboard"], "image": "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
     {"id": "p2", "title": "SaaS Billing Platform", "track": "fullstack", "difficulty": "Intermediate", "duration": "5 weeks", "skills": ["React", "Node", "Stripe", "Postgres"], "outcomes": ["Auth + RBAC", "Subscriptions", "Webhooks"], "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
     {"id": "p3", "title": "Retail Sales Analytics", "track": "data", "difficulty": "Beginner", "duration": "4 weeks", "skills": ["Pandas", "SQL", "PowerBI"], "outcomes": ["ETL pipeline", "KPI dashboard", "Story telling"], "image": "https://images.unsplash.com/photo-1666875753105-c63a6f3bdc86?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
     {"id": "p4", "title": "Zero Trust Network Audit", "track": "cyber", "difficulty": "Advanced", "duration": "7 weeks", "skills": ["Kali", "Burp", "OWASP", "Wireshark"], "outcomes": ["Threat model", "Pen test report", "Hardening plan"], "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
     {"id": "p5", "title": "Multi-Region K8s Deployment", "track": "cloud", "difficulty": "Advanced", "duration": "6 weeks", "skills": ["AWS", "Kubernetes", "Terraform", "GitOps"], "outcomes": ["IaC", "Auto-scaling", "Observability"], "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
-    {"id": "p6", "title": "RAG Research Assistant", "track": "genai", "difficulty": "Intermediate", "duration": "5 weeks", "skills": ["LangChain", "Pinecone", "OpenAI", "FastAPI"], "outcomes": ["Vector store", "Agent tools", "Eval harness"], "image": "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
-    {"id": "p7", "title": "Computer Vision Quality Inspector", "track": "aiml", "difficulty": "Intermediate", "duration": "5 weeks", "skills": ["PyTorch", "YOLO", "Edge"], "outcomes": ["Dataset curation", "Model training", "Edge deploy"], "image": "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
-    {"id": "p8", "title": "Real-Time Chat with Presence", "track": "fullstack", "difficulty": "Beginner", "duration": "3 weeks", "skills": ["React", "Socket.io", "Redis"], "outcomes": ["WebSockets", "Scaling", "Auth"], "image": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
-    {"id": "p9", "title": "Generative Art Studio", "track": "genai", "difficulty": "Beginner", "duration": "3 weeks", "skills": ["Diffusers", "Next.js", "S3"], "outcomes": ["Prompt engineering", "UI/UX", "Gallery"], "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p6", "title": "RAG Research Assistant", "track": "ai", "difficulty": "Intermediate", "duration": "5 weeks", "skills": ["LangChain", "Pinecone", "OpenAI", "FastAPI"], "outcomes": ["Vector store", "Agent tools", "Eval harness"], "image": "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p7", "title": "Computer Vision Quality Inspector", "track": "ai", "difficulty": "Intermediate", "duration": "5 weeks", "skills": ["PyTorch", "YOLO", "Edge"], "outcomes": ["Dataset curation", "Model training", "Edge deploy"], "image": "https://images.unsplash.com/photo-1674027444485-cec3da58eef4?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p8", "title": "Real-Time Chat with Presence", "track": "webdev", "difficulty": "Beginner", "duration": "3 weeks", "skills": ["React", "Socket.io", "Redis"], "outcomes": ["WebSockets", "Scaling", "Auth"], "image": "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p9", "title": "Automated Web Scraping Engine", "track": "python", "difficulty": "Intermediate", "duration": "4 weeks", "skills": ["Python", "BeautifulSoup", "Scrapy", "PostgreSQL"], "outcomes": ["Distributed scraping", "Data cleaning", "API output"], "image": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p10", "title": "Enterprise Microservices Infrastructure", "track": "java", "difficulty": "Advanced", "duration": "6 weeks", "skills": ["Java", "Spring Boot", "Docker", "Eureka"], "outcomes": ["Service registry", "API Gateway", "Distributed tracing"], "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p11", "title": "Neomorphic E-Commerce Experience", "track": "uiux", "difficulty": "Beginner", "duration": "3 weeks", "skills": ["Figma", "Design Systems", "Prototyping", "User Research"], "outcomes": ["High-fidelity design", "Interactive prototype", "Usability test report"], "image": "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
+    {"id": "p12", "title": "SEO & Growth Campaign Optimizer", "track": "marketing", "difficulty": "Intermediate", "duration": "4 weeks", "skills": ["Google Analytics", "SEO", "A/B Testing", "Copywriting"], "outcomes": ["Growth audit", "Keywords strategy", "A/B test dashboard"], "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?crop=entropy&cs=srgb&fm=jpg&q=85&w=1200"},
 ]
 
 SEED_BADGES = [
@@ -97,11 +104,11 @@ SEED_BADGES = [
 SEED_LEADERS = []
 
 SEED_SUBMISSIONS = [
-    {"id": "sub_1001", "student": "Aarav Mehta", "project": "Real-Time Fraud Detection", "track": "AI & ML", "submitted": "2026-07-04", "status": "Pending"},
-    {"id": "sub_1002", "student": "Sofia Romero", "project": "SaaS Billing Platform", "track": "Full Stack", "submitted": "2026-07-04", "status": "In Review"},
-    {"id": "sub_1003", "student": "Kenji Watanabe", "project": "RAG Research Assistant", "track": "GenAI", "submitted": "2026-07-03", "status": "Approved"},
-    {"id": "sub_1004", "student": "Priya Sharma", "project": "Retail Sales Analytics", "track": "Data Science", "submitted": "2026-07-03", "status": "Pending"},
-    {"id": "sub_1005", "student": "Nora Hassan", "project": "Zero Trust Audit", "track": "Cyber Security", "submitted": "2026-07-02", "status": "Pending"},
+    {"id": "sub_1001", "student": "Aarav Mehta", "project": "Real-Time Fraud Detection", "track": "Artificial Intelligence", "submitted": "2026-07-04", "status": "Pending"},
+    {"id": "sub_1002", "student": "Sofia Romero", "project": "SaaS Billing Platform", "track": "Full Stack Development", "submitted": "2026-07-04", "status": "In Review"},
+    {"id": "sub_1003", "student": "Kenji Watanabe", "project": "RAG Research Assistant", "track": "Artificial Intelligence", "submitted": "2026-07-03", "status": "Approved"},
+    {"id": "sub_1004", "student": "Priya Sharma", "project": "Retail Sales Analytics", "track": "Data Analytics", "submitted": "2026-07-03", "status": "Pending"},
+    {"id": "sub_1005", "student": "Nora Hassan", "project": "Zero Trust Network Audit", "track": "Cyber Security", "submitted": "2026-07-02", "status": "Pending"},
 ]
 
 SEED_CONTACT_INFO = {
@@ -235,6 +242,11 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_db_client():
+    # Drop collections to force re-seeding of updated tracks & projects
+    await db.tracks.drop()
+    await db.projects.drop()
+    await db.submissions.drop()
+
     await seed_collection("tracks", SEED_TRACKS)
     await seed_collection("projects", SEED_PROJECTS)
     await seed_collection("badges", SEED_BADGES)
