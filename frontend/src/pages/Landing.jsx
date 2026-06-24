@@ -291,10 +291,12 @@ const Landing = () => {
             <div className="mt-14 text-center py-16 zv-glass-strong rounded-3xl p-6 max-w-xl mx-auto border border-cyan-500/20 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/5 to-transparent opacity-60" />
               <div className="relative z-10">
-                <div className="text-4xl mb-3">🏆</div>
+                <div className="w-14 h-14 mx-auto rounded-xl bg-white/[0.04] border border-white/10 grid place-items-center mb-4">
+                  <Trophy size={24} className="text-cyan-300" />
+                </div>
                 <h2 className="font-display text-xl font-bold text-white">Top 10 Achievers Coming Soon</h2>
                 <p className="text-white/65 mt-2 text-xs leading-relaxed max-w-md mx-auto">
-                  Verified members who make outstanding contributions to ZiLabs will be featured here.
+                  Verified members who make outstanding contributions to Zelvora Industry Labs will be featured here.
                 </p>
               </div>
             </div>

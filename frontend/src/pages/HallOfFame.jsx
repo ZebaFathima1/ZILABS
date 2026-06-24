@@ -41,13 +41,13 @@ const HallOfFame = () => {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, type: "spring" }}
-                className="text-5xl mb-4"
+                className="w-16 h-16 mx-auto rounded-2xl bg-white/[0.04] border border-white/10 grid place-items-center mb-5"
               >
-                🏆
+                <Trophy size={28} className="text-cyan-300" />
               </motion.div>
               <h2 className="font-display text-2xl font-bold text-white">Top 10 Achievers Coming Soon</h2>
               <p className="text-white/65 mt-3 text-sm leading-relaxed max-w-md mx-auto">
-                Verified members who make outstanding contributions to ZiLabs will be featured here.
+                Verified members who make outstanding contributions to Zelvora Industry Labs will be featured here.
               </p>
             </div>
           </div>
