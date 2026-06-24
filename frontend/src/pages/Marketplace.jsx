@@ -21,6 +21,34 @@ const icons = {
   cloud: Cloud
 };
 
+const LOCAL_TRACKS = [
+  { id: "webdev", name: "Web Development", color: "#00E5FF", desc: "Build modern responsive websites and web applications." },
+  { id: "python", name: "Python Development", color: "#3776AB", desc: "Master Python programming for automation, scripting, and backend development." },
+  { id: "java", name: "Java Development", color: "#F89820", desc: "Build scalable enterprise backend systems using Java and Spring Boot." },
+  { id: "fullstack", name: "Full Stack Development", color: "#7C3AED", desc: "Ship full-stack applications end-to-end with modern frameworks." },
+  { id: "data", name: "Data Analytics", color: "#00FFA3", desc: "Analyze data, perform statistical tests, and build interactive dashboards." },
+  { id: "ai", name: "Artificial Intelligence", color: "#EC4899", desc: "Build production machine learning and AI models with real-world datasets." },
+  { id: "uiux", name: "UI/UX Design", color: "#F472B6", desc: "Design premium, highly interactive user experiences and interfaces." },
+  { id: "cyber", name: "Cyber Security", color: "#EF4444", desc: "Secure modern networks, perform pen testing, and conduct security audits." },
+  { id: "marketing", name: "Digital Marketing", color: "#10B981", desc: "Drive growth and brand engagement through modern digital strategies." },
+  { id: "cloud", name: "Cloud & DevOps", color: "#FBBF24", desc: "Deploy and orchestrate highly available infrastructure and pipelines on cloud." }
+];
+
+const LOCAL_PROJECTS = [
+  { id: "p1", title: "Real-Time Fraud Detection", track: "ai", difficulty: "Advanced", skills: ["Python", "XGBoost", "Kafka", "Streamlit"] },
+  { id: "p2", title: "SaaS Billing Platform", track: "fullstack", difficulty: "Intermediate", skills: ["React", "Node", "Stripe", "Postgres"] },
+  { id: "p3", title: "Retail Sales Analytics", track: "data", difficulty: "Beginner", skills: ["Pandas", "SQL", "PowerBI"] },
+  { id: "p4", title: "Zero Trust Network Audit", track: "cyber", difficulty: "Advanced", skills: ["Kali", "Burp", "OWASP", "Wireshark"] },
+  { id: "p5", title: "Multi-Region K8s Deployment", track: "cloud", difficulty: "Advanced", skills: ["AWS", "Kubernetes", "Terraform", "GitOps"] },
+  { id: "p6", title: "RAG Research Assistant", track: "ai", difficulty: "Intermediate", skills: ["LangChain", "Pinecone", "OpenAI", "FastAPI"] },
+  { id: "p7", title: "Computer Vision Quality Inspector", track: "ai", difficulty: "Intermediate", skills: ["PyTorch", "YOLO", "Edge"] },
+  { id: "p8", title: "Real-Time Chat with Presence", track: "webdev", difficulty: "Beginner", skills: ["React", "Socket.io", "Redis"] },
+  { id: "p9", title: "Automated Web Scraping Engine", track: "python", difficulty: "Intermediate", skills: ["Python", "BeautifulSoup", "Scrapy", "PostgreSQL"] },
+  { id: "p10", title: "Enterprise Microservices Infrastructure", track: "java", difficulty: "Advanced", skills: ["Java", "Spring Boot", "Docker", "Eureka"] },
+  { id: "p11", title: "Neomorphic E-Commerce Experience", track: "uiux", difficulty: "Beginner", skills: ["Figma", "Design Systems", "Prototyping", "User Research"] },
+  { id: "p12", title: "SEO & Growth Campaign Optimizer", track: "marketing", difficulty: "Intermediate", skills: ["Google Analytics", "SEO", "A/B Testing", "Copywriting"] }
+];
+
 const Marketplace = () => {
   const [q, setQ] = useState('');
 
@@ -29,16 +57,12 @@ const Marketplace = () => {
     queryFn: () => getProjects().then((r) => r.data),
     retry: 1,
   });
-  const tracksQuery = useQuery({
-    queryKey: ['tracks'],
-    queryFn: () => getTracks().then((r) => r.data),
-    retry: 1,
-  });
+
+  const projects = projectsQuery.data || LOCAL_PROJECTS;
+  const isLoading = projectsQuery.isLoading;
 
   const filteredTracks = useMemo(() => {
-    const tracks = tracksQuery.data || [];
-    const projects = projectsQuery.data || [];
-    return tracks.filter((t) => {
+    return LOCAL_TRACKS.filter((t) => {
       const matchQuery = q.trim() === '' ||
         t.name.toLowerCase().includes(q.toLowerCase()) ||
         t.desc.toLowerCase().includes(q.toLowerCase());
@@ -51,11 +75,7 @@ const Marketplace = () => {
       
       return matchQuery || matchProjects;
     });
-  }, [q, tracksQuery.data, projectsQuery.data]);
-
-  const projects = projectsQuery.data || [];
-  const isLoading = projectsQuery.isLoading || tracksQuery.isLoading;
-  const isError = projectsQuery.isError || tracksQuery.isError;
+  }, [q, projects]);
 
   return (
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden">
@@ -74,17 +94,7 @@ const Marketplace = () => {
 
         {isLoading && <LoadingBlock label="Loading tracks…" />}
 
-        {isError && (
-          <ErrorBlock
-            message={getApiErrorMessage(projectsQuery.error || tracksQuery.error, 'Failed to load tracks.')}
-            onRetry={() => {
-              projectsQuery.refetch();
-              tracksQuery.refetch();
-            }}
-          />
-        )}
-
-        {!isLoading && !isError && (
+        {!isLoading && (
           <>
             <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredTracks.map((t, i) => {
