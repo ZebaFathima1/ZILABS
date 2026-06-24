@@ -23,7 +23,7 @@ const Footer = () => {
                 { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/zelvora.technologies' },
                 { Icon: Mail, label: 'Email', href: `mailto:${CONTACT.email}` },
               ].map(({ Icon, label, href }) => (
-                <a key={label} href={href} aria-label={label} className="w-9 h-9 grid place-items-center rounded-lg bg-white/[0.04] border border-white/10 hover:border-cyan-400/50 hover:text-cyan-300 transition text-white/70">
+                <a key={label} href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} aria-label={label} className="w-9 h-9 grid place-items-center rounded-lg bg-white/[0.04] border border-white/10 hover:border-cyan-400/50 hover:text-cyan-300 transition text-white/70">
                   <Icon size={15} />
                 </a>
               ))}
