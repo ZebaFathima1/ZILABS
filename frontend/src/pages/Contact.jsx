@@ -40,7 +40,6 @@ const Contact = () => {
 
   const infoItems = [
     { icon: Mail, label: 'Email', value: contact.email, href: `mailto:${contact.email}` },
-    { icon: Phone, label: 'Phone', value: contact.phone, href: `tel:${contact.phoneRaw}` },
     { icon: MapPin, label: 'Address', value: contact.address },
     { icon: Clock, label: 'Hours', value: contact.hours },
   ];
