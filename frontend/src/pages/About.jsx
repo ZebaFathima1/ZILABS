@@ -44,7 +44,10 @@ const About = () => {
                     Zelvora Technologies
                   </h3>
                   <p className="mt-2 text-white/70 text-sm leading-relaxed">
-                    Zelvora Technologies is a growing technology company focused on delivering modern digital solutions. We specialize in software development, web applications, and innovative IT services that help businesses succeed in a digital world.
+                    Zelvora Technologies is an AI-driven company transforming education and technology. We build intelligent solutions for students, empower learners with AI skills, and deliver real-world tech innovations.
+                  </p>
+                  <p className="mt-2 text-white/70 text-sm leading-relaxed">
+                    Through cutting-edge artificial intelligence, we develop adaptive AI models for personalized student support, custom software integrations for enterprise workflows, and hands-on AI workshops to unlock practical skills and real-world insights.
                   </p>
                 </div>
 
