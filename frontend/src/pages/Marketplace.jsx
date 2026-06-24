@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Brain, Cloud, Sparkles, Globe, Terminal, Code2, BarChart3, Palette, Megaphone, ShieldCheck, CheckCircle2, Layers } from 'lucide-react';
+import { Search, Brain, Cloud, Sparkles, Globe, Terminal, Code2, BarChart3, Palette, Megaphone, ShieldCheck, CheckCircle2, Layers, ArrowUpRight } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import TiltCard from '../components/effects/TiltCard';
 
@@ -84,9 +84,31 @@ const Marketplace = () => {
                     <p className="text-sm text-white/55 mt-2 leading-relaxed">{t.desc}</p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-1.5 text-xs text-white/45">
-                    <CheckCircle2 size={12} className="text-emerald-400" />
-                    <span>Industry-ready</span>
+                  <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-xs text-white/45">
+                      <CheckCircle2 size={12} className="text-emerald-400" />
+                      <span>Industry-ready</span>
+                    </div>
+                    <a
+                      href="https://forms.gle/D2mHGk6kxQSWkFTJ8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white/85 bg-white/[0.03] border border-white/10 hover:text-[#0a0e1a] transition-all duration-300"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = t.color;
+                        e.currentTarget.style.borderColor = t.color;
+                        e.currentTarget.style.color = '#0a0e1a';
+                        e.currentTarget.style.boxShadow = `0 0 15px ${t.color}55`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)';
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      Apply Now <ArrowUpRight size={12} />
+                    </a>
                   </div>
                 </TiltCard>
               </motion.div>
