@@ -70,14 +70,11 @@ const FAQ = () => {
           <HelpCircle className="mx-auto text-cyan-300 mb-3" size={24} />
           <h2 className="font-display text-xl font-semibold">Still have questions?</h2>
           <p className="text-sm text-white/55 mt-2">
-            Our team is happy to help. Reach out via email.
+            Our team is happy to help. Call us at {CONTACT.phone} or send us a message.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <a href={`mailto:${CONTACT.email}`} className="zv-btn-primary inline-flex items-center gap-2 text-sm">
-              <Mail size={16} /> {CONTACT.email}
-            </a>
-            <Link to="/contact" className="zv-btn-ghost inline-flex items-center gap-2 text-sm">
-              Contact Us
+            <Link to="/contact" className="zv-btn-primary inline-flex items-center gap-2 text-sm">
+              Get in Touch
             </Link>
           </div>
         </motion.div>
