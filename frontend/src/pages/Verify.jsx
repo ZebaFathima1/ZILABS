@@ -27,6 +27,46 @@ const Verify = () => {
   
   const { verifyCredential, isError: isDBError, isFetched, isLoading: isDBLoading } = useCredentialVerification();
 
+  const getBadgeDetails = (badgeNameStr) => {
+    const name = String(badgeNameStr).toLowerCase();
+    if (name.includes('excellence')) {
+      return {
+        img: '/excellence-badge.png',
+        name: 'Excellence Award Badge',
+        color: 'rgba(124, 58, 237, 0.2)',
+        shadow: 'drop-shadow-[0_0_20px_rgba(124,58,237,0.4)]'
+      };
+    }
+    if (name.includes('practitioner') || name.includes('ready')) {
+      return {
+        img: '/practitioner-badge.png',
+        name: 'Industry Practitioner Badge',
+        color: 'rgba(0, 229, 255, 0.2)',
+        shadow: 'drop-shadow-[0_0_20px_rgba(0,229,255,0.4)]'
+      };
+    }
+    if (name.includes('builder') || name.includes('gold')) {
+      return {
+        img: '/builder-badge.png',
+        name: 'Project Builder Badge',
+        color: 'rgba(251, 191, 36, 0.2)',
+        shadow: 'drop-shadow-[0_0_20px_rgba(251,191,36,0.4)]'
+      };
+    }
+    return {
+      img: '/explorer-badge.png',
+      name: 'Project Explorer Badge',
+      color: 'rgba(34, 211, 238, 0.2)',
+      shadow: 'drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]'
+    };
+  };
+
+  const badgeDetails = getBadgeDetails(result?.Badge || '');
+  const badgeImg = badgeDetails.img;
+  const badgeName = badgeDetails.name;
+  const badgeColor = badgeDetails.color;
+  const badgeDropShadow = badgeDetails.shadow;
+
   const handleVerify = useCallback((credentialId) => {
     if (!credentialId?.trim()) return;
     
@@ -100,7 +140,15 @@ const Verify = () => {
             el.style.borderRadius = '24px';
             el.style.border = '1px solid rgba(255, 255, 255, 0.1)';
             const badge = el.querySelector('img');
-            if (badge) badge.style.clipPath = 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)';
+            if (badge && badge.src) {
+              const isPremiumBadge = badge.src.includes('explorer-badge.png') || 
+                                     badge.src.includes('builder-badge.png') || 
+                                     badge.src.includes('practitioner-badge.png') || 
+                                     badge.src.includes('excellence-badge.png');
+              if (!isPremiumBadge) {
+                badge.style.clipPath = 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)';
+              }
+            }
           }
         }
       });
@@ -129,7 +177,15 @@ const Verify = () => {
           if (el) {
             el.style.borderRadius = '24px';
             const badge = el.querySelector('img');
-            if (badge) badge.style.clipPath = 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)';
+            if (badge && badge.src) {
+              const isPremiumBadge = badge.src.includes('explorer-badge.png') || 
+                                     badge.src.includes('builder-badge.png') || 
+                                     badge.src.includes('practitioner-badge.png') || 
+                                     badge.src.includes('excellence-badge.png');
+              if (!isPremiumBadge) {
+                badge.style.clipPath = 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)';
+              }
+            }
           }
         }
       });
@@ -221,15 +277,14 @@ const Verify = () => {
                     </div>
                     
                     <div className="relative w-64 h-64 mx-auto mb-6">
-                      <div className="absolute inset-0 bg-cyan-400/20 blur-3xl rounded-full" />
+                      <div className="absolute inset-0 blur-3xl rounded-full" style={{ backgroundColor: badgeColor }} />
                       <img 
-                        src="/badges/project-explorer.png" 
-                        alt="Project Explorer Badge" 
-                        className="relative w-full h-full object-contain drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]"
-                        style={{ clipPath: 'polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%)' }}
+                        src={badgeImg} 
+                        alt={badgeName} 
+                        className={`relative w-full h-full object-contain ${badgeDropShadow}`}
                       />
                     </div>
-                    <h2 className="font-display text-3xl font-bold text-white tracking-tight">Project Explorer Badge</h2>
+                    <h2 className="font-display text-3xl font-bold text-white tracking-tight">{badgeName}</h2>
                   </div>
 
                   <div className="relative grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 p-8 zv-glass rounded-2xl border border-white/5">

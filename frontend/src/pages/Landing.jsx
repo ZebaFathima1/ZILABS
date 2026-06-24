@@ -59,7 +59,22 @@ const Landing = () => {
   });
 
   const tracks = LOCAL_TRACKS.filter((t) => ['python', 'fullstack', 'ai'].includes(t.id));
-  const badges = badgesQuery.data || [];
+  const rawBadges = badgesQuery.data || [];
+  const badgeImages = {
+    'b1': '/explorer-badge.png',
+    'b3': '/builder-badge.png',
+    'b4': '/practitioner-badge.png',
+    'b5': '/excellence-badge.png'
+  };
+  const badges = [...rawBadges]
+    .map(b => ({
+      ...b,
+      image: badgeImages[b.id] || b.image
+    }))
+    .sort((x, y) => {
+      const order = { 'b1': 1, 'b3': 2, 'b4': 3, 'b5': 4, 'b2': 5 };
+      return (order[x.id] || 99) - (order[y.id] || 99);
+    });
   const leaders = leadersQuery.data || [];
 
   return (
@@ -278,13 +293,22 @@ const Landing = () => {
             {badges.map((b, i) => (
               <motion.div key={b.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
                 className="zv-card p-6 text-center group">
-                <div className="relative w-20 h-20 mx-auto">
-                  <div className="absolute inset-0 rounded-full blur-xl opacity-60" style={{ background: `radial-gradient(circle, ${b.color}55, transparent 70%)` }} />
-                  <div className="relative w-20 h-20 rounded-full grid place-items-center" style={{ background: `conic-gradient(from 0deg, ${b.color}, #1a1f33, ${b.color})` }}>
-                    <div className="w-[68px] h-[68px] rounded-full bg-[#0a0d14] grid place-items-center">
-                      <Award size={26} style={{ color: b.color }} />
-                    </div>
-                  </div>
+                <div className="relative w-20 h-20 mx-auto flex items-center justify-center">
+                  {b.image ? (
+                    <>
+                      <div className="absolute inset-0 rounded-full blur-xl opacity-40 animate-pulse" style={{ background: `radial-gradient(circle, ${b.color}55, transparent 70%)` }} />
+                      <img src={b.image} alt={b.name} className="relative w-20 h-20 object-contain group-hover:scale-110 transition-transform duration-300" />
+                    </>
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 rounded-full blur-xl opacity-60" style={{ background: `radial-gradient(circle, ${b.color}55, transparent 70%)` }} />
+                      <div className="relative w-20 h-20 rounded-full grid place-items-center" style={{ background: `conic-gradient(from 0deg, ${b.color}, #1a1f33, ${b.color})` }}>
+                        <div className="w-[68px] h-[68px] rounded-full bg-[#0a0d14] grid place-items-center">
+                          <Award size={26} style={{ color: b.color }} />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="mt-4 font-display font-semibold">{b.name}</div>
                 <div className="text-[11px] uppercase tracking-widest text-white/45 mt-1">{b.tier}</div>

@@ -94,11 +94,11 @@ SEED_PROJECTS = [
 ]
 
 SEED_BADGES = [
-    {"id": "b1", "name": "Project Explorer", "tier": "bronze", "color": "#CD7F32", "desc": "Completed your first guided project.", "criteria": "Submit 1 project"},
+    {"id": "b1", "name": "Project Explorer", "tier": "bronze", "color": "#CD7F32", "desc": "Completed your first guided project.", "criteria": "Submit 1 project", "image": "/explorer-badge.png"},
+    {"id": "b3", "name": "Project Builder", "tier": "gold", "color": "#FFD700", "desc": "Built and shipped multiple real-world projects.", "criteria": "Submit 5 projects", "image": "/builder-badge.png"},
+    {"id": "b4", "name": "Industry Practitioner", "tier": "platinum", "color": "#00E5FF", "desc": "Demonstrated production-grade skills.", "criteria": "Complete a track + capstone", "image": "/practitioner-badge.png"},
+    {"id": "b5", "name": "Excellence Award", "tier": "diamond", "color": "#7C3AED", "desc": "Top 1% on track with mentor endorsement.", "criteria": "Top leaderboard + mentor review", "image": "/excellence-badge.png"},
     {"id": "b2", "name": "Active Contributor", "tier": "silver", "color": "#C0C0C0", "desc": "Consistently shipping work and reviews.", "criteria": "Submit 3 projects + 2 peer reviews"},
-    {"id": "b3", "name": "Project Builder", "tier": "gold", "color": "#FFD700", "desc": "Built and shipped multiple real-world projects.", "criteria": "Submit 5 projects"},
-    {"id": "b4", "name": "Industry Ready", "tier": "platinum", "color": "#00E5FF", "desc": "Demonstrated production-grade skills.", "criteria": "Complete a track + capstone"},
-    {"id": "b5", "name": "Excellence Award", "tier": "diamond", "color": "#7C3AED", "desc": "Top 1% on track with mentor endorsement.", "criteria": "Top leaderboard + mentor review"},
 ]
 
 SEED_LEADERS = []
@@ -246,6 +246,7 @@ async def startup_db_client():
     await db.tracks.drop()
     await db.projects.drop()
     await db.submissions.drop()
+    await db.badges.drop()
 
     await seed_collection("tracks", SEED_TRACKS)
     await seed_collection("projects", SEED_PROJECTS)
