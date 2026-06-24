@@ -23,7 +23,7 @@ const LOCAL_TRACKS = [
   { id: "java", name: "Java Development", color: "#F89820", desc: "Build scalable enterprise backend systems using Java and Spring Boot." },
   { id: "fullstack", name: "Full Stack Development", color: "#7C3AED", desc: "Ship full-stack applications end-to-end with modern frameworks." },
   { id: "data", name: "Data Analytics", color: "#00FFA3", desc: "Analyze data, perform statistical tests, and build interactive dashboards." },
-  { id: "ai", name: "Artificial Intelligence", color: "#EC4899", desc: "Build production machine learning and AI models with real-world datasets." },
+  { id: "ai", name: "Artificial Intelligence", color: "#EC4899", desc: "Build production machine learning and AI models with real-world datasets.", image: "/ai-cover.jpg" },
   { id: "uiux", name: "UI/UX Design", color: "#F472B6", desc: "Design premium, highly interactive user experiences and interfaces." },
   { id: "cyber", name: "Cyber Security", color: "#EF4444", desc: "Secure modern networks, perform pen testing, and conduct security audits." },
   { id: "marketing", name: "Digital Marketing", color: "#10B981", desc: "Drive growth and brand engagement through modern digital strategies." },
@@ -64,13 +64,23 @@ const Marketplace = () => {
                 <TiltCard className="zv-card p-6 h-full flex flex-col justify-between relative group overflow-hidden">
                   <div className="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-20 transition-all duration-300" style={{ background: `radial-gradient(circle at top right, ${t.color}, transparent 60%)` }} />
                   <div>
-                    <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 20px ${t.color}22` }}>
-                        <Icon size={20} style={{ color: t.color }} />
+                    {t.image ? (
+                      <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden mb-5 border border-white/10 group-hover:border-cyan-400/35 transition-all duration-300">
+                        <img src={t.image} alt={t.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        <div className="absolute top-3 left-3 w-9 h-9 rounded-lg grid place-items-center bg-black/60 backdrop-blur-md border border-white/10">
+                          <Icon size={16} style={{ color: t.color }} />
+                        </div>
                       </div>
-                      <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Track</span>
-                    </div>
-                    <h2 className="mt-5 font-display text-xl font-semibold text-white/90 group-hover:text-cyan-300 transition-colors duration-300">{t.name}</h2>
+                    ) : (
+                      <div className="flex items-center justify-between">
+                        <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 20px ${t.color}22` }}>
+                          <Icon size={20} style={{ color: t.color }} />
+                        </div>
+                        <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Track</span>
+                      </div>
+                    )}
+                    <h2 className="mt-4 font-display text-xl font-semibold text-white/90 group-hover:text-cyan-300 transition-colors duration-300">{t.name}</h2>
                     <p className="text-sm text-white/55 mt-2 leading-relaxed">{t.desc}</p>
                   </div>
 

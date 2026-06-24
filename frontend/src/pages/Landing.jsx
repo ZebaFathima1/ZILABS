@@ -31,7 +31,7 @@ const LOCAL_TRACKS = [
   { id: "java", name: "Java Development", color: "#F89820", desc: "Build scalable enterprise backend systems using Java and Spring Boot." },
   { id: "fullstack", name: "Full Stack Development", color: "#7C3AED", desc: "Ship full-stack applications end-to-end with modern frameworks." },
   { id: "data", name: "Data Analytics", color: "#00FFA3", desc: "Analyze data, perform statistical tests, and build interactive dashboards." },
-  { id: "ai", name: "Artificial Intelligence", color: "#EC4899", desc: "Build production machine learning and AI models with real-world datasets." },
+  { id: "ai", name: "Artificial Intelligence", color: "#EC4899", desc: "Build production machine learning and AI models with real-world datasets.", image: "/ai-cover.jpg" },
   { id: "uiux", name: "UI/UX Design", color: "#F472B6", desc: "Design premium, highly interactive user experiences and interfaces." },
   { id: "cyber", name: "Cyber Security", color: "#EF4444", desc: "Secure modern networks, perform pen testing, and conduct security audits." },
   { id: "marketing", name: "Digital Marketing", color: "#10B981", desc: "Drive growth and brand engagement through modern digital strategies." },
@@ -225,13 +225,26 @@ const Landing = () => {
               return (
                 <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}>
                   <Link to="/marketplace" className="block h-full group/card">
-                    <TiltCard className="zv-card p-6 h-full hover:border-cyan-400/50 transition-all duration-300">
-                      <div className="flex items-center justify-between">
-                        <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 24px ${t.color}33` }}>
-                          <Icon size={20} style={{ color: t.color }} />
+                    <TiltCard className="zv-card p-6 h-full hover:border-cyan-400/50 transition-all duration-300 relative overflow-hidden group">
+                      {t.image ? (
+                        <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden mb-5 border border-white/10 group-hover/card:border-cyan-400/35 transition-all duration-300">
+                          <img src={t.image} alt={t.name} className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                          <div className="absolute top-3 left-3 w-9 h-9 rounded-lg grid place-items-center bg-black/60 backdrop-blur-md border border-white/10">
+                            <Icon size={16} style={{ color: t.color }} />
+                          </div>
+                          <div className="absolute top-3 right-3 w-9 h-9 rounded-lg grid place-items-center bg-black/60 backdrop-blur-md border border-white/10">
+                            <ArrowRight size={16} className="text-white/70 group-hover/card:text-cyan-300 group-hover/card:translate-x-0.5 transition-all duration-300" />
+                          </div>
                         </div>
-                        <ArrowRight size={16} className="text-white/30 group-hover/card:text-cyan-300 group-hover/card:translate-x-0.5 transition-all duration-300" />
-                      </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 24px ${t.color}33` }}>
+                            <Icon size={20} style={{ color: t.color }} />
+                          </div>
+                          <ArrowRight size={16} className="text-white/30 group-hover/card:text-cyan-300 group-hover/card:translate-x-0.5 transition-all duration-300" />
+                        </div>
+                      )}
                       <div className="mt-5 font-display text-xl font-semibold">{t.name}</div>
                       <div className="text-sm text-white/55 mt-2">{t.desc}</div>
                       <div className="mt-5 flex items-center gap-4 text-xs text-white/55">
