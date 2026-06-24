@@ -67,12 +67,13 @@ const Landing = () => {
     'b5': '/excellence-badge.png'
   };
   const badges = [...rawBadges]
+    .filter(b => b.id !== 'b2')
     .map(b => ({
       ...b,
       image: badgeImages[b.id] || b.image
     }))
     .sort((x, y) => {
-      const order = { 'b1': 1, 'b3': 2, 'b4': 3, 'b5': 4, 'b2': 5 };
+      const order = { 'b1': 1, 'b3': 2, 'b4': 3, 'b5': 4 };
       return (order[x.id] || 99) - (order[y.id] || 99);
     });
   const leaders = leadersQuery.data || [];
@@ -289,7 +290,7 @@ const Landing = () => {
       <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Credential Ecosystem" title={<>Badges that <span className="zv-gradient-text-cool">recruiters trust</span>.</>} sub="Every badge has a unique credential ID, QR code, public verification page, and one-click LinkedIn share." />
-          <div className="mt-14 grid md:grid-cols-5 gap-5">
+          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {badges.map((b, i) => (
               <motion.div key={b.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
                 className="zv-card p-6 text-center group">
