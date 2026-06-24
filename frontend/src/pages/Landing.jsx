@@ -58,7 +58,7 @@ const Landing = () => {
     retry: 1,
   });
 
-  const tracks = LOCAL_TRACKS;
+  const tracks = LOCAL_TRACKS.filter((t) => ['python', 'fullstack', 'ai'].includes(t.id));
   const badges = badgesQuery.data || [];
   const leaders = leadersQuery.data || [];
 

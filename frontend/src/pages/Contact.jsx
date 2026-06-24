@@ -66,11 +66,6 @@ const Contact = () => {
           >
             {contactQuery.isLoading ? (
               <LoadingBlock label="Loading contact info…" />
-            ) : contactQuery.isError ? (
-              <ErrorBlock
-                message={getApiErrorMessage(contactQuery.error, 'Could not load contact details.')}
-                onRetry={() => contactQuery.refetch()}
-              />
             ) : (
               <div className="zv-glass-strong rounded-2xl p-6">
                 <div className="font-display font-semibold text-white/90 text-sm tracking-wide">{BRAND.parent}</div>
