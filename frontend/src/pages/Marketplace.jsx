@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
-import { Search, SlidersHorizontal, Clock, Layers, Star, ArrowUpRight, Brain, Database, Lock, Cloud, Sparkles, Globe, Terminal, Code2, BarChart3, Palette, Megaphone } from 'lucide-react';
+import { Search, Clock, Star, ArrowUpRight, Brain, Database, Lock, Cloud, Sparkles, Globe, Terminal, Code2, BarChart3, Palette, Megaphone, ShieldCheck, CheckCircle2, ChevronRight, Layers } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 import TiltCard from '../components/effects/TiltCard';
 import { LoadingBlock, ErrorBlock } from '../components/common/ApiStatus';
@@ -16,18 +16,13 @@ const icons = {
   data: BarChart3,
   ai: Brain,
   uiux: Palette,
-  cyber: Lock,
+  cyber: ShieldCheck,
   marketing: Megaphone,
   cloud: Cloud
 };
 
-const HEADER_MOTION = { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } };
-const CARD_MOTION = { initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 } };
-
 const Marketplace = () => {
   const [q, setQ] = useState('');
-  const [track, setTrack] = useState('all');
-  const [diff, setDiff] = useState('all');
 
   const projectsQuery = useQuery({
     queryKey: ['projects'],
@@ -40,16 +35,25 @@ const Marketplace = () => {
     retry: 1,
   });
 
-  const filtered = useMemo(() => {
+  const filteredTracks = useMemo(() => {
+    const tracks = tracksQuery.data || [];
     const projects = projectsQuery.data || [];
-    return projects.filter((p) =>
-      (track === 'all' || p.track === track) &&
-      (diff === 'all' || p.difficulty === diff) &&
-      (q.trim() === '' || p.title.toLowerCase().includes(q.toLowerCase()) || (p.skills || []).join(' ').toLowerCase().includes(q.toLowerCase()))
-    );
-  }, [q, track, diff, projectsQuery.data]);
+    return tracks.filter((t) => {
+      const matchQuery = q.trim() === '' ||
+        t.name.toLowerCase().includes(q.toLowerCase()) ||
+        t.desc.toLowerCase().includes(q.toLowerCase());
+      
+      const trackProjects = projects.filter((p) => p.track === t.id);
+      const matchProjects = trackProjects.some((p) =>
+        p.title.toLowerCase().includes(q.toLowerCase()) ||
+        (p.skills || []).join(' ').toLowerCase().includes(q.toLowerCase())
+      );
+      
+      return matchQuery || matchProjects;
+    });
+  }, [q, tracksQuery.data, projectsQuery.data]);
 
-  const allTracks = tracksQuery.data || [];
+  const projects = projectsQuery.data || [];
   const isLoading = projectsQuery.isLoading || tracksQuery.isLoading;
   const isError = projectsQuery.isError || tracksQuery.isError;
 
@@ -57,42 +61,22 @@ const Marketplace = () => {
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden">
       <AuroraBackground />
       <div className="relative max-w-7xl mx-auto px-6">
-        <motion.div {...HEADER_MOTION} className="max-w-3xl">
-          <div className="text-[11px] uppercase tracking-[0.3em] text-cyan-300/80 font-mono">Project Showcase</div>
-          <h1 className="font-display text-4xl md:text-5xl font-bold mt-3">Pick a project. <span className="zv-gradient-text">Start building.</span></h1>
-          <p className="text-white/60 mt-3">Industry-aligned projects with weekly reviews, rubric-based grading, and verifiable credentials.</p>
+        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="max-w-3xl">
+          <div className="text-[11px] uppercase tracking-[0.3em] text-cyan-300/80 font-mono">Industry Tracks</div>
+          <h1 className="font-display text-4xl md:text-5xl font-bold mt-3">Choose a track. <span className="zv-gradient-text">Build your career.</span></h1>
+          <p className="text-white/60 mt-3">Select from our 10 professional, project-based learning tracks with mentor review and verifiable industry credentials.</p>
         </motion.div>
 
-        <div className="mt-8 zv-glass rounded-2xl p-3 flex flex-col md:flex-row gap-3 items-stretch md:items-center">
-          <div className="flex-1 flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 focus-within:border-cyan-400/50">
-            <Search size={16} className="text-white/45" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search projects, skills, tools..." className="flex-1 bg-transparent outline-none text-sm placeholder-white/35" />
-          </div>
-          <div className="flex gap-2">
-            <select value={track} onChange={(e) => setTrack(e.target.value)} className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm focus:outline-none focus:border-cyan-400/50">
-              <option value="all">All Tracks</option>
-              {allTracks.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
-            </select>
-            <select value={diff} onChange={(e) => setDiff(e.target.value)} className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm focus:outline-none focus:border-cyan-400/50">
-              <option value="all">All Levels</option>
-              <option>Beginner</option><option>Intermediate</option><option>Advanced</option>
-            </select>
-            <button type="button" className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-sm hover:border-cyan-400/50"><SlidersHorizontal size={14} /> Filters</button>
-          </div>
+        <div className="mt-8 zv-glass rounded-2xl p-3 flex items-center gap-2 max-w-xl">
+          <Search size={16} className="text-white/45 ml-2" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search tracks, projects, skills..." className="flex-1 bg-transparent outline-none text-sm placeholder-white/35 text-white" />
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Chip active={track === 'all'} onClick={() => setTrack('all')} label="All" color="#00E5FF" />
-          {allTracks.map((t) => (
-            <Chip key={t.id} active={track === t.id} onClick={() => setTrack(t.id)} label={t.name} color={t.color} />
-          ))}
-        </div>
-
-        {isLoading && <LoadingBlock label="Loading projects…" />}
+        {isLoading && <LoadingBlock label="Loading tracks…" />}
 
         {isError && (
           <ErrorBlock
-            message={getApiErrorMessage(projectsQuery.error || tracksQuery.error, 'Failed to load projects.')}
+            message={getApiErrorMessage(projectsQuery.error || tracksQuery.error, 'Failed to load tracks.')}
             onRetry={() => {
               projectsQuery.refetch();
               tracksQuery.refetch();
@@ -102,42 +86,62 @@ const Marketplace = () => {
 
         {!isLoading && !isError && (
           <>
-            <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map((p, i) => {
-                const t = allTracks.find((x) => x.id === p.track);
-                const Icon = icons[p.track] || Sparkles;
+            <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredTracks.map((t, i) => {
+                const Icon = icons[t.id] || Sparkles;
+                const trackProjects = projects.filter((p) => p.track === t.id);
                 return (
-                  <motion.div key={p.id} {...CARD_MOTION} transition={{ duration: 0.45, delay: i * 0.04 }}>
-                    <TiltCard className="zv-card overflow-hidden h-full group">
-                      <div className="relative h-44 overflow-hidden">
-                        <img src={p.image} alt={p.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0d14] via-[#0a0d14]/40 to-transparent" />
-                        <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full zv-glass text-[11px]" style={{ color: t?.color }}>
-                          <Icon size={12} /> {t?.name}
+                  <motion.div key={t.id} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: i * 0.04 }}>
+                    <TiltCard className="zv-card p-6 h-full flex flex-col justify-between relative group overflow-hidden">
+                      <div className="absolute inset-0 opacity-10 pointer-events-none group-hover:opacity-20 transition-all duration-300" style={{ background: `radial-gradient(circle at top right, ${t.color}, transparent 60%)` }} />
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <div className="w-11 h-11 rounded-xl grid place-items-center" style={{ background: `${t.color}22`, boxShadow: `0 0 20px ${t.color}22` }}>
+                            <Icon size={20} style={{ color: t.color }} />
+                          </div>
+                          <span className="text-[10px] uppercase tracking-widest text-white/40 font-mono">Track</span>
                         </div>
-                        <div className="absolute top-3 right-3 px-2 py-1 rounded-full zv-glass text-[11px] text-white/70">{p.difficulty}</div>
+                        <h2 className="mt-5 font-display text-xl font-semibold text-white/90 group-hover:text-cyan-300 transition-colors duration-300">{t.name}</h2>
+                        <p className="text-sm text-white/55 mt-2 leading-relaxed">{t.desc}</p>
+                        
+                        {trackProjects.length > 0 && (
+                          <div className="mt-5 pt-4 border-t border-white/5">
+                            <div className="text-[10px] uppercase tracking-wider text-cyan-300/70 font-mono mb-2">Curriculum Projects ({trackProjects.length})</div>
+                            <div className="space-y-2">
+                              {trackProjects.map((p) => (
+                                <div key={p.id} className="p-2 rounded-lg bg-white/[0.02] border border-white/5 hover:border-white/10 transition duration-300 flex items-center justify-between">
+                                  <div className="flex flex-col min-w-0 pr-2">
+                                    <span className="text-xs font-medium text-white/80 truncate">{p.title}</span>
+                                    <div className="flex flex-wrap gap-1 mt-1">
+                                      {(p.skills || []).slice(0, 3).map((s) => (
+                                        <span key={s} className="text-[9px] font-mono text-white/45">{s}</span>
+                                      ))}
+                                    </div>
+                                  </div>
+                                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.04] text-cyan-300/80 font-mono shrink-0">{p.difficulty}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      <div className="p-5">
-                        <div className="font-display text-lg font-semibold">{p.title}</div>
-                        <div className="mt-1 flex items-center gap-3 text-xs text-white/55">
-                          <span className="inline-flex items-center gap-1"><Clock size={11} /> {p.duration}</span>
-                          <span className="inline-flex items-center gap-1"><Star size={11} className="text-amber-300" /> 4.8</span>
+
+                      <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                        <div className="flex items-center gap-1.5 text-xs text-white/45">
+                          <CheckCircle2 size={12} className="text-emerald-400" />
+                          <span>Industry-ready</span>
                         </div>
-                        <div className="mt-3 flex flex-wrap gap-1.5">
-                          {(p.skills || []).slice(0, 4).map((s) => <span key={s} className="px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10 text-[10px] font-mono text-white/70">{s}</span>)}
-                        </div>
-                        <div className="mt-4 flex items-center justify-between">
-                          <div className="text-[11px] text-white/45">{(p.outcomes || []).length} outcomes</div>
-                          <Link to="/contact" className="inline-flex items-center gap-1.5 text-sm text-cyan-300 hover:text-cyan-200">Inquire <ArrowUpRight size={14} /></Link>
-                        </div>
+                        <Link to="/contact" className="inline-flex items-center gap-1 text-sm text-cyan-300 hover:text-cyan-200 font-medium group/btn">
+                          Inquire Track <ChevronRight size={14} className="transform group-hover/btn:translate-x-0.5 transition-transform" />
+                        </Link>
                       </div>
                     </TiltCard>
                   </motion.div>
                 );
               })}
             </div>
-            {filtered.length === 0 && (
-              <div className="mt-16 text-center text-white/50">No projects match your filters.</div>
+            {filteredTracks.length === 0 && (
+              <div className="mt-16 text-center text-white/50">No tracks match your search filters.</div>
             )}
           </>
         )}
@@ -145,12 +149,5 @@ const Marketplace = () => {
     </main>
   );
 };
-
-const Chip = ({ active, onClick, label, color }) => (
-  <button type="button" onClick={onClick} className={`px-3 py-1.5 rounded-full text-xs border transition ${active ? 'border-transparent' : 'border-white/10 hover:border-white/25'}`}
-    style={active ? { background: `linear-gradient(135deg, ${color}33, ${color}11)`, color, boxShadow: `0 0 0 1px ${color}55 inset` } : {}}>
-    {label}
-  </button>
-);
 
 export default Marketplace;

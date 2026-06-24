@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const links = [
   { to: '/', label: 'Home' },
   { to: '/about', label: 'About' },
-  { to: '/marketplace', label: 'Projects' },
+  { to: '/marketplace', label: 'Tracks' },
   { to: '/hall-of-fame', label: 'Hall of Fame' },
   { to: '/faq', label: 'FAQ' },
   { to: '/contact', label: 'Contact' }
