@@ -128,7 +128,7 @@ const styles = `
 
 const EcosystemAnimation = () => {
   return (
-    <div className="relative w-full h-auto md:h-[400px] zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] p-6 md:p-8 flex flex-col md:flex-row items-center justify-center hero-fade-in-load">
+    <div className="relative w-full h-[300px] md:h-[400px] zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] p-4 md:p-8 flex items-center justify-center hero-fade-in-load">
       <style>{styles}</style>
       
       {/* Background Grid Pattern */}
@@ -146,104 +146,53 @@ const EcosystemAnimation = () => {
 
       <div className="absolute w-[180px] h-[180px] rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
 
-      {/* Desktop view: Symmetrical logo + 4 badges */}
-      <div className="hidden md:block relative w-full h-full">
+      {/* Symmetrical logo + 4 badges (Responsive absolute layout) */}
+      <div className="relative w-full h-full">
         {/* CENTERPIECE: Zelvora logo */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.15)]">
+          <div className="hero-logo-pulse w-14 h-14 md:w-20 md:h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.15)]">
             <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
           </div>
         </div>
 
         {/* 1. Project Explorer (Top-Left) */}
-        <div className="hero-badge-float-1 absolute top-[12%] left-[10%] lg:left-[16%] z-20 flex flex-col items-center gap-2">
-          <div className="w-20 h-20 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center shadow-[0_0_15px_rgba(205,127,50,0.1)] hover:scale-[1.05] hover:border-[#CD7F32]/50 hover:shadow-[0_0_20px_rgba(205,127,50,0.3)] transition-all duration-300 cursor-pointer">
+        <div className="hero-badge-float-1 absolute top-[8%] left-[4%] md:top-[12%] md:left-[16%] z-20 flex flex-col items-center gap-1.5 md:gap-2">
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center shadow-[0_0_15px_rgba(205,127,50,0.1)] hover:scale-[1.05] hover:border-[#CD7F32]/50 hover:shadow-[0_0_20px_rgba(205,127,50,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[10px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
+          <span className="text-[8px] md:text-[10px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
             Project Explorer
           </span>
         </div>
 
         {/* 3. Industry Ready (Top-Right) */}
-        <div className="hero-badge-float-2 absolute top-[12%] right-[10%] lg:right-[16%] z-20 flex flex-col items-center gap-2">
-          <div className="w-20 h-20 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-[1.05] hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300 cursor-pointer">
+        <div className="hero-badge-float-2 absolute top-[8%] right-[4%] md:top-[12%] md:right-[16%] z-20 flex flex-col items-center gap-1.5 md:gap-2">
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-[1.05] hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[10px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
+          <span className="text-[8px] md:text-[10px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
             Industry Ready
           </span>
         </div>
 
         {/* 2. Project Builder (Bottom-Left) */}
-        <div className="hero-badge-float-3 absolute bottom-[12%] left-[10%] lg:left-[16%] z-20 flex flex-col items-center gap-2">
-          <div className="w-20 h-20 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.1)] hover:scale-[1.05] hover:border-[#FFD700]/50 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300 cursor-pointer">
+        <div className="hero-badge-float-3 absolute bottom-[8%] left-[4%] md:bottom-[12%] md:left-[16%] z-20 flex flex-col items-center gap-1.5 md:gap-2">
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.1)] hover:scale-[1.05] hover:border-[#FFD700]/50 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[10px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
+          <span className="text-[8px] md:text-[10px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
             Project Builder
           </span>
         </div>
 
         {/* 4. Excellence Award (Bottom-Right) */}
-        <div className="hero-badge-float-4 absolute bottom-[12%] right-[10%] lg:right-[16%] z-20 flex flex-col items-center gap-2">
-          <div className="w-20 h-20 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:scale-[1.05] hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300 cursor-pointer">
+        <div className="hero-badge-float-4 absolute bottom-[8%] right-[4%] md:bottom-[12%] md:right-[16%] z-20 flex flex-col items-center gap-1.5 md:gap-2">
+          <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:scale-[1.05] hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[10px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
+          <span className="text-[8px] md:text-[10px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
             Excellence Award
           </span>
-        </div>
-      </div>
-
-      {/* Mobile view: Swipe carousel showing one badge prominently at a time */}
-      <div className="flex md:hidden flex-col items-center w-full gap-6">
-        {/* Center Logo */}
-        <div className="w-16 h-16 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.2)]">
-          <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
-        </div>
-
-        {/* Swipe Carousel Wrapper */}
-        <div className="w-full flex flex-row overflow-x-auto gap-6 py-4 snap-x snap-mandatory scrollbar-none px-6">
-          {/* Badge 1 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <div className="w-16 h-16 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center">
-              <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
-            </div>
-            <span className="text-xs font-mono text-[#CD7F32] font-bold text-center tracking-wider">
-              Project Explorer
-            </span>
-          </div>
-
-          {/* Badge 2 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <div className="w-16 h-16 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center">
-              <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
-            </div>
-            <span className="text-xs font-mono text-[#FFD700] font-bold text-center tracking-wider">
-              Project Builder
-            </span>
-          </div>
-
-          {/* Badge 3 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center">
-              <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
-            </div>
-            <span className="text-xs font-mono text-cyan-300 font-bold text-center tracking-wider">
-              Industry Ready
-            </span>
-          </div>
-
-          {/* Badge 4 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center">
-              <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
-            </div>
-            <span className="text-xs font-mono text-purple-400 font-bold text-center tracking-wider">
-              Excellence Award
-            </span>
-          </div>
         </div>
       </div>
     </div>
@@ -326,12 +275,12 @@ const Landing = () => {
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-                className="mt-9 flex flex-wrap items-center gap-3"
+                className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
               >
-                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
+                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2">
                   <Rocket size={18} /> Explore Tracks
                 </MagneticButton>
-                <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
+                <MagneticButton as={Link} to="/verify" className="zv-btn-ghost w-full sm:w-auto inline-flex items-center justify-center gap-2">
                   <Target size={18} /> Verify Certificate
                 </MagneticButton>
               </motion.div>
@@ -381,7 +330,7 @@ const Landing = () => {
       <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="How it works" title={<>Four steps. <span className="zv-gradient-text-cool">Real proof of work.</span></>} sub="Pick a track, build with mentors, get reviewed, earn credentials recruiters can verify." />
-          <div className="mt-14 grid md:grid-cols-4 gap-5">
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-4 gap-5">
             {[
               { icon: Code2, title: 'Pick a Track', desc: 'Choose from Web Development, Python Development, Java Development, Full Stack Development, Data Analytics, Artificial Intelligence, UI/UX Design, Cyber Security, Digital Marketing, or Cloud & DevOps.' },
               { icon: Rocket, title: 'Build Projects', desc: 'Ship real, industry-aligned projects with weekly milestones.' },
@@ -407,7 +356,7 @@ const Landing = () => {
         <div className="absolute inset-0 zv-grid-bg opacity-40" />
         <div className="relative max-w-7xl mx-auto px-6">
           <Heading eyebrow="Tracks" title={<>Programs built with <span className="zv-gradient-text">industry</span>.</>} sub="Each track has a curated project roadmap, weekly mentor reviews and a capstone." />
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {tracks.map((t, i) => {
               const Icon = trackIcons[t.id] || Sparkles;
               return (
@@ -462,7 +411,7 @@ const Landing = () => {
       <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Credential Ecosystem" title={<>Badges that <span className="zv-gradient-text-cool">recruiters trust</span>.</>} sub="Every badge has a unique credential ID, QR code, public verification page, and one-click LinkedIn share." />
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {badges.map((b, i) => (
               <motion.div key={b.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.06 }}
                 className="zv-card p-6 text-center group">
@@ -510,7 +459,7 @@ const Landing = () => {
               </div>
             </div>
           ) : (
-            <div className="mt-14 grid lg:grid-cols-3 gap-6">
+            <div className="mt-14 grid grid-cols-1 lg:grid-cols-3 gap-6">
               {leaders.slice(0, 3).map((l, i) => {
                 const podiumColor = getPodiumColor(i);
                 return (
@@ -556,7 +505,7 @@ const Landing = () => {
       <section className="relative py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Wall of love" title={<>Stories from <span className="zv-gradient-text-cool">our builders</span>.</>} sub="Real outcomes from students who shipped real work." />
-          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {TESTIMONIALS.map((t, i) => (
               <motion.blockquote key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.07 }}
                 className="zv-card p-6 text-sm relative">
@@ -578,11 +527,11 @@ const Landing = () => {
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] uppercase tracking-[0.2em] text-cyan-300 mb-5">Ready when you are</div>
               <h3 className="font-display text-4xl md:text-5xl font-bold leading-tight">Build. Learn. <span className="zv-gradient-text">Showcase. Grow.</span></h3>
               <p className="text-white/65 mt-4 max-w-2xl mx-auto">Join 12,000+ students building real projects that move careers forward.</p>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
+              <div className="mt-8 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 max-w-md mx-auto sm:max-w-none">
+                <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2">
                   <Rocket size={18} /> Explore Tracks
                 </MagneticButton>
-                <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
+                <MagneticButton as={Link} to="/verify" className="zv-btn-ghost w-full sm:w-auto inline-flex items-center justify-center gap-2">
                   <Target size={18} /> Verify Certificate
                 </MagneticButton>
               </div>

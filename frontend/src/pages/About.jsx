@@ -84,7 +84,7 @@ const About = () => {
             <h2 className="font-display text-3xl md:text-4xl font-bold mt-3">Building industry-ready talent</h2>
             <p className="text-white/60 mt-3">We run a project-first learning ecosystem — not another video course platform.</p>
           </div>
-          <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {VALUES.map((v, i) => (
               <motion.div
                 key={v.title}
@@ -106,7 +106,7 @@ const About = () => {
             <div className="text-[11px] uppercase tracking-[0.3em] text-cyan-300/80 font-mono">Our Mission</div>
             <h2 className="font-display text-3xl md:text-4xl font-bold mt-3">Make skills <span className="zv-gradient-text-cool">provable</span></h2>
           </div>
-          <div className="mt-10 grid md:grid-cols-3 gap-5">
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { step: '01', title: 'Pick a Track', desc: 'Choose from Web Development, Python Development, Java Development, Full Stack Development, Data Analytics, Artificial Intelligence, UI/UX Design, Cyber Security, Digital Marketing, or Cloud & DevOps.' },
               { step: '02', title: 'Build & Ship', desc: 'Complete guided projects with weekly milestones and mentor code reviews.' },
@@ -134,11 +134,11 @@ const About = () => {
           <p className="text-white/60 mt-3 max-w-xl mx-auto">
             Headquartered in {CONTACT.address}, we serve 12,000+ students across India and globally — from IITs and NITs to universities worldwide.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 max-w-md mx-auto sm:max-w-none">
+            <Link to="/marketplace" className="zv-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2">
               <Rocket size={18} /> Explore Tracks
             </Link>
-            <Link to="/contact" className="zv-btn-ghost inline-flex items-center gap-2">
+            <Link to="/contact" className="zv-btn-ghost w-full sm:w-auto inline-flex items-center justify-center gap-2">
               Get in Touch <ArrowRight size={16} />
             </Link>
           </div>

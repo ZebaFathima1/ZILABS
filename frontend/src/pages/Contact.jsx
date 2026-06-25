@@ -58,7 +58,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="mt-12 grid lg:grid-cols-5 gap-8">
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-5 gap-8">
           <motion.div
             initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}
             className="lg:col-span-2 space-y-4"
@@ -131,7 +131,7 @@ const Contact = () => {
                   />
                 </div>
                 {error && <p className="text-xs text-rose-400 bg-rose-400/10 border border-rose-400/20 rounded-lg px-3 py-2">{error}</p>}
-                <button type="submit" disabled={loading} className="zv-btn-primary inline-flex items-center gap-2 disabled:opacity-70">
+                 <button type="submit" disabled={loading} className="zv-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 disabled:opacity-70">
                   <Send size={16} /> {loading ? 'Sending…' : 'Send Message'}
                 </button>
               </form>

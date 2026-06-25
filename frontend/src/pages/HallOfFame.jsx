@@ -95,33 +95,37 @@ const HallOfFame = () => {
 
             {rest.length > 0 && (
               <div className="mt-10 zv-glass rounded-2xl overflow-hidden">
-                <div className="grid grid-cols-12 text-[11px] uppercase tracking-widest text-white/45 px-5 py-3 border-b border-white/5 font-mono">
-                  <div className="col-span-1">Rank</div>
-                  <div className="col-span-5">Student</div>
-                  <div className="col-span-3">Track</div>
-                  <div className="col-span-1 text-right">Projects</div>
-                  <div className="col-span-2 text-right">XP</div>
-                </div>
-                {rest.map((l, i) => (
-                  <motion.div key={l.rank} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3, delay: i * 0.04 }}
-                    className="grid grid-cols-12 items-center px-5 py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition">
-                    <div className="col-span-1 font-mono text-white/60">#{l.rank}</div>
-                    <div className="col-span-5 flex items-center gap-3">
-                      <img src={l.avatar} alt="" className="w-9 h-9 rounded-full ring-1 ring-white/10" />
-                      <div>
-                        <div className="text-sm">{l.name}</div>
-                        <div className="text-[11px] text-white/45">{l.country}</div>
-                      </div>
+                <div className="overflow-x-auto">
+                  <div className="min-w-[640px]">
+                    <div className="grid grid-cols-12 text-[11px] uppercase tracking-widest text-white/45 px-5 py-3 border-b border-white/5 font-mono">
+                      <div className="col-span-1">Rank</div>
+                      <div className="col-span-5">Student</div>
+                      <div className="col-span-3">Track</div>
+                      <div className="col-span-1 text-right">Projects</div>
+                      <div className="col-span-2 text-right">XP</div>
                     </div>
-                    <div className="col-span-3 text-sm text-white/70">{l.track}</div>
-                    <div className="col-span-1 text-right text-sm">{l.projects}</div>
-                    <div className="col-span-2 text-right text-sm font-display font-semibold zv-gradient-text-cool">{(l.xp || 0).toLocaleString()}</div>
-                  </motion.div>
-                ))}
+                    {rest.map((l, i) => (
+                      <motion.div key={l.rank} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3, delay: i * 0.04 }}
+                        className="grid grid-cols-12 items-center px-5 py-3 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition">
+                        <div className="col-span-1 font-mono text-white/60">#{l.rank}</div>
+                        <div className="col-span-5 flex items-center gap-3">
+                          <img src={l.avatar} alt="" className="w-9 h-9 rounded-full ring-1 ring-white/10" />
+                          <div>
+                            <div className="text-sm">{l.name}</div>
+                            <div className="text-[11px] text-white/45">{l.country}</div>
+                          </div>
+                        </div>
+                        <div className="col-span-3 text-sm text-white/70">{l.track}</div>
+                        <div className="col-span-1 text-right text-sm">{l.projects}</div>
+                        <div className="col-span-2 text-right text-sm font-display font-semibold zv-gradient-text-cool">{(l.xp || 0).toLocaleString()}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
 
-            <div className="mt-6 grid md:grid-cols-3 gap-4">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
               <Highlight icon={Flame} title="Hottest streak" value="42 days" sub={`by ${leaders[6]?.name || 'a builder'}`} />
               <Highlight icon={TrendingUp} title="Biggest jump" value="+18 ranks" sub={`by ${leaders[9]?.name || 'a builder'}`} />
               <Highlight icon={Medal} title="Capstone of the month" value="Fraud Detection" sub={`by ${leaders[0]?.name || 'a builder'}`} />

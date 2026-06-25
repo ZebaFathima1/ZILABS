@@ -215,8 +215,8 @@ const Verify = () => {
           <p className="text-white/60 mt-3">Paste a credential ID below to verify authenticity in seconds.</p>
         </div>
 
-        <form onSubmit={onVerifySubmit} className="mt-8 zv-glass-strong rounded-2xl p-2 flex items-center gap-2">
-          <div className="flex-1 flex items-center gap-2 px-4 py-3">
+        <form onSubmit={onVerifySubmit} className="mt-8 zv-glass-strong rounded-2xl p-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <div className="flex-1 flex items-center gap-2 px-4 py-2 sm:py-3">
             <ShieldCheck size={18} className="text-cyan-300" />
             <input 
               value={code} 
@@ -227,7 +227,7 @@ const Verify = () => {
           </div>
           <button 
             type="submit" 
-            className="zv-btn-primary !py-2.5 !px-5 inline-flex items-center gap-2"
+            className="zv-btn-primary w-full sm:w-auto !py-2.5 !px-5 inline-flex items-center justify-center gap-2"
           >
             <Search size={16} /> Verify
           </button>
@@ -267,16 +267,16 @@ const Verify = () => {
                 <div 
                   ref={cardRef} 
                   data-capture="credential-card"
-                  className="relative zv-glass-strong rounded-3xl p-8 md:p-10 overflow-hidden border-emerald-500/20 bg-[#0a0a0a]"
+                  className="relative zv-glass-strong rounded-3xl p-5 sm:p-10 overflow-hidden border-emerald-500/20 bg-[#0a0a0a]"
                 >
                   <motion.div {...PULSE_HALO} className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full bg-emerald-400/10" />
                   
-                  <div className="relative text-center mb-10">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 text-sm font-bold tracking-widest uppercase mb-8">
+                  <div className="relative text-center mb-8">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 text-sm font-bold tracking-widest uppercase mb-6">
                       <CheckCircle2 size={16} /> VERIFIED
                     </div>
                     
-                    <div className="relative w-64 h-64 mx-auto mb-6">
+                    <div className="relative w-44 h-44 sm:w-64 sm:h-64 mx-auto mb-6">
                       <div className="absolute inset-0 blur-3xl rounded-full" style={{ backgroundColor: badgeColor }} />
                       <img 
                         src={badgeImg} 
@@ -284,10 +284,10 @@ const Verify = () => {
                         className={`relative w-full h-full object-contain ${badgeDropShadow}`}
                       />
                     </div>
-                    <h2 className="font-display text-3xl font-bold text-white tracking-tight">{badgeName}</h2>
+                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-white tracking-tight">{badgeName}</h2>
                   </div>
 
-                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-y-8 gap-x-12 p-8 zv-glass rounded-2xl border border-white/5">
+                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8 p-5 sm:p-8 zv-glass rounded-2xl border border-white/5">
                     <Row icon={ShieldCheck} label="Credential ID" value={result['Credential ID']} mono />
                     <Row icon={User} label="Student Name" value={result.Name} />
                     <Row icon={Mail} label="Email" value={result.Email} />
@@ -298,25 +298,25 @@ const Verify = () => {
                 </div>
 
                 {/* Actions Section */}
-                <div className="flex flex-col items-center gap-6">
-                  <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-col items-stretch sm:items-center gap-6">
+                  <div className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 w-full">
                     <button 
                       onClick={handleLinkedInShare}
-                      className="zv-btn-primary flex items-center gap-3 px-8 py-3 text-base shadow-lg shadow-cyan-500/20"
+                      className="zv-btn-primary flex items-center justify-center gap-3 px-8 py-3 text-base shadow-lg shadow-cyan-500/20 w-full sm:w-auto"
                     >
                       <Linkedin size={20} /> Share on LinkedIn
                     </button>
                     <button 
                       onClick={downloadAsPDF}
                       disabled={!!isDownloading}
-                      className="zv-btn-ghost flex items-center gap-2 px-6 py-3 border border-white/10 hover:bg-white/5 disabled:opacity-50"
+                      className="zv-btn-ghost flex items-center justify-center gap-2 px-6 py-3 border border-white/10 hover:bg-white/5 disabled:opacity-50 w-full sm:w-auto"
                     >
                       <FileText size={18} /> {isDownloading === 'pdf' ? 'Generating PDF...' : 'Download PDF'}
                     </button>
                     <button 
                       onClick={downloadAsImage}
                       disabled={!!isDownloading}
-                      className="zv-btn-ghost flex items-center gap-2 px-6 py-3 border border-white/10 hover:bg-white/5 disabled:opacity-50"
+                      className="zv-btn-ghost flex items-center justify-center gap-2 px-6 py-3 border border-white/10 hover:bg-white/5 disabled:opacity-50 w-full sm:w-auto"
                     >
                       <FileImage size={18} /> {isDownloading === 'image' ? 'Processing...' : 'Download Image'}
                     </button>

@@ -72,8 +72,8 @@ const FAQ = () => {
           <p className="text-sm text-white/55 mt-2">
             Our team is happy to help. Send us a message.
           </p>
-          <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <Link to="/contact" className="zv-btn-primary inline-flex items-center gap-2 text-sm">
+          <div className="mt-5 flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 max-w-xs mx-auto sm:max-w-none">
+            <Link to="/contact" className="zv-btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 text-sm">
               Get in Touch
             </Link>
           </div>

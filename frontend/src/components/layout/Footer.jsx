@@ -9,16 +9,16 @@ const Footer = () => {
       <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
           {/* Left - Brand block */}
-          <div className="md:col-span-3">
-            <div className="flex flex-col gap-2">
-              <img src={BRAND.logo} alt="Zelvora Technologies" className="h-16 w-auto object-contain self-start" />
+          <div className="col-span-1 md:col-span-3 flex flex-col items-center md:items-start text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start gap-2">
+              <img src={BRAND.logo} alt="Zelvora Technologies" className="h-16 w-auto object-contain mx-auto md:mx-0" />
               <div className="text-[11px] text-[#00dcb4] font-mono tracking-widest font-bold uppercase">INDUSTRY LABS</div>
             </div>
-            <p className="mt-4 text-sm text-[#c8d0e0] max-w-sm leading-relaxed">
+            <p className="mt-4 text-sm text-[#c8d0e0] max-w-sm leading-relaxed mx-auto md:mx-0">
               Build real-world projects. Earn digital credentials. Become industry ready.
             </p>
             <div className="text-xs text-[#7a8499] mt-2">A Zelvora Technologies initiative.</div>
-            <div className="mt-6 flex items-center gap-2">
+            <div className="mt-6 flex items-center justify-center md:justify-start gap-2">
               {[
                 { Icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/company/zelvora-technologies/?viewAsMember=true' },
                 { Icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/zelvora.technologies' },
@@ -36,11 +36,11 @@ const Footer = () => {
             { title: 'Platform', items: [['Tracks','/marketplace'], ['Hall of Fame','/hall-of-fame'], ['Verify Credential','/verify']] },
             { title: 'Company', items: [['About','/about'], ['FAQ','/faq'], ['Contact','/contact']] }
           ].map(col => (
-            <div key={col.title} className="md:col-span-1">
+            <div key={col.title} className="col-span-1 md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
               <div className="font-display font-semibold text-white/90 text-sm tracking-wide">{col.title}</div>
               <ul className="mt-4 space-y-3">
                 {col.items.map(([label, href]) => (
-                  <li key={label} className="flex items-center">
+                  <li key={label} className="flex items-center justify-center md:justify-start">
                     <span className="text-[#00dcb4] mr-2 font-bold select-none text-xs">•</span>
                     <Link to={href} className="text-sm text-[#c8d0e0] hover:text-[#00dcb4] transition-colors duration-200">{label}</Link>
                   </li>

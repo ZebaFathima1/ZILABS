@@ -20,7 +20,7 @@ const MagneticButton = ({ children, className = '', as: As = 'button', strength 
       onMouseLeave={onLeave}
       animate={{ x: pos.x, y: pos.y }}
       transition={{ type: 'spring', stiffness: 280, damping: 18 }}
-      className="inline-block"
+      className={`inline-block ${className.includes('w-full') ? 'w-full' : ''}`}
     >
       <As className={className} {...rest}>{children}</As>
     </motion.div>

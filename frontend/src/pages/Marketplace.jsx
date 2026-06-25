@@ -56,7 +56,7 @@ const Marketplace = () => {
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search tracks..." className="flex-1 bg-transparent outline-none text-sm placeholder-white/35 text-white" />
         </div>
 
-        <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTracks.map((t, i) => {
             const Icon = icons[t.id] || Sparkles;
             return (

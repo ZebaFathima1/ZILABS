@@ -86,7 +86,7 @@ const BrandReveal = () => {
 
           {/* Center: animated video logo */}
           <motion.div style={{ y: y1, scale }} className="relative mx-auto" >
-            <div className="relative mx-auto aspect-square w-[300px] md:w-[420px]">
+            <div className="relative mx-auto aspect-square w-[260px] sm:w-[300px] md:w-[420px]">
               {/* Glow halo */}
               <div className="absolute -inset-10 rounded-full blur-3xl"
                 style={{ background: 'radial-gradient(circle, rgba(0,229,255,0.35), rgba(124,58,237,0.25) 45%, transparent 70%)' }} />
@@ -131,7 +131,7 @@ const BrandReveal = () => {
           </motion.div>
         </div>
 
-        <div className="mt-14 grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
           {[
             { k: 'Verified', v: 'Every credential is QR + URL verifiable, instantly.' },
             { k: 'Recognized', v: 'Endorsed by mentors and trusted by recruiters.' },
