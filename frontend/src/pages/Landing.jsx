@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Rocket, Target, ShieldCheck, Sparkles, Award, BadgeCheck, Star, ArrowRight, CheckCircle2, Code2, Zap, Trophy, Brain, Cloud, Database, Lock, Layers, Globe, Terminal, BarChart3, Palette, Megaphone } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
-import ParticleField from '../components/effects/ParticleField';
+
 import TiltCard from '../components/effects/TiltCard';
 import MagneticButton from '../components/effects/MagneticButton';
 import { STATS, TESTIMONIALS, BRAND } from '../mock/mockData';
@@ -50,63 +50,71 @@ const HOF_MEMBERS = [
   { name: "Aarav Mehta", track: "Web Development", badge: "Project Explorer" }
 ];
 
+const styles = `
+  @keyframes logo-subtle-pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 10px rgba(0, 229, 255, 0.1);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 45px rgba(0, 229, 255, 0.35), inset 0 0 15px rgba(0, 229, 255, 0.2);
+    }
+  }
+
+  @keyframes badge-float-1 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes badge-float-2 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes badge-float-3 {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .hero-logo-pulse {
+    animation: logo-subtle-pulse 4s ease-in-out infinite;
+  }
+
+  .hero-badge-float-1 {
+    animation: badge-float-1 5s ease-in-out infinite;
+  }
+
+  .hero-badge-float-2 {
+    animation: badge-float-2 6s ease-in-out infinite 1s;
+  }
+
+  .hero-badge-float-3 {
+    animation: badge-float-3 5.5s ease-in-out infinite 2s;
+  }
+
+  @media (max-width: 767px) {
+    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3 {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3 {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+`;
+
 const EcosystemAnimation = () => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [showcaseAngle, setShowcaseAngle] = useState(0);
-  const [particles, setParticles] = useState([]);
-
-  // Generate random particles
-  useEffect(() => {
-    const pts = Array.from({ length: 12 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 1,
-      duration: Math.random() * 6 + 6,
-      delay: Math.random() * -12,
-    }));
-    setParticles(pts);
-  }, []);
-
-  // Journey timeline loop
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveStep(prev => (prev + 1) % 9); // 0 to 5 are active steps, 6 to 8 are pause at completed state
-    }, 1500);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Rotate badge showcase
-  useEffect(() => {
-    let animId;
-    const tick = () => {
-      setShowcaseAngle(prev => (prev + 0.005) % (2 * Math.PI));
-      animId = requestAnimationFrame(tick);
-    };
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, []);
-
-  const steps = [
-    { id: 0, emoji: "📚", title: "Learn Skills", desc: "Master industry-grade curricula", color: "#00E5FF", icon: Brain },
-    { id: 1, emoji: "🛠", title: "Build Projects", desc: "Apply concepts to real builds", color: "#7C3AED", icon: Code2 },
-    { id: 2, emoji: "🏅", title: "Earn Badges", desc: "Unlock cryptographic awards", color: "#EC4899", icon: Award },
-    { id: 3, emoji: "📜", title: "Get Certified", desc: "Generate official verifiable credentials", color: "#FBBF24", icon: BadgeCheck, hasStamp: true },
-    { id: 4, emoji: "✅", title: "Verify Credentials", desc: "Recruiters verify proof on-chain", color: "#10B981", icon: ShieldCheck, hasCheck: true },
-    { id: 5, emoji: "🏆", title: "Hall of Fame", desc: "Get spotlighted in the community", color: "#F59E0B", icon: Trophy }
-  ];
-
-  const badges = [
-    { name: "Project Explorer", image: "/explorer-badge.png", color: "#00E5FF" },
-    { name: "Project Builder", image: "/builder-badge.png", color: "#7C3AED" },
-    { name: "Industry Practitioner", image: "/practitioner-badge.png", color: "#EC4899" },
-    { name: "Excellence Award", image: "/excellence-badge.png", color: "#FBBF24" }
-  ];
-
   return (
-    <div className="relative w-full zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] p-6 md:p-8">
-      {/* Background dark grid */}
-      <motion.div 
+    <div className="relative w-full h-[380px] zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] flex items-center justify-center">
+      <style>{styles}</style>
+      
+      {/* Background Grid Pattern */}
+      <div 
         className="absolute inset-0 opacity-10 pointer-events-none" 
         style={{
           backgroundImage: `
@@ -116,218 +124,60 @@ const EcosystemAnimation = () => {
           backgroundSize: '30px 30px',
           backgroundPosition: 'center',
         }}
-        animate={{ backgroundPosition: ["0px 0px", "0px 30px"] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
       />
       
-      {/* Floating particles (hidden on mobile) */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none hidden md:block">
-        {particles.map(p => (
-          <motion.div
-            key={p.id}
-            className="absolute rounded-full bg-cyan-400/20"
-            style={{
-              left: `${p.x}%`,
-              top: `${p.y}%`,
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-            }}
-            animate={{
-              y: ['0px', '-50px', '0px'],
-              opacity: [0.1, 0.5, 0.1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: 'easeInOut',
-            }}
-          />
-        ))}
-      </div>
+      {/* Subtle background gradient glow behind the logo */}
+      <div className="absolute w-[180px] h-[180px] rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
 
-      {/* Main Grid: Left is Timeline, Right is Showcase */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 relative z-10 items-center">
-        
-        {/* Timeline (left 6 cols on desktop, full width on mobile) */}
-        <div className="col-span-1 md:col-span-6 flex flex-col items-center relative py-4 min-h-[460px] justify-between">
-          
-          {/* Centralized/Top Logo */}
-          <div className="w-9 h-9 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.3)] z-20 mb-4 relative">
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute inset-0 rounded-full bg-cyan-400/20 blur-sm"
-            />
-            <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain relative z-10" />
-          </div>
-
-          {/* Background vertical line */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-14 bottom-10 w-[2px] bg-white/5 rounded-full" />
-          
-          {/* Animated vertical journey line */}
-          <motion.div 
-            className="absolute left-1/2 -translate-x-1/2 top-14 w-[2px] bg-gradient-to-b from-[#00E5FF] via-[#7C3AED] to-[#10B981] rounded-full shadow-[0_0_8px_#00E5FF]"
-            initial={{ height: "0%" }}
-            animate={{ height: `${Math.min((activeStep > 5 ? 5 : activeStep) * 20, 100)}%` }}
-            transition={{ type: "spring", stiffness: 40, damping: 10 }}
-            style={{ maxHeight: 'calc(100% - 66px)' }}
-          />
-
-          {/* Steps list */}
-          <div className="flex flex-col items-center justify-between w-full flex-1 relative gap-y-4">
-            {steps.map((step) => {
-              const isActive = activeStep >= step.id;
-              const isGlowStep = activeStep === step.id;
-
-              return (
-                <div key={step.id} className="relative flex flex-col items-center w-full z-10">
-                  {/* Step Node Icon Container */}
-                  <motion.div
-                    animate={isGlowStep ? { 
-                      scale: [1, 1.2, 1], 
-                      boxShadow: `0 0 15px ${step.color}, inset 0 0 8px ${step.color}`
-                    } : { 
-                      scale: isActive ? 1.05 : 0.9, 
-                      boxShadow: isActive ? `0 0 8px ${step.color}35` : `0 0 0px transparent`
-                    }}
-                    transition={{ duration: 0.4 }}
-                    className="w-8 h-8 rounded-full flex items-center justify-center border text-[10px] mb-1 relative"
-                    style={{
-                      background: isActive ? 'rgba(5, 8, 20, 0.95)' : 'rgba(15, 23, 42, 0.65)',
-                      borderColor: isActive ? step.color : 'rgba(255,255,255,0.08)',
-                    }}
-                  >
-                    <step.icon 
-                      size={14} 
-                      style={{ color: isActive ? step.color : 'rgba(255,255,255,0.3)' }} 
-                    />
-                  </motion.div>
-
-                  {/* Step Content */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 5 }}
-                    animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0.15, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col items-center text-center px-4"
-                  >
-                    <div className="flex items-center gap-1.5 justify-center">
-                      <span className="text-[11px] font-bold font-display" style={{ color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.4)' }}>
-                        {step.emoji} {step.title}
-                      </span>
-
-                      {/* Micro-interaction: Stamp for certified */}
-                      {step.hasStamp && isActive && (
-                        <motion.div
-                          initial={{ scale: 2.2, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{ type: "spring", stiffness: 180, damping: 10 }}
-                          className="flex items-center justify-center w-3 h-3 rounded-full bg-amber-500 text-black font-bold text-[6px] shadow-[0_0_6px_rgba(251,191,36,0.5)]"
-                        >
-                          ★
-                        </motion.div>
-                      )}
-
-                      {/* Micro-interaction: Checkmark for verification */}
-                      {step.hasCheck && isActive && (
-                        <div className="flex items-center justify-center w-3 h-3 rounded-full bg-emerald-500/20 border border-emerald-400/40">
-                          <motion.svg width="6" height="6" viewBox="0 0 24 24" fill="none" stroke="#10B981" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-                            <motion.path
-                              d="M20 6L9 17l-5-5"
-                              initial={{ pathLength: 0 }}
-                              animate={{ pathLength: 1 }}
-                              transition={{ duration: 0.4, delay: 0.15 }}
-                            />
-                          </motion.svg>
-                        </div>
-                      )}
-                    </div>
-                    <span className="text-[9px] text-white/50 leading-relaxed mt-0.5 max-w-[210px]">
-                      {step.desc}
-                    </span>
-                  </motion.div>
-                </div>
-              );
-            })}
-          </div>
-
+      {/* CENTERPIECE: Zelvora logo */}
+      <div className="relative z-10 flex items-center justify-center">
+        <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center">
+          <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
         </div>
+      </div>
 
-        {/* Rotating Badge Showcase (right 6 cols on desktop, hidden on mobile) */}
-        <div className="col-span-1 md:col-span-6 hidden md:flex items-center justify-center relative min-h-[300px]">
-          <div className="absolute inset-0 bg-radial-gradient from-cyan-500/5 via-purple-500/5 to-transparent blur-2xl rounded-full" />
-          
-          <div className="relative w-full h-[240px] flex items-center justify-center">
-            {badges.map((badge, j) => {
-              const nodeAngle = showcaseAngle + (j * Math.PI / 2);
-              const bx = Math.cos(nodeAngle) * 95;
-              const bz = Math.sin(nodeAngle); // -1 (back) to 1 (front)
-              const by = Math.sin(nodeAngle * 2.5) * 12; // Dynamic floating up/down
-              
-              const bscale = 0.82 + (bz + 1) * 0.14; // 0.82 to 1.1
-              const bopacity = 0.45 + (bz + 1) * 0.275; // 0.45 to 1.0
-              const bzIndex = Math.round((bz + 1) * 100);
-              const bfilter = bz < 0 ? `blur(${Math.abs(bz) * 1.2}px)` : 'blur(0px)';
-
-              // When the current animation step is "Earn Badges" (2) or "Get Certified" (3), we apply a heartbeat pulse to badges
-              const isEcosystemActive = activeStep === 2 || activeStep === 3;
-
-              return (
-                <motion.div
-                  key={badge.name}
-                  className="absolute flex flex-col items-center justify-center cursor-pointer"
-                  style={{
-                    x: bx,
-                    y: by,
-                    zIndex: bzIndex,
-                  }}
-                  animate={{
-                    scale: isEcosystemActive ? [bscale, bscale * 1.1, bscale] : bscale,
-                    opacity: bopacity,
-                    filter: bfilter
-                  }}
-                  transition={isEcosystemActive ? {
-                    scale: { repeat: Infinity, duration: 1.8, ease: "easeInOut" }
-                  } : { duration: 0.1 }}
-                >
-                  {/* Glowing background */}
-                  <div 
-                    className="w-16 h-16 rounded-full bg-black/90 border-2 flex items-center justify-center shadow-lg relative group transition-shadow duration-300"
-                    style={{
-                      borderColor: badge.color,
-                      boxShadow: isEcosystemActive 
-                        ? `0 0 20px ${badge.color}80, inset 0 0 10px ${badge.color}40`
-                        : `0 0 10px ${badge.color}25`
-                    }}
-                  >
-                    <img 
-                      src={badge.image} 
-                      alt={badge.name} 
-                      className="w-[78%] h-[78%] object-contain" 
-                    />
-                    
-                    {/* Tooltip on hover */}
-                    <div className="absolute -bottom-8 bg-[#04060c] border border-white/10 px-2 py-0.5 rounded text-[8px] font-mono text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                      {badge.name}
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+      {/* FLOATING BADGE 1: Industry Practitioner (Top Left) */}
+      <div className="hero-badge-float-1 absolute top-[18%] left-[10%] md:left-[15%] z-20 flex flex-col items-center gap-1.5">
+        <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:border-cyan-400/50 transition-colors duration-300">
+          <img src="/practitioner-badge.png" alt="Industry Practitioner" className="w-[78%] h-[78%] object-contain" />
         </div>
-
+        <span className="text-[9px] font-mono text-cyan-300/60 tracking-wider uppercase font-bold text-center">
+          Practitioner
+        </span>
       </div>
 
-      {/* Speed banner indicator at bottom */}
-      <div className="absolute bottom-3 right-4 font-mono text-[8px] text-cyan-400/40 select-none">
-        JOURNEY // 60 FPS
+      {/* FLOATING BADGE 2: Excellence Award (Top Right) */}
+      <div className="hero-badge-float-2 absolute top-[18%] right-[10%] md:right-[15%] z-20 flex flex-col items-center gap-1.5">
+        <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:border-purple-500/50 transition-colors duration-300">
+          <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
+        </div>
+        <span className="text-[9px] font-mono text-purple-400/60 tracking-wider uppercase font-bold text-center">
+          Excellence
+        </span>
       </div>
+
+      {/* FLOATING BADGE 3: Verified Credential (Bottom Center) */}
+      <div className="hero-badge-float-3 absolute bottom-[12%] left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5">
+        <div className="w-16 h-16 rounded-full bg-black/85 border border-emerald-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:border-emerald-400/50 transition-colors duration-300">
+          <img src="/explorer-badge.png" alt="Verified Credential" className="w-[78%] h-[78%] object-contain" />
+        </div>
+        <span className="text-[9px] font-mono text-emerald-400/60 tracking-wider uppercase font-bold text-center">
+          Verified
+        </span>
+      </div>
+
     </div>
   );
 };
 
 const Landing = () => {
+  const HERO_STATS = [
+    { value: '100+', label: 'Learners' },
+    { value: '10', label: 'Industry Tracks' },
+    { value: '100%', label: 'Verified Credentials' },
+    { value: 'Active', label: 'Hall of Fame' }
+  ];
+
   const tracksQuery = useQuery({
     queryKey: ['tracks'],
     queryFn: () => getTracks().then((r) => r.data),
@@ -369,7 +219,7 @@ const Landing = () => {
       {/* HERO */}
       <section className="relative min-h-[100vh] flex items-center pt-28 pb-20">
         <AuroraBackground />
-        <div className="absolute inset-0"><ParticleField density={70} /></div>
+
         <div className="relative max-w-7xl mx-auto px-6 w-full">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7">
@@ -409,7 +259,7 @@ const Landing = () => {
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
                 className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl"
               >
-                {STATS.map(s => (
+                {HERO_STATS.map(s => (
                   <div key={s.label} className="zv-glass rounded-xl p-4">
                     <div className="text-2xl font-display font-bold zv-gradient-text-cool">{s.value}</div>
                     <div className="text-[11px] uppercase tracking-widest text-white/55 mt-1">{s.label}</div>
