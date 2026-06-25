@@ -251,6 +251,13 @@ const EcosystemAnimation = () => {
 };
 
 const Landing = () => {
+  const HERO_STATS = [
+    { value: '100+', label: 'Learners' },
+    { value: '10', label: 'Industry Tracks' },
+    { value: '100%', label: 'Verified Credentials' },
+    { value: 'Active', label: 'Hall of Fame' }
+  ];
+
   const tracksQuery = useQuery({
     queryKey: ['tracks'],
     queryFn: () => getTracks().then((r) => r.data),
@@ -307,68 +314,37 @@ const Landing = () => {
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05 }}
                 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.03] tracking-tight"
               >
-                Learn. Build. Earn.<br />Get Recognized.
+                Build <span className="zv-gradient-text">Real-World</span> Projects.<br />
+                Earn <span className="zv-gradient-text-cool">Verifiable</span> Credentials.<br />
+                Become <span className="zv-gradient-text">Industry Ready</span>.
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
                 className="mt-6 text-lg text-white/65 max-w-xl leading-relaxed"
               >
-                Industry-focused learning tracks, real-world projects, verified credentials, and achievement badges.
+                Learn through industry-focused projects, earn verifiable credentials, and showcase your achievements with proof recruiters trust.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
                 className="mt-9 flex flex-wrap items-center gap-3"
               >
                 <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
-                  <Rocket size={18} /> Join Industry Labs
+                  <Rocket size={18} /> Explore Tracks
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
-                  <Target size={18} /> Verify Credential
+                  <Target size={18} /> Verify Certificate
                 </MagneticButton>
               </motion.div>
-              {/* Achievement Journey Flow */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.35 }}
-                className="mt-16 w-full max-w-2xl relative"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+                className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl"
               >
-                <div className="relative flex items-center justify-between w-full">
-                  {/* Glowing Connection Line */}
-                  <div className="absolute left-0 right-0 top-[11px] h-[2px] bg-white/10 z-0 overflow-hidden rounded">
-                    <div className="journey-line-glow" />
+                {HERO_STATS.map(s => (
+                  <div key={s.label} className="zv-glass rounded-xl p-4">
+                    <div className="text-2xl font-display font-bold zv-gradient-text-cool">{s.value}</div>
+                    <div className="text-[11px] uppercase tracking-widest text-white/55 mt-1">{s.label}</div>
                   </div>
-
-                  {/* Step 1 */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-cyan-400/40 flex items-center justify-center text-cyan-300 text-[10px] font-bold shadow-[0_0_10px_rgba(0,229,255,0.2)]">1</div>
-                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Learn Skills</span>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-purple-400/40 flex items-center justify-center text-purple-300 text-[10px] font-bold shadow-[0_0_10px_rgba(168,85,247,0.2)]">2</div>
-                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Build Projects</span>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-amber-400/40 flex items-center justify-center text-amber-300 text-[10px] font-bold shadow-[0_0_10px_rgba(245,158,11,0.2)]">3</div>
-                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Earn Badges</span>
-                  </div>
-
-                  {/* Step- 4 */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-[10px] font-bold shadow-[0_0_10px_rgba(16,185,129,0.2)]">4</div>
-                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Verify Credentials</span>
-                  </div>
-
-                  {/* Step 5 */}
-                  <div className="relative z-10 flex flex-col items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-pink-400/40 flex items-center justify-center text-pink-300 text-[10px] font-bold shadow-[0_0_10px_rgba(236,72,153,0.2)]">5</div>
-                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Hall of Fame</span>
-                  </div>
-                </div>
+                ))}
               </motion.div>
             </div>
 
