@@ -147,17 +147,17 @@ const EcosystemAnimation = () => {
             <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
           </div>
           <span className="text-[9px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
-            Explorer (Bronze)
+            Project Explorer
           </span>
         </div>
 
-        {/* 3. Industry Ready / Practitioner (Top-Right) */}
+        {/* 3. Industry Ready (Top-Right) */}
         <div className="hero-badge-float-2 absolute top-[10%] right-[10%] lg:right-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
           <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-105 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300">
             <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
           </div>
           <span className="text-[9px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
-            Industry Ready (Platinum)
+            Industry Ready
           </span>
         </div>
 
@@ -167,7 +167,7 @@ const EcosystemAnimation = () => {
             <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
           </div>
           <span className="text-[9px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
-            Builder (Gold)
+            Project Builder
           </span>
         </div>
 
@@ -177,7 +177,7 @@ const EcosystemAnimation = () => {
             <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
           </div>
           <span className="text-[9px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
-            Excellence (Diamond)
+            Excellence Award
           </span>
         </div>
       </div>
@@ -197,9 +197,8 @@ const EcosystemAnimation = () => {
               <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
             </div>
             <span className="text-[9px] font-mono text-[#CD7F32] font-bold text-center leading-none mt-1">
-              Explorer
+              Project Explorer
             </span>
-            <span className="text-[7px] font-mono text-white/40 uppercase">Bronze</span>
           </div>
 
           {/* Badge 2 */}
@@ -208,9 +207,8 @@ const EcosystemAnimation = () => {
               <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
             </div>
             <span className="text-[9px] font-mono text-[#FFD700] font-bold text-center leading-none mt-1">
-              Builder
+              Project Builder
             </span>
-            <span className="text-[7px] font-mono text-white/40 uppercase">Gold</span>
           </div>
 
           {/* Badge 3 */}
@@ -221,7 +219,6 @@ const EcosystemAnimation = () => {
             <span className="text-[9px] font-mono text-cyan-300 font-bold text-center leading-none mt-1">
               Industry Ready
             </span>
-            <span className="text-[7px] font-mono text-white/40 uppercase">Platinum</span>
           </div>
 
           {/* Badge 4 */}
@@ -230,14 +227,14 @@ const EcosystemAnimation = () => {
               <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
             </div>
             <span className="text-[9px] font-mono text-purple-400 font-bold text-center leading-none mt-1">
-              Excellence
+              Excellence Award
             </span>
-            <span className="text-[7px] font-mono text-white/40 uppercase">Diamond</span>
           </div>
         </div>
       </div>
     </div>
   );
+};
 };
 
 const Landing = () => {
