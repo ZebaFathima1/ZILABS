@@ -41,9 +41,22 @@ const LOCAL_TRACKS = [
 const PODIUM_COLORS = ['#FFD700', '#C0C0C0', '#CD7F32'];
 const getPodiumColor = (rankIndex) => PODIUM_COLORS[rankIndex] || PODIUM_COLORS[2];
 
+const HOF_MEMBERS = [
+  { name: "Zeba Fathima", track: "UI/UX Design", badge: "Project Explorer" },
+  { name: "Mirza Amaanullah Baig", track: "Full Stack Development", badge: "Project Builder" },
+  { name: "MD Uzair", track: "Artificial Intelligence", badge: "Excellence Award" },
+  { name: "Sofia Romero", track: "Java Development", badge: "Industry Practitioner" },
+  { name: "Kenji Watanabe", track: "Python Development", badge: "Industry Practitioner" },
+  { name: "Aarav Mehta", track: "Web Development", badge: "Project Explorer" }
+];
+
 const EcosystemAnimation = () => {
-  const [selectedBadge, setSelectedBadge] = useState(null);
-  const [activeEvent, setActiveEvent] = useState('issuance'); // 'issuance' | 'scan' | 'spotlight' | 'unlock'
+  const [angle, setAngle] = useState(0);
+  const [currentPhase, setCurrentPhase] = useState('orbit'); // 'orbit' | 'verify' | 'cert' | 'spotlight'
+  const [verifyingIndex, setVerifyingIndex] = useState(-1);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [spotlightIdx, setSpotlightIdx] = useState(0);
+  const [certStep, setCertStep] = useState(0);
   const [particles, setParticles] = useState([]);
 
   // Generate random particles
@@ -52,39 +65,124 @@ const EcosystemAnimation = () => {
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 10 + 10,
-      delay: Math.random() * -20,
+      size: Math.random() * 2 + 1,
+      duration: Math.random() * 8 + 8,
+      delay: Math.random() * -15,
     }));
     setParticles(pts);
   }, []);
 
-  // Event sequence cycle
+  // Smooth orbital tick
   useEffect(() => {
-    const events = ['issuance', 'scan', 'spotlight', 'unlock'];
-    let idx = 0;
+    if (currentPhase === 'verify') return;
+    let animId;
+    const tick = () => {
+      setAngle(prev => (prev + 0.003) % (2 * Math.PI));
+      animId = requestAnimationFrame(tick);
+    };
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [currentPhase]);
+
+  // Phase transition timeline
+  useEffect(() => {
     const interval = setInterval(() => {
-      idx = (idx + 1) % events.length;
-      setActiveEvent(events[idx]);
-    }, 6000);
+      setCurrentPhase(prev => {
+        if (prev === 'orbit') {
+          setVerifyingIndex(Math.floor(Math.random() * 8));
+          return 'verify';
+        }
+        if (prev === 'verify') {
+          setVerifyingIndex(-1);
+          return 'cert';
+        }
+        if (prev === 'cert') {
+          setSpotlightIdx(Math.floor(Math.random() * HOF_MEMBERS.length));
+          return 'spotlight';
+        }
+        // spotlight -> orbit
+        return 'orbit';
+      });
+    }, 4500);
     return () => clearInterval(interval);
   }, []);
 
-  const orbitingNodes = [
-    { id: 'practitioner', name: 'Industry Practitioner Badge', image: '/practitioner-badge.png', color: '#00E5FF', idCode: 'ZIL-IP-0042', date: '24 Jun 2026', status: 'ACTIVE', angleSpeed: 0.8, radius: 145, baseAngle: 0 },
-    { id: 'excellence', name: 'Excellence Award Badge', image: '/excellence-badge.png', color: '#7C3AED', idCode: 'ZIL-EA-0001', date: '23 Jun 2026', status: 'ACTIVE', angleSpeed: 0.6, radius: 165, baseAngle: 51.4 },
-    { id: 'explorer', name: 'Project Explorer Badge', image: '/explorer-badge.png', color: '#CD7F32', idCode: 'ZIL-PE-0001', date: '21 Jun 2026', status: 'ACTIVE', angleSpeed: 1.0, radius: 115, baseAngle: 102.8 },
-    { id: 'builder', name: 'Project Builder Badge', image: '/builder-badge.png', color: '#FFD700', idCode: 'ZIL-PB-0010', date: '22 Jun 2026', status: 'ACTIVE', angleSpeed: 0.9, radius: 130, baseAngle: 154.2 },
-    { id: 'ai', name: 'AI Specialist Badge', color: '#EC4899', isIcon: true, icon: Brain, idCode: 'ZIL-AI-9021', date: '24 Jun 2026', status: 'ACTIVE', angleSpeed: 0.7, radius: 140, baseAngle: 205.6 },
-    { id: 'webdev', name: 'Web Dev Specialist Badge', color: '#10B981', isIcon: true, icon: Globe, idCode: 'ZIL-WD-5412', date: '24 Jun 2026', status: 'ACTIVE', angleSpeed: 0.85, radius: 155, baseAngle: 257.0 },
-    { id: 'python', name: 'Python Developer Badge', color: '#3776AB', isIcon: true, icon: Terminal, idCode: 'ZIL-PY-8891', date: '24 Jun 2026', status: 'ACTIVE', angleSpeed: 0.75, radius: 175, baseAngle: 308.4 }
+  // Certificate generation sequence steps (1 -> 2 -> 3)
+  useEffect(() => {
+    if (currentPhase !== 'cert') {
+      setCertStep(0);
+      return;
+    }
+    const stepInterval = setInterval(() => {
+      setCertStep(prev => (prev + 1) % 3);
+    }, 1100);
+    return () => clearInterval(stepInterval);
+  }, [currentPhase]);
+
+  const rawNodes = [
+    { id: 'practitioner', name: 'Industry Practitioner', image: '/practitioner-badge.png', color: '#00E5FF', idCode: 'ZIL-IP-0042', date: '24 Jun 2026', status: 'VERIFIED', student: 'Sofia Romero' },
+    { id: 'excellence', name: 'Excellence Award', image: '/excellence-badge.png', color: '#7C3AED', idCode: 'ZIL-EA-0001', date: '23 Jun 2026', status: 'VERIFIED', student: 'MD Uzair' },
+    { id: 'ai', name: 'AI Specialist', color: '#EC4899', isIcon: true, icon: Brain, idCode: 'ZIL-AI-9021', date: '24 Jun 2026', status: 'VERIFIED', student: 'MD Uzair' },
+    { id: 'webdev', name: 'Web Development', color: '#10B981', isIcon: true, icon: Globe, idCode: 'ZIL-WD-5412', date: '24 Jun 2026', status: 'VERIFIED', student: 'Aarav Mehta' },
+    { id: 'python', name: 'Python Development', color: '#3776AB', isIcon: true, icon: Terminal, idCode: 'ZIL-PY-8891', date: '24 Jun 2026', status: 'VERIFIED', student: 'Kenji Watanabe' },
+    { id: 'java', name: 'Java Development', color: '#F89820', isIcon: true, icon: Code2, idCode: 'ZIL-JV-2026', date: '24 Jun 2026', status: 'VERIFIED', student: 'Sofia Romero' },
+    { id: 'data', name: 'Data Science', color: '#00FFA3', isIcon: true, icon: BarChart3, idCode: 'ZIL-DS-3304', date: '24 Jun 2026', status: 'VERIFIED', student: 'Mirza Amaanullah Baig' },
+    { id: 'cyber', name: 'Cyber Security', color: '#EF4444', isIcon: true, icon: ShieldCheck, idCode: 'ZIL-CS-0711', date: '24 Jun 2026', status: 'VERIFIED', student: 'Zeba Fathima' }
   ];
 
+  const w0 = 250;
+  const h0 = 210;
+
+  // Compute 3D coords for all nodes
+  const nodes = rawNodes.map((node, i) => {
+    const nodeBaseAngle = (i * Math.PI / 4) + angle;
+    
+    // Tilted circular orbit: Rx=175, Ry=70
+    const x = Math.cos(nodeBaseAngle) * 175;
+    const y = Math.sin(nodeBaseAngle) * 70;
+    
+    // Depth z between -1 (back) and 1 (front)
+    const z = Math.sin(nodeBaseAngle);
+
+    // Map depth to visual properties
+    const scale = 0.75 + (z + 1) * 0.225; // 0.75 to 1.2
+    const opacity = 0.35 + (z + 1) * 0.325; // 0.35 to 1.0
+    const zIndex = Math.round((z + 1) * 100); // 0 to 200
+    const blurAmount = z < 0 ? Math.abs(z) * 1.5 : 0;
+
+    const isVerifying = verifyingIndex === i;
+    const isSelected = selectedIndex === i;
+
+    // Smooth position interpolation targets
+    const tx = isVerifying ? 0 : x;
+    const ty = isVerifying ? 0 : y;
+    const tScale = isVerifying ? 1.4 : (isSelected ? scale * 1.2 : scale);
+    const tOpacity = isVerifying ? 1.0 : (verifyingIndex !== -1 ? 0.15 : opacity);
+    const tZIndex = isVerifying ? 300 : (isSelected ? 250 : zIndex);
+    const tFilter = isVerifying ? 'blur(0px)' : `blur(${blurAmount}px)`;
+
+    return {
+      ...node,
+      x: tx,
+      y: ty,
+      scale: tScale,
+      opacity: tOpacity,
+      zIndex: tZIndex,
+      filter: tFilter,
+      isVerifying,
+      isSelected
+    };
+  });
+
+  const verifiedBadge = verifyingIndex !== -1 ? nodes[verifyingIndex] : null;
+  const selectedBadge = selectedIndex !== -1 ? nodes[selectedIndex] : null;
+
   return (
-    <div className="relative h-[480px] w-full zv-glass-strong rounded-3xl overflow-hidden border border-white/5 flex items-center justify-center select-none bg-gradient-to-b from-[#060913] to-[#0b0f19]">
-      {/* Cyber Grid Background */}
-      <div 
-        className="absolute inset-0 opacity-20 pointer-events-none" 
+    <div className="relative h-[480px] w-full zv-glass-strong rounded-3xl overflow-hidden border border-white/5 flex items-center justify-center select-none bg-gradient-to-b from-[#050814] to-[#0a0d1a]">
+      
+      {/* CYBER SCANNING ANIMATED GRID BACKGROUND */}
+      <motion.div 
+        className="absolute inset-0 opacity-15 pointer-events-none" 
         style={{
           backgroundImage: `
             linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
@@ -93,8 +191,10 @@ const EcosystemAnimation = () => {
           backgroundSize: '24px 24px',
           backgroundPosition: 'center',
         }}
+        animate={{ backgroundPosition: ["0px 0px", "0px 24px"] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
       />
-      <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#070b14]/70 to-[#070b14] pointer-events-none" />
+      <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050814]/75 to-[#050814] pointer-events-none" />
 
       {/* Floating particles */}
       {particles.map(p => (
@@ -108,8 +208,8 @@ const EcosystemAnimation = () => {
             height: `${p.size}px`,
           }}
           animate={{
-            y: ['0px', '-60px', '0px'],
-            opacity: [0.1, 0.7, 0.1],
+            y: ['0px', '-70px', '0px'],
+            opacity: [0.1, 0.6, 0.1],
           }}
           transition={{
             duration: p.duration,
@@ -120,294 +220,246 @@ const EcosystemAnimation = () => {
         />
       ))}
 
-      {/* CENTRAL NODE: Zelvora Core Hub */}
-      <div className="relative z-20 flex flex-col items-center justify-center">
-        {/* Pulsing Outer Neon Rings */}
-        <motion.div
-          animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.6, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute w-24 h-24 rounded-full border border-cyan-400/40 blur-sm pointer-events-none"
-        />
-        <motion.div
-          animate={{ scale: [1, 1.25, 1], opacity: [0.15, 0.4, 0.15] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          className="absolute w-32 h-32 rounded-full border border-purple-500/30 blur-md pointer-events-none"
-        />
+      {/* GLOWING NETWORK CONSTELLATION SVG PATHS */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
+        {/* Draw lines to center Zelvora core */}
+        {nodes.map((node) => (
+          <motion.line
+            key={`center-line-${node.id}`}
+            x1={w0}
+            y1={h0}
+            x2={w0 + node.x}
+            y2={h0 + node.y}
+            stroke={node.isVerifying ? '#00FFA3' : (node.isSelected ? '#00E5FF' : node.color)}
+            strokeWidth={node.isVerifying || node.isSelected ? '2' : '1'}
+            strokeOpacity={node.isVerifying || node.isSelected ? '0.8' : '0.2'}
+            strokeDasharray="5 3"
+            animate={{ strokeDashoffset: [0, -20] }}
+            transition={{ repeat: Infinity, duration: 2.5, ease: 'linear' }}
+          />
+        ))}
 
-        {/* Central Core Emblem */}
+        {/* Draw mesh constellations loop connecting orbiting badges */}
+        {nodes.map((node, i) => {
+          const nextNode = nodes[(i + 1) % nodes.length];
+          if (node.isVerifying || nextNode.isVerifying) return null;
+          return (
+            <line
+              key={`ring-line-${node.id}`}
+              x1={w0 + node.x}
+              y1={h0 + node.y}
+              x2={w0 + nextNode.x}
+              y2={h0 + nextNode.y}
+              stroke="rgba(0, 229, 255, 0.15)"
+              strokeWidth="0.8"
+            />
+          );
+        })}
+      </svg>
+
+      {/* CENTRAL NODE: Zelvora Hub with Cyan Aura & soft glow */}
+      <div 
+        className="absolute z-100 flex items-center justify-center pointer-events-none"
+        style={{ left: `${w0 - 32}px`, top: `${h0 - 32}px`, width: '64px', height: '64px' }}
+      >
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="relative w-16 h-16 rounded-full bg-black/90 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.4)] cursor-pointer"
-        >
+          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute inset-0 rounded-full bg-cyan-400/20 blur-xl shadow-[0_0_40px_rgba(0,229,255,0.6)]"
+        />
+        <div className="w-12 h-12 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[inset_0_0_10px_rgba(0,229,255,0.4)]">
           <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
-        </motion.div>
+        </div>
       </div>
 
-      {/* ORBITING NODES & LINKS */}
-      {orbitingNodes.map((node) => {
-        const isSelected = selectedBadge?.id === node.id;
-        
-        return (
-          <motion.div
-            key={node.id}
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: 40 / node.angleSpeed,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              left: 0,
-              top: 0,
-              pointerEvents: 'none'
-            }}
-          >
-            {/* Connection Link with glowing dashes */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
-              <motion.line
-                x1="50%"
-                y1="50%"
-                x2={`calc(50% + ${Math.cos(node.baseAngle * Math.PI / 180) * node.radius}px)`}
-                y2={`calc(50% + ${Math.sin(node.baseAngle * Math.PI / 180) * node.radius}px)`}
-                stroke={isSelected ? '#00FFA3' : node.color}
-                strokeWidth={isSelected ? '2' : '1.2'}
-                strokeOpacity={isSelected ? '0.7' : '0.25'}
-                strokeDasharray="6 4"
-                animate={{ strokeDashoffset: [0, -20] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-              />
-            </svg>
+      {/* ORBITING/VERIFYING BADGE NODES */}
+      {nodes.map((node, i) => (
+        <motion.div
+          key={node.id}
+          onClick={() => {
+            if (currentPhase !== 'verify') {
+              setSelectedIndex(selectedIndex === i ? -1 : i);
+            }
+          }}
+          whileHover={{ 
+            scale: node.isVerifying ? 1.4 : 1.25, 
+            boxShadow: `0 0 20px ${node.color}, inset 0 0 10px ${node.color}` 
+          }}
+          animate={{
+            x: node.x,
+            y: node.y,
+            scale: node.scale,
+            opacity: node.opacity,
+            zIndex: node.zIndex,
+            filter: node.filter,
+          }}
+          transition={{
+            type: 'spring',
+            stiffness: 75,
+            damping: 15
+          }}
+          className="absolute flex items-center justify-center cursor-pointer"
+          style={{
+            left: `${w0 - 20}px`,
+            top: `${h0 - 20}px`,
+            width: '40px',
+            height: '40px',
+            borderRadius: '50%',
+            background: 'rgba(4, 6, 12, 0.95)',
+            border: `1.5px solid ${node.isVerifying ? '#00FFA3' : (node.isSelected ? '#00E5FF' : node.color)}`,
+            boxShadow: node.isVerifying 
+              ? `0 0 25px #00FFA3, inset 0 0 8px #00FFA3` 
+              : (node.isSelected ? `0 0 20px #00E5FF` : `0 0 8px ${node.color}35`),
+          }}
+        >
+          <div className="w-full h-full flex items-center justify-center">
+            {node.image ? (
+              <img src={node.image} alt={node.name} className="w-[80%] h-[80%] object-contain" />
+            ) : (
+              <node.icon size={16} style={{ color: node.color }} />
+            )}
+          </div>
+        </motion.div>
+      ))}
 
-            {/* Orbiting Badge Node */}
+      {/* CREDENTIAL VERIFICATION SCAN SCENE */}
+      <AnimatePresence>
+        {currentPhase === 'verify' && verifiedBadge && (
+          <div className="absolute inset-0 pointer-events-none z-250 flex flex-col items-center justify-end pb-12">
+            {/* Green Laser Scanline Sweep */}
             <motion.div
-              onClick={() => setSelectedBadge(isSelected ? null : node)}
-              whileHover={{ scale: 1.25, zIndex: 50 }}
-              style={{
-                position: 'absolute',
-                left: `calc(50% + ${Math.cos(node.baseAngle * Math.PI / 180) * node.radius}px - 18px)`,
-                top: `calc(50% + ${Math.sin(node.baseAngle * Math.PI / 180) * node.radius}px - 18px)`,
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                background: 'rgba(5, 8, 16, 0.9)',
-                border: `1.5px solid ${isSelected ? '#00FFA3' : node.color}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-                boxShadow: isSelected ? `0 0 15px #00FFA3` : `0 0 8px ${node.color}30`,
-                transition: 'border-color 0.2s, box-shadow 0.2s'
-              }}
-            >
-              {/* Anti-rotate badge child to keep it upright */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{
-                  duration: 40 / node.angleSpeed,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                className="w-full h-full flex items-center justify-center"
-              >
-                {node.image ? (
-                  <img src={node.image} alt={node.name} className="w-[80%] h-[80%] object-contain" />
-                ) : (
-                  <node.icon size={15} style={{ color: node.color }} />
-                )}
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        );
-      })}
-
-      {/* PERIODIC OVERLAY EVENTS */}
-      <AnimatePresence mode="wait">
-        {activeEvent === 'issuance' && (
-          <motion.div
-            key="issuance"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 5.5, times: [0, 0.1, 0.9, 1] }}
-            className="absolute inset-x-0 top-6 flex flex-col items-center pointer-events-none z-30"
-          >
-            {/* Floating Wireframe Certificate */}
-            <motion.div
-              initial={{ y: -20, scale: 0.9 }}
-              animate={{ y: 0, scale: 1 }}
-              transition={{ duration: 0.8, type: 'spring' }}
-              className="relative px-3 py-1.5 rounded-lg border border-cyan-400/30 bg-black/80 backdrop-blur-sm text-[9px] font-mono text-cyan-300 flex items-center gap-2 shadow-[0_0_12px_rgba(0,229,255,0.15)]"
-            >
-              <Award size={10} className="text-cyan-300 animate-spin" />
-              <span>MINTING_CREDENTIAL...</span>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '100%' }}
-                transition={{ duration: 3, delay: 0.8 }}
-                className="absolute bottom-0 left-0 h-0.5 bg-cyan-400"
-              />
-            </motion.div>
-            {/* Flow line to center */}
-            <svg className="w-8 h-20 overflow-visible pointer-events-none mt-1">
-              <motion.path
-                d="M16,0 L16,80"
-                stroke="#00E5FF"
-                strokeWidth="1.5"
-                strokeDasharray="4 4"
-                animate={{ strokeDashoffset: [0, -15] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: 'linear' }}
-              />
-            </svg>
-          </motion.div>
-        )}
-
-        {activeEvent === 'scan' && (
-          <motion.div
-            key="scan"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 5.5, times: [0, 0.1, 0.9, 1] }}
-            className="absolute inset-0 pointer-events-none z-30 flex flex-col items-center justify-between py-12"
-          >
-            {/* Laser Line */}
-            <motion.div
-              initial={{ top: '10%' }}
-              animate={{ top: ['10%', '90%', '10%'] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_12px_#10B981] z-40"
+              initial={{ top: '25%' }}
+              animate={{ top: ['25%', '65%', '25%'] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              className="absolute left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#00FFA3] to-transparent shadow-[0_0_12px_#00FFA3]"
             />
-            {/* Verifying overlay text */}
-            <div className="font-mono text-[9px] text-emerald-400 tracking-wider bg-black/75 px-3 py-1 border border-emerald-500/20 rounded-md">
-              [ SCANNING_NETWORK_FOR_AUTHENTICITY ]
+
+            {/* Verification HUD details projection */}
+            <motion.div
+              initial={{ opacity: 0, y: 15, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.97 }}
+              className="w-[85%] mx-auto font-mono text-xs text-[#00FFA3]"
+            >
+              <div className="border border-[#00FFA3]/40 p-4 bg-black/90 backdrop-blur-md shadow-[0_0_20px_rgba(0,255,163,0.15)] rounded-xl relative">
+                {/* Verified green badge checkmark */}
+                <div className="absolute -top-3.5 left-6 w-7 h-7 rounded-full bg-[#00FFA3] border-2 border-black flex items-center justify-center text-black shadow-[0_0_10px_#00FFA3]">
+                  <CheckCircle2 size={14} className="stroke-[2.5]" />
+                </div>
+                
+                <div className="flex justify-between items-center mt-1 border-b border-[#00FFA3]/20 pb-2 mb-2">
+                  <div className="text-[11px] font-bold tracking-widest text-[#00FFA3]">{verifiedBadge.idCode}</div>
+                  <div className="text-[9px] text-[#00FFA3]/75 font-bold uppercase tracking-wider">✓ Verified Credential</div>
+                </div>
+                <div className="grid grid-cols-2 gap-y-1 text-[10px] text-white/95">
+                  <div><span className="text-[#00FFA3]/60">NAME:</span> {verifiedBadge.student}</div>
+                  <div><span className="text-[#00FFA3]/60">BADGE:</span> {verifiedBadge.name}</div>
+                  <div><span className="text-[#00FFA3]/60">ISSUED:</span> {verifiedBadge.date}</div>
+                  <div><span className="text-[#00FFA3]/60">STATUS:</span> {verifiedBadge.status}</div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* CERTIFICATE GENERATION SEQUENCE DIAGRAM */}
+      <AnimatePresence>
+        {currentPhase === 'cert' && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.98 }}
+            className="absolute top-6 inset-x-4 z-300 pointer-events-none"
+          >
+            <div className="zv-glass p-3 rounded-2xl flex items-center justify-between border border-cyan-400/20 bg-[#04060c]/90 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.15)] font-mono text-[9px] text-cyan-300">
+              {/* Step 1 */}
+              <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/[0.02]">
+                <div className={`w-2.5 h-2.5 rounded-full border border-cyan-400 flex items-center justify-center text-[6px] ${certStep >= 0 ? 'bg-cyan-400 text-black' : ''}`}>1</div>
+                <span className={certStep === 0 ? 'text-white font-bold' : 'opacity-65'}>Badge Earned</span>
+              </div>
+              <ArrowRight size={10} className={certStep === 0 ? 'text-cyan-400 animate-pulse' : 'opacity-30'} />
+              
+              {/* Step 2 */}
+              <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/[0.02]">
+                <div className={`w-2.5 h-2.5 rounded-full border border-cyan-400 flex items-center justify-center text-[6px] ${certStep >= 1 ? 'bg-cyan-400 text-black' : ''}`}>2</div>
+                <span className={certStep === 1 ? 'text-white font-bold' : 'opacity-65'}>Certificate Issued</span>
+              </div>
+              <ArrowRight size={10} className={certStep === 1 ? 'text-cyan-400 animate-pulse' : 'opacity-30'} />
+              
+              {/* Step 3 */}
+              <div className="flex items-center gap-2 px-2 py-1 rounded-lg bg-white/[0.02]">
+                <div className={`w-2.5 h-2.5 rounded-full border border-cyan-400 flex items-center justify-center text-[6px] ${certStep >= 2 ? 'bg-cyan-400 text-black' : ''}`}>3</div>
+                <span className={certStep === 2 ? 'text-white font-bold' : 'opacity-65'}>Verified Credential</span>
+              </div>
             </div>
-            {/* Verification Tag */}
-            <motion.div
-              initial={{ scale: 0.7, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 1, duration: 0.5, type: 'spring' }}
-              className="flex items-center gap-1 bg-emerald-950/80 border border-emerald-400/40 px-3 py-1 rounded-full text-emerald-300 font-mono text-[10px] shadow-[0_0_15px_rgba(16,185,129,0.25)]"
-            >
-              <CheckCircle2 size={12} className="text-emerald-400" />
-              <span>STATUS: ALL_SYSTEMS_AUTHENTIC</span>
-            </motion.div>
-          </motion.div>
-        )}
-
-        {activeEvent === 'spotlight' && (
-          <motion.div
-            key="spotlight"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 5.5, times: [0, 0.1, 0.9, 1] }}
-            className="absolute inset-x-0 top-6 flex flex-col items-center pointer-events-none z-30"
-          >
-            {/* Hall of Fame Notification */}
-            <motion.div
-              initial={{ y: -30, scale: 0.9, opacity: 0 }}
-              animate={{ y: 0, scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, type: 'spring' }}
-              className="zv-glass p-3 rounded-2xl flex items-center gap-3 border border-purple-500/30 max-w-xs shadow-[0_0_15px_rgba(124,58,237,0.15)] bg-black/80 backdrop-blur-sm"
-            >
-              <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-400/40 flex items-center justify-center shrink-0">
-                <Trophy size={14} className="text-purple-300" />
-              </div>
-              <div className="text-[10px] font-mono text-white/90">
-                <div className="text-[9px] uppercase tracking-widest text-purple-400 font-semibold font-mono">Spotlight</div>
-                <div className="truncate">Kenji Watanabe earned AI Specialist Badge!</div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-
-        {activeEvent === 'unlock' && (
-          <motion.div
-            key="unlock"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 5.5, times: [0, 0.1, 0.9, 1] }}
-            className="absolute inset-0 pointer-events-none z-30 flex items-center justify-center"
-          >
-            {/* Unlock Lock icon */}
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{
-                scale: [0.8, 1.1, 1],
-                opacity: [0, 1, 1, 0],
-              }}
-              transition={{
-                duration: 3,
-                times: [0, 0.2, 0.8, 1],
-                ease: 'easeInOut'
-              }}
-              className="w-12 h-12 rounded-full border border-yellow-400/40 bg-black/90 flex items-center justify-center shadow-[0_0_15px_rgba(234,179,8,0.25)] text-yellow-300"
-            >
-              <motion.div
-                animate={{
-                  y: [0, -2, 0],
-                  rotate: [0, -10, 10, 0]
-                }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <Lock size={18} className="text-yellow-400" />
-              </motion.div>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Holographic Details Projection HUD */}
+      {/* HALL OF FAME MEMBER SPOTLIGHT */}
       <AnimatePresence>
-        {selectedBadge ? (
+        {currentPhase === 'spotlight' && (
           <motion.div
-            key={selectedBadge.id}
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.98 }}
+            className="absolute top-6 inset-x-4 z-300 pointer-events-none"
+          >
+            <div className="zv-glass p-3.5 rounded-2xl border border-purple-500/30 bg-[#04060c]/95 backdrop-blur-md text-center shadow-[0_0_15px_rgba(124,58,237,0.15)] font-mono">
+              <div className="text-[10px] uppercase text-purple-400 tracking-[0.25em] font-bold">🏆 Hall of Fame</div>
+              <div className="text-white text-xs font-bold mt-1.5">{HOF_MEMBERS[spotlightIdx].name}</div>
+              <div className="text-white/55 text-[10px] mt-0.5">{HOF_MEMBERS[spotlightIdx].track}</div>
+              <div className="text-cyan-300 text-[9px] mt-1.5 font-bold tracking-wider">[ {HOF_MEMBERS[spotlightIdx].badge.toUpperCase()} ]</div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* USER INTERACTION HUD OVERLAY (when clicked manual selection) */}
+      <AnimatePresence>
+        {currentPhase !== 'verify' && selectedBadge && (
+          <motion.div
             initial={{ opacity: 0, y: 15, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.97 }}
-            transition={{ duration: 0.3 }}
             className="absolute bottom-4 left-4 right-4 font-mono text-xs text-cyan-300 pointer-events-auto"
           >
-            <div className="relative border-l-2 border-t-2 border-cyan-400/50 p-3.5 bg-black/85 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.1)]">
-              {/* Corner tech accents */}
-              <div className="absolute right-0 bottom-0 border-r-2 border-b-2 border-cyan-400/50 w-3 h-3" />
+            <div className="relative border-l-2 border-t-2 border-cyan-400/50 p-3 bg-black/85 backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.1)] rounded-br-xl">
               <button 
-                onClick={() => setSelectedBadge(null)}
+                onClick={() => setSelectedIndex(-1)}
                 className="absolute top-2 right-2 text-white/40 hover:text-white/90 font-mono text-[9px] cursor-pointer"
               >
                 [ESC]
               </button>
-              
-              <div className="text-[10px] uppercase text-white/40 mb-1.5 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                System.HUD // Credential_Node_Active
+              <div className="text-[9px] uppercase text-white/40 mb-1 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                Querying_Node_Metadata
               </div>
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px]">
-                <div><span className="text-white/40">NODE_NAME:</span> <span className="text-white font-semibold">{selectedBadge.name}</span></div>
-                <div><span className="text-white/40">NODE_UUID:</span> <span className="text-white/80">{selectedBadge.idCode}</span></div>
-                <div><span className="text-white/40">NODE_STATUS:</span> <span className="text-emerald-400 font-bold">{selectedBadge.status}</span></div>
-                <div><span className="text-white/40">MINT_DATE:</span> <span className="text-white/85">{selectedBadge.date}</span></div>
+              <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[10px]">
+                <div><span className="text-white/40">NAME:</span> <span className="text-white">{selectedBadge.name}</span></div>
+                <div><span className="text-white/40">UUID:</span> <span className="text-white/80">{selectedBadge.idCode}</span></div>
+                <div><span className="text-white/40">MINTED:</span> <span className="text-white/85">{selectedBadge.date}</span></div>
+                <div><span className="text-white/40">VERIFY:</span> <span className="text-emerald-400">{selectedBadge.status}</span></div>
               </div>
             </div>
           </motion.div>
-        ) : (
-          <div className="absolute bottom-4 left-4 right-4 font-mono text-xs text-cyan-300/40 pointer-events-none">
-            <div className="relative border-l-2 border-t-2 border-cyan-400/25 p-3 bg-black/45 backdrop-blur-sm">
-              <div className="absolute right-0 bottom-0 border-r-2 border-b-2 border-cyan-400/25 w-3 h-3" />
-              <div className="text-[9px] uppercase text-white/45 mb-1 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/65 animate-pulse" />
-                System.HUD // Listening_For_Node_Select
-              </div>
-              <div className="text-[9px] text-white/35 leading-relaxed">Hover or click any node to query credential ecosystem metadata.</div>
-            </div>
-          </div>
         )}
       </AnimatePresence>
+
+      {/* DEFAULT HUD SUBTITLE */}
+      {currentPhase !== 'verify' && !selectedBadge && (
+        <div className="absolute bottom-4 left-4 right-4 font-mono text-[9px] text-cyan-300/40 pointer-events-none">
+          <div className="relative border-l-2 border-t-2 border-cyan-400/25 p-3 bg-black/45 backdrop-blur-sm">
+            <div className="absolute right-0 bottom-0 border-r-2 border-b-2 border-cyan-400/25 w-3 h-3" />
+            <div className="uppercase mb-0.5 flex items-center gap-1.5">
+              <span className="w-1 h-1 rounded-full bg-cyan-400/60 animate-pulse" />
+              Ecosystem Status // ACTIVE
+            </div>
+            <div>Select any orbiting node to trace its verification signature.</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
