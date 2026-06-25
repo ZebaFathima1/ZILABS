@@ -62,19 +62,14 @@ const styles = `
     }
   }
 
-  @keyframes badge-float-1 {
+  @keyframes badge-float-y {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    50% { transform: translateY(-5px); }
   }
 
-  @keyframes badge-float-2 {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes badge-float-3 {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+  @keyframes hero-fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .hero-logo-pulse {
@@ -82,35 +77,44 @@ const styles = `
   }
 
   .hero-badge-float-1 {
-    animation: badge-float-1 5s ease-in-out infinite;
+    animation: badge-float-y 4s ease-in-out infinite;
   }
 
   .hero-badge-float-2 {
-    animation: badge-float-2 6s ease-in-out infinite 1s;
+    animation: badge-float-y 4.5s ease-in-out infinite 0.8s;
   }
 
   .hero-badge-float-3 {
-    animation: badge-float-3 5.5s ease-in-out infinite 2s;
+    animation: badge-float-y 5s ease-in-out infinite 1.6s;
+  }
+
+  .hero-badge-float-4 {
+    animation: badge-float-y 4.2s ease-in-out infinite 2.4s;
+  }
+
+  .hero-fade-in-load {
+    animation: hero-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   @media (max-width: 767px) {
-    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3 {
+    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3, .hero-badge-float-4 {
       animation: none !important;
       transform: none !important;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3 {
+    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3, .hero-badge-float-4, .hero-fade-in-load {
       animation: none !important;
       transform: none !important;
+      opacity: 1 !important;
     }
   }
 `;
 
 const EcosystemAnimation = () => {
   return (
-    <div className="relative w-full h-[380px] zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] flex items-center justify-center">
+    <div className="relative w-full h-auto md:h-[400px] zv-glass-strong rounded-3xl overflow-hidden border border-white/5 bg-gradient-to-b from-[#050814] to-[#0a0d1a] p-6 md:p-8 flex flex-col md:flex-row items-center justify-center hero-fade-in-load">
       <style>{styles}</style>
       
       {/* Background Grid Pattern */}
@@ -125,59 +129,118 @@ const EcosystemAnimation = () => {
           backgroundPosition: 'center',
         }}
       />
-      
-      {/* Subtle background gradient glow behind the logo */}
+
       <div className="absolute w-[180px] h-[180px] rounded-full bg-cyan-500/5 blur-3xl pointer-events-none" />
 
-      {/* CENTERPIECE: Zelvora logo */}
-      <div className="relative z-10 flex items-center justify-center">
-        <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center">
+      {/* Desktop view: Symmetrical logo + 4 badges */}
+      <div className="hidden md:block relative w-full h-full">
+        {/* CENTERPIECE: Zelvora logo */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+          <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center">
+            <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
+          </div>
+        </div>
+
+        {/* 1. Project Explorer (Top-Left) */}
+        <div className="hero-badge-float-1 absolute top-[10%] left-[10%] lg:left-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
+          <div className="w-16 h-16 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center shadow-[0_0_15px_rgba(205,127,50,0.1)] hover:scale-105 hover:border-[#CD7F32]/50 hover:shadow-[0_0_20px_rgba(205,127,50,0.3)] transition-all duration-300">
+            <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
+          </div>
+          <span className="text-[9px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
+            Explorer (Bronze)
+          </span>
+        </div>
+
+        {/* 3. Industry Ready / Practitioner (Top-Right) */}
+        <div className="hero-badge-float-2 absolute top-[10%] right-[10%] lg:right-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
+          <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-105 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300">
+            <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
+          </div>
+          <span className="text-[9px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
+            Industry Ready (Platinum)
+          </span>
+        </div>
+
+        {/* 2. Project Builder (Bottom-Left) */}
+        <div className="hero-badge-float-3 absolute bottom-[10%] left-[10%] lg:left-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
+          <div className="w-16 h-16 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.1)] hover:scale-105 hover:border-[#FFD700]/50 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300">
+            <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
+          </div>
+          <span className="text-[9px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
+            Builder (Gold)
+          </span>
+        </div>
+
+        {/* 4. Excellence Award (Bottom-Right) */}
+        <div className="hero-badge-float-4 absolute bottom-[10%] right-[10%] lg:right-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
+          <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:scale-105 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300">
+            <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
+          </div>
+          <span className="text-[9px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
+            Excellence (Diamond)
+          </span>
+        </div>
+      </div>
+
+      {/* Mobile view: Swipe carousel + Center Logo */}
+      <div className="flex md:hidden flex-col items-center w-full gap-6">
+        {/* Center Logo */}
+        <div className="w-16 h-16 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.2)]">
           <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
         </div>
-      </div>
 
-      {/* FLOATING BADGE 1: Industry Practitioner (Top Left) */}
-      <div className="hero-badge-float-1 absolute top-[18%] left-[10%] md:left-[15%] z-20 flex flex-col items-center gap-1.5">
-        <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:border-cyan-400/50 transition-colors duration-300">
-          <img src="/practitioner-badge.png" alt="Industry Practitioner" className="w-[78%] h-[78%] object-contain" />
+        {/* Swipe Carousel Wrapper */}
+        <div className="w-full flex flex-row overflow-x-auto gap-5 py-3 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-white/10 px-2 justify-start">
+          {/* Badge 1 */}
+          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div className="w-12 h-12 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center">
+              <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
+            </div>
+            <span className="text-[9px] font-mono text-[#CD7F32] font-bold text-center leading-none mt-1">
+              Explorer
+            </span>
+            <span className="text-[7px] font-mono text-white/40 uppercase">Bronze</span>
+          </div>
+
+          {/* Badge 2 */}
+          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div className="w-12 h-12 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center">
+              <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
+            </div>
+            <span className="text-[9px] font-mono text-[#FFD700] font-bold text-center leading-none mt-1">
+              Builder
+            </span>
+            <span className="text-[7px] font-mono text-white/40 uppercase">Gold</span>
+          </div>
+
+          {/* Badge 3 */}
+          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div className="w-12 h-12 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center">
+              <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
+            </div>
+            <span className="text-[9px] font-mono text-cyan-300 font-bold text-center leading-none mt-1">
+              Industry Ready
+            </span>
+            <span className="text-[7px] font-mono text-white/40 uppercase">Platinum</span>
+          </div>
+
+          {/* Badge 4 */}
+          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div className="w-12 h-12 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center">
+              <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
+            </div>
+            <span className="text-[9px] font-mono text-purple-400 font-bold text-center leading-none mt-1">
+              Excellence
+            </span>
+            <span className="text-[7px] font-mono text-white/40 uppercase">Diamond</span>
+          </div>
         </div>
-        <span className="text-[9px] font-mono text-cyan-300/60 tracking-wider uppercase font-bold text-center">
-          Practitioner
-        </span>
       </div>
-
-      {/* FLOATING BADGE 2: Excellence Award (Top Right) */}
-      <div className="hero-badge-float-2 absolute top-[18%] right-[10%] md:right-[15%] z-20 flex flex-col items-center gap-1.5">
-        <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:border-purple-500/50 transition-colors duration-300">
-          <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
-        </div>
-        <span className="text-[9px] font-mono text-purple-400/60 tracking-wider uppercase font-bold text-center">
-          Excellence
-        </span>
-      </div>
-
-      {/* FLOATING BADGE 3: Verified Credential (Bottom Center) */}
-      <div className="hero-badge-float-3 absolute bottom-[12%] left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5">
-        <div className="w-16 h-16 rounded-full bg-black/85 border border-emerald-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.1)] hover:border-emerald-400/50 transition-colors duration-300">
-          <img src="/explorer-badge.png" alt="Verified Credential" className="w-[78%] h-[78%] object-contain" />
-        </div>
-        <span className="text-[9px] font-mono text-emerald-400/60 tracking-wider uppercase font-bold text-center">
-          Verified
-        </span>
-      </div>
-
     </div>
   );
 };
 
 const Landing = () => {
-  const HERO_STATS = [
-    { value: '100+', label: 'Learners' },
-    { value: '10', label: 'Industry Tracks' },
-    { value: '100%', label: 'Verified Credentials' },
-    { value: 'Active', label: 'Hall of Fame' }
-  ];
-
   const tracksQuery = useQuery({
     queryKey: ['tracks'],
     queryFn: () => getTracks().then((r) => r.data),
@@ -234,37 +297,79 @@ const Landing = () => {
                 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.05 }}
                 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.03] tracking-tight"
               >
-                Build <span className="zv-gradient-text">Real-World</span> Projects.<br />
-                Earn <span className="zv-gradient-text-cool">Verifiable</span> Credentials.<br />
-                Become <span className="zv-gradient-text">Industry Ready</span>.
+                Learn. Build. Earn.<br />Get Recognized.
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }}
                 className="mt-6 text-lg text-white/65 max-w-xl leading-relaxed"
               >
-                Learn through industry-focused projects, earn verifiable credentials, and showcase your achievements with proof recruiters trust.
+                Industry-focused learning tracks, real-world projects, verified credentials, and achievement badges.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
                 className="mt-9 flex flex-wrap items-center gap-3"
               >
                 <MagneticButton as={Link} to="/marketplace" className="zv-btn-primary inline-flex items-center gap-2">
-                  <Rocket size={18} /> Explore Tracks
+                  <Rocket size={18} /> Join Industry Labs
                 </MagneticButton>
                 <MagneticButton as={Link} to="/verify" className="zv-btn-ghost inline-flex items-center gap-2">
-                  <Target size={18} /> Verify Certificate
+                  <Target size={18} /> Verify Credential
                 </MagneticButton>
               </motion.div>
+              {/* Achievement Journey Flow */}
               <motion.div
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
-                className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.35 }}
+                className="mt-12 p-5 rounded-2xl zv-glass border border-white/5 bg-[#04060c]/40 backdrop-blur-sm max-w-2xl"
               >
-                {HERO_STATS.map(s => (
-                  <div key={s.label} className="zv-glass rounded-xl p-4">
-                    <div className="text-2xl font-display font-bold zv-gradient-text-cool">{s.value}</div>
-                    <div className="text-[11px] uppercase tracking-widest text-white/55 mt-1">{s.label}</div>
+                <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-cyan-400 font-bold mb-4 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                  Your Achievement Journey
+                </h3>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[10px] font-mono">
+                  {/* Step 1 */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 text-[8px]">1</div>
+                    <span className="text-white/80 font-semibold font-display">Learn Skills</span>
                   </div>
-                ))}
+
+                  <span className="hidden sm:inline text-cyan-400/40 animate-pulse">➔</span>
+                  <span className="inline sm:hidden text-cyan-400/40 pl-2">↓</span>
+
+                  {/* Step 2 */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center text-purple-300 text-[8px]">2</div>
+                    <span className="text-white/80 font-semibold font-display">Build Projects</span>
+                  </div>
+
+                  <span className="hidden sm:inline text-purple-400/40 animate-pulse">➔</span>
+                  <span className="inline sm:hidden text-purple-400/40 pl-2">↓</span>
+
+                  {/* Step 3 */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-[#CD7F32]/10 border border-[#CD7F32]/30 flex items-center justify-center text-[#CD7F32] text-[8px]">3</div>
+                    <span className="text-white/80 font-semibold font-display">Earn Badges</span>
+                  </div>
+
+                  <span className="hidden sm:inline text-[#CD7F32]/40 animate-pulse">➔</span>
+                  <span className="inline sm:hidden text-[#CD7F32]/40 pl-2">↓</span>
+
+                  {/* Step 4 */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-300 text-[8px]">4</div>
+                    <span className="text-white/80 font-semibold font-display">Get Certified</span>
+                  </div>
+
+                  <span className="hidden sm:inline text-amber-400/40 animate-pulse">➔</span>
+                  <span className="inline sm:hidden text-amber-400/40 pl-2">↓</span>
+
+                  {/* Step 5 */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-300 text-[8px]">5</div>
+                    <span className="text-white/80 font-semibold font-display">Join Hall of Fame</span>
+                  </div>
+                </div>
               </motion.div>
             </div>
 
