@@ -11,6 +11,8 @@ import Verify from './pages/Verify';
 import About from './pages/About';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 const Page = ({ children }) => (
   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
@@ -30,6 +32,8 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<Page><About /></Page>} />
         <Route path="/faq" element={<Page><FAQ /></Page>} />
         <Route path="/contact" element={<Page><Contact /></Page>} />
+        <Route path="/terms" element={<Page><Terms /></Page>} />
+        <Route path="/privacy" element={<Page><Privacy /></Page>} />
       </Routes>
     </AnimatePresence>
   );
