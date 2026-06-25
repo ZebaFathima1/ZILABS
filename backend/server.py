@@ -94,10 +94,10 @@ SEED_PROJECTS = [
 ]
 
 SEED_BADGES = [
-    {"id": "b1", "name": "Project Explorer", "tier": "bronze", "color": "#CD7F32", "desc": "Completed your first guided project.", "criteria": "Submit 1 project", "image": "/explorer-badge.png"},
-    {"id": "b3", "name": "Project Builder", "tier": "gold", "color": "#FFD700", "desc": "Built and shipped multiple real-world projects.", "criteria": "Submit 5 projects", "image": "/builder-badge.png"},
-    {"id": "b4", "name": "Industry Practitioner", "tier": "platinum", "color": "#00E5FF", "desc": "Demonstrated production-grade skills.", "criteria": "Complete a track + capstone", "image": "/practitioner-badge.png"},
-    {"id": "b5", "name": "Excellence Award", "tier": "diamond", "color": "#7C3AED", "desc": "Top 1% on track with mentor endorsement.", "criteria": "Top leaderboard + mentor review", "image": "/excellence-badge.png"},
+    {"id": "b1", "name": "Project Explorer", "tier": "Project Explorer", "color": "#CD7F32", "desc": "Completed your first guided project.", "criteria": "Submit 1 project", "image": "/explorer-badge.png"},
+    {"id": "b3", "name": "Project Builder", "tier": "Project Builder", "color": "#FFD700", "desc": "Built and shipped multiple real-world projects.", "criteria": "Submit 5 projects", "image": "/builder-badge.png"},
+    {"id": "b4", "name": "Industry Ready", "tier": "Industry Ready", "color": "#00E5FF", "desc": "Demonstrated production-grade skills.", "criteria": "Complete a track + capstone", "image": "/practitioner-badge.png"},
+    {"id": "b5", "name": "Excellence Award", "tier": "Excellence Award", "color": "#7C3AED", "desc": "Top 1% on track with mentor endorsement.", "criteria": "Top leaderboard + mentor review", "image": "/excellence-badge.png"},
 ]
 
 SEED_LEADERS = []

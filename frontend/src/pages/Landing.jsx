@@ -54,22 +54,27 @@ const styles = `
   @keyframes logo-subtle-pulse {
     0%, 100% {
       transform: scale(1);
-      box-shadow: 0 0 25px rgba(0, 229, 255, 0.15), inset 0 0 10px rgba(0, 229, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.15), inset 0 0 8px rgba(0, 229, 255, 0.08);
     }
     50% {
       transform: scale(1.02);
-      box-shadow: 0 0 45px rgba(0, 229, 255, 0.35), inset 0 0 15px rgba(0, 229, 255, 0.2);
+      box-shadow: 0 0 35px rgba(0, 229, 255, 0.3), inset 0 0 12px rgba(0, 229, 255, 0.15);
     }
   }
 
   @keyframes badge-float-y {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
+    50% { transform: translateY(-4px); }
   }
 
   @keyframes hero-fade-in {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes journey-line-glow-anim {
+    0% { left: -50%; }
+    100% { left: 150%; }
   }
 
   .hero-logo-pulse {
@@ -93,7 +98,16 @@ const styles = `
   }
 
   .hero-fade-in-load {
-    animation: hero-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: hero-fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .journey-line-glow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+    animation: journey-line-glow-anim 3.5s linear infinite;
   }
 
   @media (max-width: 767px) {
@@ -104,7 +118,7 @@ const styles = `
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3, .hero-badge-float-4, .hero-fade-in-load {
+    .hero-logo-pulse, .hero-badge-float-1, .hero-badge-float-2, .hero-badge-float-3, .hero-badge-float-4, .hero-fade-in-load, .journey-line-glow {
       animation: none !important;
       transform: none !important;
       opacity: 1 !important;
@@ -136,53 +150,53 @@ const EcosystemAnimation = () => {
       <div className="hidden md:block relative w-full h-full">
         {/* CENTERPIECE: Zelvora logo */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-          <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center">
+          <div className="hero-logo-pulse w-20 h-20 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_25px_rgba(0,229,255,0.15)]">
             <img src="/logo.png" alt="Zelvora" className="w-[60%] h-[60%] object-contain" />
           </div>
         </div>
 
         {/* 1. Project Explorer (Top-Left) */}
-        <div className="hero-badge-float-1 absolute top-[10%] left-[10%] lg:left-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
-          <div className="w-16 h-16 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center shadow-[0_0_15px_rgba(205,127,50,0.1)] hover:scale-105 hover:border-[#CD7F32]/50 hover:shadow-[0_0_20px_rgba(205,127,50,0.3)] transition-all duration-300">
+        <div className="hero-badge-float-1 absolute top-[12%] left-[10%] lg:left-[16%] z-20 flex flex-col items-center gap-2">
+          <div className="w-20 h-20 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center shadow-[0_0_15px_rgba(205,127,50,0.1)] hover:scale-[1.05] hover:border-[#CD7F32]/50 hover:shadow-[0_0_20px_rgba(205,127,50,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[9px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
+          <span className="text-[10px] font-mono text-[#CD7F32] tracking-wider uppercase font-bold text-center">
             Project Explorer
           </span>
         </div>
 
         {/* 3. Industry Ready (Top-Right) */}
-        <div className="hero-badge-float-2 absolute top-[10%] right-[10%] lg:right-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
-          <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-105 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300">
+        <div className="hero-badge-float-2 absolute top-[12%] right-[10%] lg:right-[16%] z-20 flex flex-col items-center gap-2">
+          <div className="w-20 h-20 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.1)] hover:scale-[1.05] hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[9px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
+          <span className="text-[10px] font-mono text-cyan-300 tracking-wider uppercase font-bold text-center">
             Industry Ready
           </span>
         </div>
 
         {/* 2. Project Builder (Bottom-Left) */}
-        <div className="hero-badge-float-3 absolute bottom-[10%] left-[10%] lg:left-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
-          <div className="w-16 h-16 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.1)] hover:scale-105 hover:border-[#FFD700]/50 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300">
+        <div className="hero-badge-float-3 absolute bottom-[12%] left-[10%] lg:left-[16%] z-20 flex flex-col items-center gap-2">
+          <div className="w-20 h-20 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center shadow-[0_0_15px_rgba(255,215,0,0.1)] hover:scale-[1.05] hover:border-[#FFD700]/50 hover:shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[9px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
+          <span className="text-[10px] font-mono text-[#FFD700] tracking-wider uppercase font-bold text-center">
             Project Builder
           </span>
         </div>
 
         {/* 4. Excellence Award (Bottom-Right) */}
-        <div className="hero-badge-float-4 absolute bottom-[10%] right-[10%] lg:right-[15%] z-20 flex flex-col items-center gap-1.5 group cursor-pointer">
-          <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:scale-105 hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300">
+        <div className="hero-badge-float-4 absolute bottom-[12%] right-[10%] lg:right-[16%] z-20 flex flex-col items-center gap-2">
+          <div className="w-20 h-20 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:scale-[1.05] hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(124,58,237,0.3)] transition-all duration-300 cursor-pointer">
             <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
           </div>
-          <span className="text-[9px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
+          <span className="text-[10px] font-mono text-purple-400 tracking-wider uppercase font-bold text-center">
             Excellence Award
           </span>
         </div>
       </div>
 
-      {/* Mobile view: Swipe carousel + Center Logo */}
+      {/* Mobile view: Swipe carousel showing one badge prominently at a time */}
       <div className="flex md:hidden flex-col items-center w-full gap-6">
         {/* Center Logo */}
         <div className="w-16 h-16 rounded-full bg-black/90 border border-cyan-400/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,229,255,0.2)]">
@@ -190,43 +204,43 @@ const EcosystemAnimation = () => {
         </div>
 
         {/* Swipe Carousel Wrapper */}
-        <div className="w-full flex flex-row overflow-x-auto gap-5 py-3 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-white/10 px-2 justify-start">
+        <div className="w-full flex flex-row overflow-x-auto gap-6 py-4 snap-x snap-mandatory scrollbar-none px-6">
           {/* Badge 1 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
-            <div className="w-12 h-12 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center">
+          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <div className="w-16 h-16 rounded-full bg-black/85 border border-[#CD7F32]/20 flex items-center justify-center">
               <img src="/explorer-badge.png" alt="Project Explorer" className="w-[78%] h-[78%] object-contain" />
             </div>
-            <span className="text-[9px] font-mono text-[#CD7F32] font-bold text-center leading-none mt-1">
+            <span className="text-xs font-mono text-[#CD7F32] font-bold text-center tracking-wider">
               Project Explorer
             </span>
           </div>
 
           {/* Badge 2 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
-            <div className="w-12 h-12 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center">
+          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <div className="w-16 h-16 rounded-full bg-black/85 border border-[#FFD700]/20 flex items-center justify-center">
               <img src="/builder-badge.png" alt="Project Builder" className="w-[78%] h-[78%] object-contain" />
             </div>
-            <span className="text-[9px] font-mono text-[#FFD700] font-bold text-center leading-none mt-1">
+            <span className="text-xs font-mono text-[#FFD700] font-bold text-center tracking-wider">
               Project Builder
             </span>
           </div>
 
           {/* Badge 3 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
-            <div className="w-12 h-12 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center">
+          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <div className="w-16 h-16 rounded-full bg-black/85 border border-cyan-400/20 flex items-center justify-center">
               <img src="/practitioner-badge.png" alt="Industry Ready" className="w-[78%] h-[78%] object-contain" />
             </div>
-            <span className="text-[9px] font-mono text-cyan-300 font-bold text-center leading-none mt-1">
+            <span className="text-xs font-mono text-cyan-300 font-bold text-center tracking-wider">
               Industry Ready
             </span>
           </div>
 
           {/* Badge 4 */}
-          <div className="snap-center shrink-0 flex flex-col items-center gap-1.5 w-[140px] p-3 rounded-2xl bg-white/[0.02] border border-white/5">
-            <div className="w-12 h-12 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center">
+          <div className="snap-center shrink-0 flex flex-col items-center gap-3 w-[240px] p-5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <div className="w-16 h-16 rounded-full bg-black/85 border border-purple-500/20 flex items-center justify-center">
               <img src="/excellence-badge.png" alt="Excellence Award" className="w-[78%] h-[78%] object-contain" />
             </div>
-            <span className="text-[9px] font-mono text-purple-400 font-bold text-center leading-none mt-1">
+            <span className="text-xs font-mono text-purple-400 font-bold text-center tracking-wider">
               Excellence Award
             </span>
           </div>
@@ -234,7 +248,6 @@ const EcosystemAnimation = () => {
       </div>
     </div>
   );
-};
 };
 
 const Landing = () => {
@@ -318,53 +331,42 @@ const Landing = () => {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.35 }}
-                className="mt-12 p-5 rounded-2xl zv-glass border border-white/5 bg-[#04060c]/40 backdrop-blur-sm max-w-2xl"
+                className="mt-16 w-full max-w-2xl relative"
               >
-                <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-cyan-400 font-bold mb-4 flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  Your Achievement Journey
-                </h3>
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[10px] font-mono">
-                  {/* Step 1 */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center text-cyan-300 text-[8px]">1</div>
-                    <span className="text-white/80 font-semibold font-display">Learn Skills</span>
+                <div className="relative flex items-center justify-between w-full">
+                  {/* Glowing Connection Line */}
+                  <div className="absolute left-0 right-0 top-[11px] h-[2px] bg-white/10 z-0 overflow-hidden rounded">
+                    <div className="journey-line-glow" />
                   </div>
 
-                  <span className="hidden sm:inline text-cyan-400/40 animate-pulse">➔</span>
-                  <span className="inline sm:hidden text-cyan-400/40 pl-2">↓</span>
+                  {/* Step 1 */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-cyan-400/40 flex items-center justify-center text-cyan-300 text-[10px] font-bold shadow-[0_0_10px_rgba(0,229,255,0.2)]">1</div>
+                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Learn Skills</span>
+                  </div>
 
                   {/* Step 2 */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-purple-500/10 border border-purple-400/30 flex items-center justify-center text-purple-300 text-[8px]">2</div>
-                    <span className="text-white/80 font-semibold font-display">Build Projects</span>
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-purple-400/40 flex items-center justify-center text-purple-300 text-[10px] font-bold shadow-[0_0_10px_rgba(168,85,247,0.2)]">2</div>
+                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Build Projects</span>
                   </div>
-
-                  <span className="hidden sm:inline text-purple-400/40 animate-pulse">➔</span>
-                  <span className="inline sm:hidden text-purple-400/40 pl-2">↓</span>
 
                   {/* Step 3 */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-[#CD7F32]/10 border border-[#CD7F32]/30 flex items-center justify-center text-[#CD7F32] text-[8px]">3</div>
-                    <span className="text-white/80 font-semibold font-display">Earn Badges</span>
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-amber-400/40 flex items-center justify-center text-amber-300 text-[10px] font-bold shadow-[0_0_10px_rgba(245,158,11,0.2)]">3</div>
+                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Earn Badges</span>
                   </div>
 
-                  <span className="hidden sm:inline text-[#CD7F32]/40 animate-pulse">➔</span>
-                  <span className="inline sm:hidden text-[#CD7F32]/40 pl-2">↓</span>
-
-                  {/* Step 4 */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-300 text-[8px]">4</div>
-                    <span className="text-white/80 font-semibold font-display">Get Certified</span>
+                  {/* Step- 4 */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-emerald-400/40 flex items-center justify-center text-emerald-300 text-[10px] font-bold shadow-[0_0_10px_rgba(16,185,129,0.2)]">4</div>
+                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Verify Credentials</span>
                   </div>
-
-                  <span className="hidden sm:inline text-amber-400/40 animate-pulse">➔</span>
-                  <span className="inline sm:hidden text-amber-400/40 pl-2">↓</span>
 
                   {/* Step 5 */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-300 text-[8px]">5</div>
-                    <span className="text-white/80 font-semibold font-display">Join Hall of Fame</span>
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-6 h-6 rounded-full bg-[#0a0d1a] border border-pink-400/40 flex items-center justify-center text-pink-300 text-[10px] font-bold shadow-[0_0_10px_rgba(236,72,153,0.2)]">5</div>
+                    <span className="text-[10px] font-mono text-white/70 mt-2 font-semibold tracking-wide text-center">Hall of Fame</span>
                   </div>
                 </div>
               </motion.div>
@@ -506,7 +508,6 @@ const Landing = () => {
                   )}
                 </div>
                 <div className="mt-4 font-display font-semibold">{b.name}</div>
-                <div className="text-[11px] uppercase tracking-widest text-white/45 mt-1">{b.tier}</div>
                 <div className="text-xs text-white/55 mt-3 leading-relaxed">{b.desc}</div>
               </motion.div>
             ))}
