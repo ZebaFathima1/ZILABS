@@ -53,12 +53,10 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-white/[0.05] flex flex-col md:flex-row gap-3 items-center justify-between text-xs">
           <div className="text-[#3d4557] font-semibold">© 2026 Zelvora Technologies Pvt. Ltd. All rights reserved.</div>
-          <div className="flex items-center gap-2 text-[#3d4557] font-semibold">
-            <Link to="/terms" className="hover:text-[#00dcb4] transition-colors duration-200">Terms</Link>
+          <div className="flex items-center gap-2 text-white/40 font-semibold">
+            <Link to="/terms" className="text-white hover:text-[#00dcb4] transition-colors duration-200">Terms & Conditions</Link>
             <span className="select-none">|</span>
-            <Link to="/privacy" className="hover:text-[#00dcb4] transition-colors duration-200">Privacy</Link>
-            <span className="select-none">|</span>
-            <a href="#" className="hover:text-[#00dcb4] transition-colors duration-200">Security</a>
+            <Link to="/privacy" className="text-white hover:text-[#00dcb4] transition-colors duration-200">Privacy Policy</Link>
           </div>
         </div>
       </div>
