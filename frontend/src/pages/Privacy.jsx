@@ -1,60 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
-  ShieldCheck, Eye, Edit3, Trash2, XCircle, LifeBuoy, Scale, 
-  Building, ChevronRight, Globe, Cookie, Users, Lock, Database, 
-  UserCheck, FileText, CheckCircle2, Mail, MapPin, Clock, ShieldAlert 
+  ShieldCheck, Eye, Trash2, XCircle, LifeBuoy, Scale, 
+  UserCheck, ShieldAlert 
 } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 
-const SECTIONS = [
-  { id: 'intro', label: '1. Introduction & Who We Are' },
-  { id: 'data-collect', label: '2. What Data We Collect' },
-  { id: 'why-collect', label: '3. Why We Collect Data' },
-  { id: 'legal-basis', label: '4. Legal Basis for Processing' },
-  { id: 'data-share', label: '5. How We Share Data' },
-  { id: 'rights', label: '6. Your Rights' },
-  { id: 'retention', label: '7. Data Retention' },
-  { id: 'security', label: '8. Security Safeguards' },
-  { id: 'cookies', label: '9. Cookies & Tracking' },
-  { id: 'children', label: '10. Children\'s Data' },
-  { id: 'cross-border', label: '11. Cross-Border Transfers' },
-];
-
 const Privacy = () => {
-  const [activeSection, setActiveSection] = useState('intro');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200; // Offset for sticky navbar & scrolling ease
-      
-      for (const section of SECTIONS) {
-        const el = document.getElementById(section.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial active state calculation
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      window.scrollTo({
-        top: el.offsetTop - 120, // Clean scroll offset
-        behavior: 'smooth'
-      });
-      setActiveSection(id);
-    }
-  };
 
   return (
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden bg-[#050d1a] text-white">
@@ -72,7 +23,7 @@ const Privacy = () => {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-4xl mx-auto px-6">
         
         {/* HERO STRIP */}
         <div className="relative border-b border-white/5 pb-10 mb-12">
@@ -105,55 +56,8 @@ const Privacy = () => {
           </div>
         </div>
 
-        {/* TWO-COLUMN LAYOUT */}
-        <div className="grid lg:grid-cols-12 gap-10">
-          
-          {/* STICKY LEFT SIDEBAR (Collapses to horizontal scroll on mobile) */}
-          <aside className="lg:col-span-3">
-            {/* Mobile Top Anchor Nav */}
-            <div className="lg:hidden sticky top-[72px] z-40 bg-[#050d1a]/90 backdrop-blur-md border border-white/5 rounded-2xl p-2.5 overflow-x-auto whitespace-nowrap flex items-center gap-2 -mx-2 mb-8">
-              {SECTIONS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => scrollToSection(s.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
-                    activeSection === s.id
-                      ? 'bg-cyan-400/15 text-cyan-300 border border-cyan-400/30'
-                      : 'text-white/60 hover:text-white hover:bg-white/5 border border-transparent'
-                  }`}
-                >
-                  {s.label.split('. ')[1]}
-                </button>
-              ))}
-            </div>
-
-            {/* Desktop Sticky Sidebar */}
-            <div className="hidden lg:block sticky top-28 self-start max-h-[calc(100vh-9rem)] overflow-y-auto pr-2 space-y-1">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-[#ccd6e0]/40 font-mono mb-4 px-3 font-semibold">NAVIGATION</div>
-              {SECTIONS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => scrollToSection(s.id)}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-sm transition-all duration-200 flex items-center justify-between group ${
-                    activeSection === s.id
-                      ? 'bg-cyan-400/10 text-cyan-300 border border-cyan-400/20'
-                      : 'text-[#ccd6e0]/60 hover:text-white hover:bg-white/[0.02] border border-transparent'
-                  }`}
-                >
-                  <span>{s.label.split('. ')[1]}</span>
-                  <ChevronRight 
-                    size={13} 
-                    className={`opacity-0 group-hover:opacity-100 transition-opacity ${
-                      activeSection === s.id ? 'opacity-100 text-cyan-300' : 'text-[#ccd6e0]/40'
-                    }`} 
-                  />
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          {/* MAIN LEGAL CONTENT */}
-          <div className="lg:col-span-9 space-y-16">
+        {/* MAIN LEGAL CONTENT */}
+        <div className="space-y-16">
             
             {/* 01. INTRODUCTION */}
             <section id="intro" className="scroll-mt-32">
@@ -450,7 +354,6 @@ const Privacy = () => {
             </section>
 
           </div>
-        </div>
 
         {/* BOTTOM PAGE FOOTER */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-xs text-[#ccd6e0]/55 gap-4">
