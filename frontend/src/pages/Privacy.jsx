@@ -29,14 +29,9 @@ const Privacy = () => {
           <div className="absolute -top-20 left-1/3 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-black/40 border border-cyan-400/30 flex items-center justify-center shadow-[0_0_15px_rgba(0,212,255,0.15)]">
-                <img src="/logo.png" alt="Zelvora" className="w-[55%] h-[55%] object-contain" />
-              </div>
-              <div>
-                <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">Privacy Policy</h1>
-                <p className="text-sm text-[#ccd6e0]/60 mt-1 font-mono">labs.zelvoratech.com</p>
-              </div>
+            <div>
+              <h1 className="font-display text-4xl md:text-5xl font-medium tracking-tight">Privacy Policy</h1>
+              <p className="text-sm text-[#ccd6e0]/60 mt-1 font-mono">labs.zelvoratech.com</p>
             </div>
 
             {/* Badges */}
