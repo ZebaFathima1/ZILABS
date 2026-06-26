@@ -18,7 +18,6 @@ const SECTIONS = [
   { id: 'cookies', label: '9. Cookies & Tracking' },
   { id: 'children', label: '10. Children\'s Data' },
   { id: 'cross-border', label: '11. Cross-Border Transfers' },
-  { id: 'contact', label: '12. Grievance Officer' },
 ];
 
 const Privacy = () => {
@@ -450,61 +449,12 @@ const Privacy = () => {
               </div>
             </section>
 
-            {/* 12. CONTACT / GRIEVANCE OFFICER */}
-            <section id="contact" className="scroll-mt-32">
-              <div className="text-[11px] uppercase tracking-[0.06em] text-[#ccd6e0]/40 font-mono mb-1">SECTION 12</div>
-              <h2 className="font-display text-2xl font-medium mb-4 text-white">Contact & Grievance Officer</h2>
-              <p className="text-[#ccd6e0] text-sm leading-[1.75] mb-6">
-                Under the DPDP Act 2023, you have the right to register grievances regarding data processing. If you have questions, concerns, or wish to exercise your rights as a Data Principal, contact our Grievance Officer:
-              </p>
-
-              {/* Grievance Officer Contact Card */}
-              <div className="zv-glass-strong rounded-3xl p-6 md:p-8 border border-cyan-400/20 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00d4ff]/5 via-purple-500/5 to-transparent opacity-60" />
-                <div className="relative z-10 grid md:grid-cols-2 gap-6 items-center">
-                  <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold uppercase mb-4">
-                      Grievance Redressal
-                    </div>
-                    <h3 className="font-display text-xl font-bold text-white">Mr. S. Sharma</h3>
-                    <p className="text-xs text-white/55 mt-1 font-mono uppercase tracking-wider">Designated Grievance Officer</p>
-                    <p className="text-sm text-[#ccd6e0] mt-3 leading-relaxed">
-                      Zelvora Technologies Pvt. Ltd.<br />
-                      Hyderabad, Telangana, India
-                    </p>
-                  </div>
-                  
-                  <div className="space-y-4 md:border-l md:border-white/10 md:pl-8">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl grid place-items-center bg-white/[0.04] border border-white/10">
-                        <Mail size={16} className="text-cyan-300" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] uppercase tracking-widest text-[#ccd6e0]/40 font-mono">Email Address</div>
-                        <a href="mailto:grievance@zelvoratech.com" className="text-sm text-white hover:text-cyan-300 transition-colors font-semibold">grievance@zelvoratech.com</a>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-xl grid place-items-center bg-white/[0.04] border border-white/10">
-                        <Clock size={16} className="text-[#00d4ff]" />
-                      </div>
-                      <div>
-                        <div className="text-[10px] uppercase tracking-widest text-[#ccd6e0]/40 font-mono">Response Time SLA</div>
-                        <div className="text-sm text-white/90 font-semibold">Within 30 calendar days</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
           </div>
         </div>
 
         {/* BOTTOM PAGE FOOTER */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-xs text-[#ccd6e0]/55 gap-4">
-          <div>© 2025 Zelvora Technologies Pvt. Ltd. · All Rights Reserved</div>
+          <div>© 2026 Zelvora Technologies Pvt. Ltd. · All Rights Reserved</div>
           <div className="font-mono text-cyan-400/80 hover:text-cyan-300 transition-colors">
             <a href="https://labs.zelvoratech.com" target="_blank" rel="noopener noreferrer">labs.zelvoratech.com</a>
           </div>
