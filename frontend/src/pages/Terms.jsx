@@ -1,65 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { 
   ShieldCheck, Rocket, Award, Users, Target, Info, AlertTriangle, 
-  AlertCircle, Mail, MapPin, Clock, Globe, ShieldAlert, CheckCircle2 
+  AlertCircle, Mail, Clock, Globe 
 } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 
-const SECTIONS = [
-  { id: 'intro', label: 'Introduction' },
-  { id: 'eligibility', label: '01. Eligibility' },
-  { id: 'accounts', label: '02. User Accounts' },
-  { id: 'services', label: '03. Platform Services' },
-  { id: 'payments', label: '04. Fees & Refunds' },
-  { id: 'acceptable-use', label: '05. Acceptable Use' },
-  { id: 'ip', label: '06. Intellectual Property' },
-  { id: 'credentials', label: '07. Credentials' },
-  { id: 'user-content', label: '08. User Content' },
-  { id: 'third-party', label: '09. Third-Party Links' },
-  { id: 'disclaimers', label: '10. Disclaimers' },
-  { id: 'indemnity', label: '11. Indemnification' },
-  { id: 'termination', label: '12. Termination' },
-  { id: 'modifications', label: '13. Modifications' },
-  { id: 'governing-law', label: '14. Governing Law' },
-  { id: 'contact', label: '15. Contact Us' },
-];
-
 const Terms = () => {
-  const [activeSection, setActiveSection] = useState('intro');
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 220; // Offset for sticky navbar
-      
-      for (const section of SECTIONS) {
-        const el = document.getElementById(section.id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section.id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      window.scrollTo({
-        top: el.offsetTop - 120,
-        behavior: 'smooth'
-      });
-      setActiveSection(id);
-    }
-  };
-
   return (
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden bg-[#050d1a] text-white">
       <AuroraBackground />
@@ -76,7 +22,7 @@ const Terms = () => {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6">
+      <div className="relative max-w-4xl mx-auto px-6">
         
         {/* HERO STRIP */}
         <div className="relative border-b border-white/5 pb-10 mb-12">
@@ -96,7 +42,7 @@ const Terms = () => {
             {/* Badges */}
             <div className="flex flex-wrap items-center gap-3">
               <span className="bg-white/5 text-white/70 border border-white/10 px-3 py-1.5 rounded-full text-xs font-mono">
-                Effective: June 2025
+                Effective: June 2026
               </span>
               <span className="bg-cyan-500/10 text-cyan-300 border border-cyan-400/30 px-3 py-1.5 rounded-full text-xs font-mono flex items-center gap-1.5">
                 <Globe size={13} className="text-cyan-300" /> Governed by Indian Law
@@ -108,49 +54,8 @@ const Terms = () => {
           </div>
         </div>
 
-        {/* TWO-COLUMN LAYOUT */}
-        <div className="grid lg:grid-cols-12 gap-10">
-          
-          {/* STICKY LEFT SIDEBAR (Collapses to horizontal scroll on mobile) */}
-          <aside className="lg:col-span-3">
-            {/* Mobile Top Anchor Nav */}
-            <div className="lg:hidden sticky top-[72px] z-40 bg-[#050d1a]/90 backdrop-blur-md border border-white/5 rounded-2xl p-2.5 overflow-x-auto whitespace-nowrap flex items-center gap-2 -mx-2 mb-8">
-              {SECTIONS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => scrollToSection(s.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
-                    activeSection === s.id
-                      ? 'bg-cyan-400/15 text-cyan-300 border border-cyan-400/30'
-                      : 'text-white/60 hover:text-white hover:bg-white/5 border border-transparent'
-                  }`}
-                >
-                  {s.label.includes(' ') ? s.label.split('. ')[1] : s.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Desktop Sticky Sidebar (Linewise timeline style) */}
-            <div className="hidden lg:block sticky top-28 self-start max-h-[calc(100vh-9rem)] overflow-y-auto border-l border-white/5 space-y-2.5 pl-0 pr-2">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-[#ccd6e0]/40 font-mono mb-4 pl-4 font-semibold">NAVIGATION</div>
-              {SECTIONS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => scrollToSection(s.id)}
-                  className={`w-full text-left py-0.5 text-xs md:text-sm transition-all duration-200 block border-l-2 pl-4 -ml-[1.5px] ${
-                    activeSection === s.id
-                      ? 'border-cyan-400 text-cyan-300 font-medium'
-                      : 'border-transparent text-[#ccd6e0]/60 hover:text-white hover:border-white/10'
-                  }`}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-          </aside>
-
-          {/* MAIN LEGAL CONTENT */}
-          <div className="lg:col-span-9 space-y-16">
+        {/* MAIN LEGAL CONTENT */}
+        <div className="space-y-16">
             
             {/* INTRODUCTION */}
             <section id="intro" className="scroll-mt-32">
@@ -477,11 +382,10 @@ const Terms = () => {
             </section>
 
           </div>
-        </div>
 
         {/* BOTTOM PAGE FOOTER */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-xs text-[#ccd6e0]/55 gap-4">
-          <div>© 2025 Zelvora Technologies Pvt. Ltd. · All Rights Reserved</div>
+          <div>© 2026 Zelvora Technologies Pvt. Ltd. · All Rights Reserved</div>
           <div className="font-mono text-cyan-400/80 hover:text-cyan-300 transition-colors">
             <a href="https://labs.zelvoratech.com" target="_blank" rel="noopener noreferrer">labs.zelvoratech.com</a>
           </div>
