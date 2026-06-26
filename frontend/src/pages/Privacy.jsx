@@ -1,11 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, Eye, Trash2, XCircle, LifeBuoy, Scale, 
-  UserCheck, ShieldAlert 
+  UserCheck, ShieldAlert, Globe, ChevronRight 
 } from 'lucide-react';
 import AuroraBackground from '../components/effects/AuroraBackground';
 
+const SECTIONS = [
+  { id: 'intro', label: '01. Who We Are' },
+  { id: 'data-collect', label: '02. What Data We Collect' },
+  { id: 'why-collect', label: '03. Why We Collect Data' },
+  { id: 'legal-basis', label: '04. Legal Basis' },
+  { id: 'data-share', label: '05. How We Share Data' },
+  { id: 'rights', label: '06. Your Rights' },
+  { id: 'retention', label: '07. Data Retention' },
+  { id: 'security', label: '08. Security Safeguards' },
+  { id: 'cookies', label: '09. Cookies & Tracking' },
+  { id: 'children', label: '10. Children\'s Data' },
+  { id: 'cross-border', label: '11. Cross-Border Transfers' },
+];
+
 const Privacy = () => {
+  const [activeSection, setActiveSection] = useState('intro');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 220; // Offset for sticky navbar
+      
+      for (const section of SECTIONS) {
+        const el = document.getElementById(section.id);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      window.scrollTo({
+        top: el.offsetTop - 120,
+        behavior: 'smooth'
+      });
+      setActiveSection(id);
+    }
+  };
 
   return (
     <main className="relative pt-28 pb-20 min-h-screen overflow-hidden bg-[#050d1a] text-white">
@@ -23,11 +71,10 @@ const Privacy = () => {
         }}
       />
 
-      <div className="relative max-w-4xl mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-6">
         
         {/* HERO STRIP */}
         <div className="relative border-b border-white/5 pb-10 mb-12">
-          {/* Neon glow effect */}
           <div className="absolute -top-20 left-1/3 w-72 h-72 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none" />
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -56,8 +103,49 @@ const Privacy = () => {
           </div>
         </div>
 
-        {/* MAIN LEGAL CONTENT */}
-        <div className="space-y-16">
+        {/* TWO-COLUMN LAYOUT */}
+        <div className="grid lg:grid-cols-12 gap-10">
+          
+          {/* STICKY LEFT SIDEBAR (Collapses to horizontal scroll on mobile) */}
+          <aside className="lg:col-span-3">
+            {/* Mobile Top Anchor Nav */}
+            <div className="lg:hidden sticky top-[72px] z-40 bg-[#050d1a]/90 backdrop-blur-md border border-white/5 rounded-2xl p-2.5 overflow-x-auto whitespace-nowrap flex items-center gap-2 -mx-2 mb-8">
+              {SECTIONS.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollToSection(s.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs transition-all ${
+                    activeSection === s.id
+                      ? 'bg-cyan-400/15 text-cyan-300 border border-cyan-400/30'
+                      : 'text-white/60 hover:text-white hover:bg-white/5 border border-transparent'
+                  }`}
+                >
+                  {s.label.split('. ')[1]}
+                </button>
+              ))}
+            </div>
+
+            {/* Desktop Sticky Sidebar (Linewise timeline style) */}
+            <div className="hidden lg:block sticky top-28 self-start max-h-[calc(100vh-9rem)] overflow-y-auto border-l border-white/5 space-y-2.5 pl-0 pr-2">
+              <div className="text-[11px] uppercase tracking-[0.2em] text-[#ccd6e0]/40 font-mono mb-4 pl-4 font-semibold">NAVIGATION</div>
+              {SECTIONS.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollToSection(s.id)}
+                  className={`w-full text-left py-0.5 text-xs md:text-sm transition-all duration-200 block border-l-2 pl-4 -ml-[1.5px] ${
+                    activeSection === s.id
+                      ? 'border-cyan-400 text-cyan-300 font-medium'
+                      : 'border-transparent text-[#ccd6e0]/60 hover:text-white hover:border-white/10'
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          {/* MAIN LEGAL CONTENT */}
+          <div className="lg:col-span-9 space-y-16">
             
             {/* 01. INTRODUCTION */}
             <section id="intro" className="scroll-mt-32">
@@ -206,12 +294,12 @@ const Privacy = () => {
                   { icon: UserCheck, title: 'Right to Correction', desc: 'Correct, complete, or update any inaccurate or outdated information in your profile.' },
                   { icon: Trash2, title: 'Right to Erasure', desc: 'Request deletion of your data when its collection purpose is fulfilled.' },
                   { icon: XCircle, title: 'Withdraw Consent', desc: 'Withdraw consent at any time, easily and without negative consequences for previous processing.' },
-                  { icon: LifeBuoy, title: 'Grievance Redressal', desc: 'Submit complaints regarding any platform service directly to our Grievance Officer.' },
+                  { icon: LifeBuoy, title: 'Grievance Redressal', desc: 'Submit complaints regarding any platform service directly to our support team at info@zelvoratech.com.' },
                   { icon: Scale, title: 'DPB Complaint', desc: 'Escalate grievances to the Data Protection Board of India if our resolution fails.' }
-                ].map((item, idx) => (
+                ].map((item) => (
                   <div key={item.title} className="zv-glass-strong rounded-2xl p-5 hover:border-cyan-400/35 transition duration-300 relative group">
-                    <div className="w-10 h-10 rounded-xl grid place-items-center mb-4 bg-[#00d4ff]/10 group-hover:scale-105 transition-transform duration-300">
-                      <item.icon className="text-[#00d4ff]" size={18} />
+                    <div className="w-10 h-10 rounded-xl grid place-items-center mb-4 bg-cyan-500/10 group-hover:scale-105 transition-transform duration-300">
+                      <item.icon className="text-cyan-300" size={18} />
                     </div>
                     <h3 className="font-display font-semibold text-white text-base">{item.title}</h3>
                     <p className="text-xs text-[#ccd6e0]/70 mt-2 leading-relaxed">{item.desc}</p>
@@ -277,7 +365,7 @@ const Privacy = () => {
                   <li><strong>Milestone Monitoring:</strong> Regular dependency scans, vulnerability reviews, and configuration checkups.</li>
                 </ul>
                 <p className="mt-3 text-xs text-[#ccd6e0]/60 italic flex items-center gap-1.5 bg-white/[0.02] border border-white/5 rounded-lg p-3">
-                  <ShieldAlert size={14} className="text-purple-400 shrink-0" />
+                  <ShieldAlert size={14} className="text-[#00d4ff] shrink-0 mt-0.5" />
                   Note: While we apply commercial-grade measures to secure your personal data, no internet transmission or database storage can be guaranteed 100% secure.
                 </p>
               </div>
@@ -354,6 +442,7 @@ const Privacy = () => {
             </section>
 
           </div>
+        </div>
 
         {/* BOTTOM PAGE FOOTER */}
         <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between text-xs text-[#ccd6e0]/55 gap-4">
