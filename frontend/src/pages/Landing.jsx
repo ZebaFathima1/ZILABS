@@ -445,7 +445,7 @@ const Landing = () => {
         <div className="max-w-7xl mx-auto px-6">
           <Heading eyebrow="Hall of Fame" title={<>The builders <span className="zv-gradient-text">leading the way</span>.</>} sub="Monthly champions, top contributors, and capstone winners." />
           
-          {leaders.length === 0 ? (
+          {true ? (
             <div className="mt-14 text-center py-16 zv-glass-strong rounded-3xl p-6 max-w-xl mx-auto border border-cyan-500/20 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-purple-500/5 to-transparent opacity-60" />
               <div className="relative z-10">
@@ -493,7 +493,7 @@ const Landing = () => {
             </div>
           )}
 
-          {leaders.length > 0 && (
+          {false && leaders.length > 0 && (
             <div className="mt-8 text-center">
               <Link to="/hall-of-fame" className="zv-btn-ghost inline-flex items-center gap-2"><Trophy size={16} /> See full Hall of Fame</Link>
             </div>
